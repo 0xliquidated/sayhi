@@ -1,0 +1,287 @@
+/* Import modern fonts from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600&display=swap');
+
+/* Root container for the app */
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a0b2e 0%, #2e1a47 50%, #0f0f0f 100%);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header section (title and wallet) */
+.header-section {
+  text-align: center;
+  margin-bottom: 60px; /* Space between header and chains */
+}
+
+/* Main heading */
+h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #e0d4ff;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Wallet section */
+.wallet-section {
+  margin-bottom: 20px;
+}
+
+.wallet-address {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #b0a0ff;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 20px;
+  border-radius: 25px;
+  display: inline-block;
+}
+
+/* Box container for chains with transparent dark background */
+.chains-box {
+  background: rgba(15, 15, 15, 0.8); /* Semi-transparent dark black/grey background */
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1600px; /* Increased to use the full circled space */
+}
+
+/* Container for all chain buttons */
+.chains-container {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping to ensure 5 chains in one row */
+  justify-content: space-between; /* Distribute space evenly between chains */
+  gap: 40px; /* Increased spacing between chains (was 30px) */
+  width: 100%; /* Use the full width of the box */
+}
+
+/* Individual chain item */
+.chain-item {
+  flex: 1; /* Each chain takes equal space */
+  min-width: 200px; /* Increased min-width for larger size (was 180px) */
+  max-width: 240px; /* Increased max-width for larger size (was 220px) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Chain name */
+.chain-item h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: #d0c4ff;
+  margin-bottom: 12px;
+  white-space: nowrap;
+}
+
+/* Modern button styles */
+.modern-button {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #ffffff;
+  background: linear-gradient(90deg, #6b48ff 0%, #a855f7 100%);
+  border: none;
+  border-radius: 25px;
+  padding: 14px 28px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(107, 72, 255, 0.4);
+  width: 100%;
+  max-width: 180px;
+}
+
+.modern-button:hover:not(:disabled) {
+  background: linear-gradient(90deg, #a855f7 0%, #6b48ff 100%);
+  box-shadow: 0 6px 20px rgba(107, 72, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.modern-button:disabled {
+  background: #4b3a7a;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Specific styling for the connect button */
+.connect-button {
+  padding: 14px 48px;
+  font-size: 1.2rem;
+}
+
+/* Error message styling */
+.error-message {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  white-space: pre-wrap;
+}
+
+/* Pop-up overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Pop-up content */
+.popup-content {
+  background: #1a0b2e; /* Match the dark theme */
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.popup-content h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.8rem;
+  color: #e0d4ff;
+  margin-bottom: 15px;
+}
+
+.popup-content p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #d0c4ff;
+  margin-bottom: 20px;
+}
+
+.transaction-link {
+  color: #a855f7;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.transaction-link:hover {
+  color: #6b48ff;
+}
+
+/* Close button for the pop-up */
+.close-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .chain-item {
+    min-width: 180px;
+    max-width: 200px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  .chain-item h2 {
+    font-size: 1.4rem;
+  }
+
+  .modern-button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    max-width: 160px;
+  }
+
+  .connect-button {
+    padding: 12px 40px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .chains-container {
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center; /* Center items when wrapping */
+    gap: 30px; /* Reduce gap for smaller screens */
+  }
+
+  .chain-item {
+    flex: 0 0 30%; /* 3 items per row on smaller screens */
+    min-width: 140px;
+    max-width: 180px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .chain-item h2 {
+    font-size: 1.2rem;
+  }
+
+  .modern-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    max-width: 140px;
+  }
+
+  .connect-button {
+    padding: 10px 30px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .chain-item {
+    flex: 0 0 45%; /* 2 items per row on very small screens */
+    min-width: 120px;
+    max-width: 160px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .chain-item h2 {
+    font-size: 1rem;
+  }
+
+  .modern-button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    max-width: 120px;
+  }
+
+  .connect-button {
+    padding: 8px 25px;
+    font-size: 0.9rem;
+  }
+
+  .error-message {
+    font-size: 0.7rem;
+  }
+
+  .popup-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .popup-content p {
+    font-size: 0.9rem;
+  }
+}
