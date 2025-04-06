@@ -94,7 +94,7 @@ h1 {
 .chain-name h2 {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  font-size: 1.6rem;
+  font-size: 1.504rem; /* Reduced by 6% from 1.6rem */
   color: #d0c4ff;
   margin: 0 auto 12px auto; /* Center with auto margins, ensure bottom margin */
   padding: 0; /* Remove any padding */
@@ -116,12 +116,12 @@ h1 {
 .modern-button {
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.034rem; /* Reduced by 6% from 1.1rem */
   color: #ffffff;
   background: linear-gradient(90deg, #6b48ff 0%, #a855f7 100%);
   border: none;
   border-radius: 25px;
-  padding: 14px 28px;
+  padding: 13px 26px; /* Reduced by 6% from 14px 28px */
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(107, 72, 255, 0.4);
@@ -227,7 +227,7 @@ h1 {
   }
 
   .chain-name h2 {
-    font-size: 1.4rem;
+    font-size: 1.4rem; /* Adjust for responsive */
   }
 
   .modern-button {
