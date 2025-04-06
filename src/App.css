@@ -79,16 +79,15 @@ h1 {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  padding: 0; /* Ensure no padding affects centering */
 }
 
 /* Chain name container */
 .chain-name {
-  display: flex;
-  justify-content: center; /* Center the chain name horizontally */
-  align-items: center; /* Center vertically if needed */
-  width: 100%; /* Ensure it takes full width */
-  margin: 0; /* Remove any margins */
-  padding: 0; /* Remove any padding */
+  width: 100%; /* Take full width of the parent */
+  display: block; /* Use block display to ensure centering */
+  text-align: center; /* Center the text */
+  margin: 0 auto; /* Center the container itself */
 }
 
 /* Chain name */
@@ -97,9 +96,9 @@ h1 {
   font-weight: 600;
   font-size: 1.6rem;
   color: #d0c4ff;
-  margin: 0 0 12px 0; /* Remove side margins, ensure bottom margin */
+  margin: 0 auto 12px auto; /* Center with auto margins, ensure bottom margin */
   padding: 0; /* Remove any padding */
-  width: auto; /* Let the text take its natural width */
+  display: inline-block; /* Allow the text to take its natural width */
   text-align: center; /* Explicitly center the text */
 }
 
@@ -109,6 +108,8 @@ h1 {
   flex-direction: column;
   gap: 10px; /* Spacing between buttons */
   width: 100%;
+  justify-content: center; /* Ensure buttons are centered */
+  align-items: center; /* Ensure buttons are centered */
 }
 
 /* Modern button styles */
