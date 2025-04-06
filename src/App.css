@@ -49,18 +49,25 @@ h1 {
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* Stack rows vertically */
+  align-items: center;
   width: 100%;
   max-width: 1600px; /* Increased to use the full circled space */
 }
 
-/* Container for all chain buttons */
-.chains-container {
+/* Row of chains */
+.chains-row {
   display: flex;
   flex-wrap: nowrap; /* Prevent wrapping to ensure 5 chains in one row */
   justify-content: space-between; /* Distribute space evenly between chains */
-  gap: 40px; /* Increased spacing between chains (was 30px) */
+  gap: 40px; /* Spacing between chains in a row */
   width: 100%; /* Use the full width of the box */
+  margin-bottom: 40px; /* Add spacing between rows */
+}
+
+/* Remove margin-bottom from the last row to avoid extra space at the bottom */
+.chains-row:last-child {
+  margin-bottom: 0;
 }
 
 /* Individual chain item */
@@ -74,14 +81,26 @@ h1 {
   text-align: center;
 }
 
+/* Chain name container */
+.chain-name {
+  display: flex;
+  justify-content: center; /* Center the chain name horizontally */
+  align-items: center; /* Center vertically if needed */
+  width: 100%; /* Ensure it takes full width */
+  margin: 0; /* Remove any margins */
+  padding: 0; /* Remove any padding */
+}
+
 /* Chain name */
-.chain-item h2 {
+.chain-name h2 {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 1.6rem;
   color: #d0c4ff;
-  margin-bottom: 12px;
-  white-space: nowrap;
+  margin: 0 0 12px 0; /* Remove side margins, ensure bottom margin */
+  padding: 0; /* Remove any padding */
+  width: auto; /* Let the text take its natural width */
+  text-align: center; /* Explicitly center the text */
 }
 
 /* Button group for vertical buttons */
@@ -206,7 +225,7 @@ h1 {
     font-size: 2.2rem;
   }
 
-  .chain-item h2 {
+  .chain-name h2 {
     font-size: 1.4rem;
   }
 
@@ -223,7 +242,7 @@ h1 {
 }
 
 @media (max-width: 900px) {
-  .chains-container {
+  .chains-row {
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
     justify-content: center; /* Center items when wrapping */
     gap: 30px; /* Reduce gap for smaller screens */
@@ -239,7 +258,7 @@ h1 {
     font-size: 2rem;
   }
 
-  .chain-item h2 {
+  .chain-name h2 {
     font-size: 1.2rem;
   }
 
@@ -266,7 +285,7 @@ h1 {
     font-size: 1.8rem;
   }
 
-  .chain-item h2 {
+  .chain-name h2 {
     font-size: 1rem;
   }
 

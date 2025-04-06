@@ -3,22 +3,18 @@ import React from "react";
 import { ethers } from "ethers";
 import "./App.css";
 
-// Define matching emojis for each chain
-const chainEmojis = {
-  ink: "✨",
-  base: "🌈",
-  arbitrum: "💥",
-  berachain: "🐻",
-  monad: "🧪",
-};
-
 // Block explorer URLs for each chain
 const explorerUrls = {
-  ink: "https://inkscan.io/tx/",
+  ink: "https://explorer.inkonchain.com/",
   base: "https://basescan.org/tx/",
   arbitrum: "https://arbiscan.io/tx/",
-  berachain: "https://bartio.berascan.io/tx/",
-  monad: "https://monad-testnet-explorer.monad.xyz/tx/",
+  berachain: "https://berascan.com/",
+  monad: "https://testnet.monadexplorer.com/",
+  energi: "https://explorer.energi.network/", // New chain
+  bnb: "https://bscscan.com/", // New chain
+  op: "https://optimistic.etherscan.io/", // New chain
+  soneium: "https://soneium.blockscout.com/", // New chain
+  unichain: "https://unichain.blockscout.com/", // New chain
 };
 
 // Updated ABI for all chains
@@ -125,27 +121,52 @@ const contractABI = [
 const chains = {
   ink: {
     chainId: 57073,
-    address: "0xaAeb1abf363615E8676EAB48f5d08E3FCE70dBe0", // Updated CA
+    address: "0xaAeb1abf363615E8676EAB48f5d08E3FCE70dBe0",
     abi: contractABI,
   },
   base: {
     chainId: 8453,
-    address: "0xc7C32Af9cE7dB3e06638761ee6691AD95419a69C", // Updated CA
+    address: "0xc7C32Af9cE7dB3e06638761ee6691AD95419a69C",
     abi: contractABI,
   },
   arbitrum: {
     chainId: 42161,
-    address: "0xC738E5886706C58E73eaa28a8e9Ed631F8868331", // Updated CA
+    address: "0xC738E5886706C58E73eaa28a8e9Ed631F8868331",
     abi: contractABI,
   },
   berachain: {
     chainId: 80094,
-    address: "0x616e666f49C2651A1028f774c9f4fF4C27524Dc5", // Updated CA
+    address: "0x616e666f49C2651A1028f774c9f4fF4C27524Dc5",
     abi: contractABI,
   },
   monad: {
     chainId: 10143,
-    address: "0xb73460E7e22D5544cbA51C7A33ecFAB46bf9de27", // Updated CA
+    address: "0xb73460E7e22D5544cbA51C7A33ecFAB46bf9de27",
+    abi: contractABI,
+  },
+  energi: {
+    chainId: 39797, // New chain
+    address: "0x4d4Ff1Cb8c75A69E2583D5A1183b2b23F318ed15", // New CA
+    abi: contractABI,
+  },
+  bnb: {
+    chainId: 56, // New chain
+    address: "0x6fbe16D026Cda317507D426Fc4C28CE3b3A8f93A", // New CA
+    abi: contractABI,
+  },
+  op: {
+    chainId: 10, // New chain
+    address: "0x39b1c43Da4840877c0cDfc2Afc854952c27F28B3", // New CA
+    abi: contractABI,
+  },
+  soneium: {
+    chainId: 1868, // New chain
+    address: "0x52301b0437E168f0af1d8b13fF578F2cbC357CdF", // New CA
+    abi: contractABI,
+  },
+  unichain: {
+    chainId: 130, // New chain
+    address: "0xDb028404288330CDC7641add7531ed495b5dAFab", // New CA
     abi: contractABI,
   },
 };
@@ -177,7 +198,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
   const [isLoadingGM, setIsLoadingGM] = useState(false);
   const [isLoadingGN, setIsLoadingGN] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const matchingEmoji = chainEmojis[chainKey];
 
   const handleTransaction = async (functionName, setIsLoading) => {
     if (!signer) {
@@ -235,7 +255,17 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Arbitrum"
               : chainKey === "berachain"
               ? "Berachain"
-              : "Monad Testnet"
+              : chainKey === "monad"
+              ? "Monad Testnet"
+              : chainKey === "energi"
+              ? "Energi"
+              : chainKey === "bnb"
+              ? "BNB"
+              : chainKey === "op"
+              ? "OP"
+              : chainKey === "soneium"
+              ? "Soneium"
+              : "Unichain"
           } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -249,7 +279,17 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Arbitrum"
               : chainKey === "berachain"
               ? "Berachain"
-              : "Monad Testnet"
+              : chainKey === "monad"
+              ? "Monad Testnet"
+              : chainKey === "energi"
+              ? "Energi"
+              : chainKey === "bnb"
+              ? "BNB"
+              : chainKey === "op"
+              ? "OP"
+              : chainKey === "soneium"
+              ? "Soneium"
+              : "Unichain"
           }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -263,7 +303,17 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Arbitrum"
               : chainKey === "berachain"
               ? "Berachain"
-              : "Monad Testnet"
+              : chainKey === "monad"
+              ? "Monad Testnet"
+              : chainKey === "energi"
+              ? "Energi"
+              : chainKey === "bnb"
+              ? "BNB"
+              : chainKey === "op"
+              ? "OP"
+              : chainKey === "soneium"
+              ? "Soneium"
+              : "Unichain"
           }.`
         );
       } else {
@@ -276,19 +326,29 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
 
   return (
     <div className="chain-item">
-      <h2>
-        {matchingEmoji}{" "}
-        {chainKey === "ink"
-          ? "Ink"
-          : chainKey === "base"
-          ? "Base"
-          : chainKey === "arbitrum"
-          ? "Arbitrum"
-          : chainKey === "berachain"
-          ? "Berachain"
-          : "Monad Testnet"}{" "}
-        {matchingEmoji}
-      </h2>
+      <div className="chain-name">
+        <h2>
+          {chainKey === "ink"
+            ? "Ink"
+            : chainKey === "base"
+            ? "Base"
+            : chainKey === "arbitrum"
+            ? "Arbitrum"
+            : chainKey === "berachain"
+            ? "Berachain"
+            : chainKey === "monad"
+            ? "Monad Testnet"
+            : chainKey === "energi"
+            ? "Energi"
+            : chainKey === "bnb"
+            ? "BNB"
+            : chainKey === "op"
+            ? "OP"
+            : chainKey === "soneium"
+            ? "Soneium"
+            : "Unichain"}
+        </h2>
+      </div>
       <div className="button-group">
         <button
           className="modern-button"
@@ -376,12 +436,19 @@ function App() {
           </div>
         </div>
         <div className="chains-box">
-          <div className="chains-container">
+          <div className="chains-row">
             <SayHiButton chainKey="ink" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="base" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="arbitrum" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="berachain" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="monad" signer={signer} onSuccess={handleSuccess} />
+          </div>
+          <div className="chains-row">
+            <SayHiButton chainKey="energi" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="bnb" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="op" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="soneium" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="unichain" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
 
