@@ -21,7 +21,7 @@ const explorerUrls = {
   monad: "https://monad-testnet-explorer.monad.xyz/tx/",
 };
 
-// ABI for all chains (updated with new functions)
+// Updated ABI for all chains
 const contractABI = [
   {
     inputs: [
@@ -125,27 +125,27 @@ const contractABI = [
 const chains = {
   ink: {
     chainId: 57073,
-    address: "0xf59C78F2CAB3E79Ad4E439366A4656BE653baeDA", // Replace with new address after redeployment
+    address: "0xaAeb1abf363615E8676EAB48f5d08E3FCE70dBe0", // Updated CA
     abi: contractABI,
   },
   base: {
     chainId: 8453,
-    address: "0x5Df1ff9aCf0Fa486c8D18188303Fc9b300DcEAfC", // Replace with new address after redeployment
+    address: "0xc7C32Af9cE7dB3e06638761ee6691AD95419a69C", // Updated CA
     abi: contractABI,
   },
   arbitrum: {
     chainId: 42161,
-    address: "0x4a86E790E31Cf11F85ac585099f46Bd7c99a1261", // Replace with new address after redeployment
+    address: "0xC738E5886706C58E73eaa28a8e9Ed631F8868331", // Updated CA
     abi: contractABI,
   },
   berachain: {
     chainId: 80094,
-    address: "0x442c321040060881Cb49BeEa1Dfa6c272ecd7acE", // Replace with new address after redeployment
+    address: "0x616e666f49C2651A1028f774c9f4fF4C27524Dc5", // Updated CA
     abi: contractABI,
   },
   monad: {
     chainId: 10143,
-    address: "0x95A1F2ad3f59E81256cBE890A4BCF62a1C3B9407", // Replace with new address after redeployment
+    address: "0xb73460E7e22D5544cbA51C7A33ecFAB46bf9de27", // Updated CA
     abi: contractABI,
   },
 };
@@ -235,7 +235,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Arbitrum"
               : chainKey === "berachain"
               ? "Berachain"
-              : "Monad"
+              : "Monad Testnet"
           } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -249,7 +249,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Arbitrum"
               : chainKey === "berachain"
               ? "Berachain"
-              : "Monad"
+              : "Monad Testnet"
           }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -263,7 +263,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Arbitrum"
               : chainKey === "berachain"
               ? "Berachain"
-              : "Monad"
+              : "Monad Testnet"
           }.`
         );
       } else {
@@ -286,7 +286,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
           ? "Arbitrum"
           : chainKey === "berachain"
           ? "Berachain"
-          : "Monad"}{" "}
+          : "Monad Testnet"}{" "}
         {matchingEmoji}
       </h2>
       <div className="button-group">
