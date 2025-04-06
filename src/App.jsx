@@ -21,7 +21,7 @@ const explorerUrls = {
   monad: "https://monad-testnet-explorer.monad.xyz/tx/",
 };
 
-// ABI for all chains (same as Base Mainnet)
+// ABI for all chains (updated with new functions)
 const contractABI = [
   {
     inputs: [
@@ -44,15 +44,34 @@ const contractABI = [
         type: "string",
       },
     ],
-    name: "HiSaid",
+    name: "GMSaid",
     type: "event",
   },
   {
-    inputs: [],
-    name: "sayHi",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "GNSaid",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "HiSaid",
+    type: "event",
   },
   {
     inputs: [],
@@ -65,6 +84,27 @@ const contractABI = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "sayGM",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "sayGN",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "sayHi",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -85,27 +125,27 @@ const contractABI = [
 const chains = {
   ink: {
     chainId: 57073,
-    address: "0xf59C78F2CAB3E79Ad4E439366A4656BE653baeDA",
+    address: "0xf59C78F2CAB3E79Ad4E439366A4656BE653baeDA", // Replace with new address after redeployment
     abi: contractABI,
   },
   base: {
     chainId: 8453,
-    address: "0x5Df1ff9aCf0Fa486c8D18188303Fc9b300DcEAfC",
+    address: "0x5Df1ff9aCf0Fa486c8D18188303Fc9b300DcEAfC", // Replace with new address after redeployment
     abi: contractABI,
   },
   arbitrum: {
     chainId: 42161,
-    address: "0x4a86E790E31Cf11F85ac585099f46Bd7c99a1261",
+    address: "0x4a86E790E31Cf11F85ac585099f46Bd7c99a1261", // Replace with new address after redeployment
     abi: contractABI,
   },
   berachain: {
     chainId: 80094,
-    address: "0x442c321040060881Cb49BeEa1Dfa6c272ecd7acE",
+    address: "0x442c321040060881Cb49BeEa1Dfa6c272ecd7acE", // Replace with new address after redeployment
     abi: contractABI,
   },
   monad: {
     chainId: 10143,
-    address: "0x95A1F2ad3f59E81256cBE890A4BCF62a1C3B9407",
+    address: "0x95A1F2ad3f59E81256cBE890A4BCF62a1C3B9407", // Replace with new address after redeployment
     abi: contractABI,
   },
 };
@@ -133,11 +173,13 @@ class ErrorBoundary extends React.Component {
 }
 
 function SayHiButton({ chainKey, signer, onSuccess }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingHi, setIsLoadingHi] = useState(false);
+  const [isLoadingGM, setIsLoadingGM] = useState(false);
+  const [isLoadingGN, setIsLoadingGN] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const matchingEmoji = chainEmojis[chainKey];
 
-  const handleSayHi = async () => {
+  const handleTransaction = async (functionName, setIsLoading) => {
     if (!signer) {
       setErrorMessage("Please connect your wallet first!");
       return;
@@ -170,10 +212,10 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       }
 
       // Proceed with the contract call
-      console.log(`Calling contract at address ${chain.address} on ${chainKey}`);
+      console.log(`Calling ${functionName} at address ${chain.address} on ${chainKey}`);
       const updatedSigner = provider.getSigner();
       const contract = new ethers.Contract(chain.address, chain.abi, updatedSigner);
-      const tx = await contract.sayHi();
+      const tx = await contract[functionName]();
       console.log(`Transaction sent: ${tx.hash}`);
       await tx.wait();
       console.log(`Transaction confirmed: ${tx.hash}`);
@@ -225,7 +267,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
           }.`
         );
       } else {
-        setErrorMessage(`Error: ${err.message || "Failed to say hi"}`);
+        setErrorMessage(`Error: ${err.message || `Failed to ${functionName}`}`);
       }
     } finally {
       setIsLoading(false);
@@ -247,9 +289,29 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
           : "Monad"}{" "}
         {matchingEmoji}
       </h2>
-      <button className="modern-button" onClick={handleSayHi} disabled={isLoading || !signer}>
-        {isLoading ? "Saying Hi..." : "Say Hi"}
-      </button>
+      <div className="button-group">
+        <button
+          className="modern-button"
+          onClick={() => handleTransaction("sayHi", setIsLoadingHi)}
+          disabled={isLoadingHi || isLoadingGM || isLoadingGN || !signer}
+        >
+          {isLoadingHi ? "Saying Hi..." : "Say Hi"}
+        </button>
+        <button
+          className="modern-button"
+          onClick={() => handleTransaction("sayGM", setIsLoadingGM)}
+          disabled={isLoadingHi || isLoadingGM || isLoadingGN || !signer}
+        >
+          {isLoadingGM ? "Saying GM..." : "Say GM"}
+        </button>
+        <button
+          className="modern-button"
+          onClick={() => handleTransaction("sayGN", setIsLoadingGN)}
+          disabled={isLoadingHi || isLoadingGM || isLoadingGN || !signer}
+        >
+          {isLoadingGN ? "Saying GN..." : "Say GN"}
+        </button>
+      </div>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );

@@ -84,6 +84,14 @@ h1 {
   white-space: nowrap;
 }
 
+/* Button group for vertical buttons */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Spacing between buttons */
+  width: 100%;
+}
+
 /* Modern button styles */
 .modern-button {
   font-family: 'Poppins', sans-serif;
