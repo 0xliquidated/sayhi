@@ -3,6 +3,20 @@ import React from "react";
 import { ethers } from "ethers";
 import "./App.css";
 
+// Define matching emojis for each chain
+const chainEmojis = {
+  ink: "✨",
+  base: "🌈",
+  arbitrum: "💥",
+  berachain: "🐻",
+  monad: "🧪",
+  energi: "⚡",
+  bnb: "🌟",
+  op: "🔥",
+  soneium: "🎉",
+  unichain: "🚀",
+};
+
 // Block explorer URLs for each chain
 const explorerUrls = {
   ink: "https://explorer.inkonchain.com/",
@@ -10,11 +24,11 @@ const explorerUrls = {
   arbitrum: "https://arbiscan.io/tx/",
   berachain: "https://berascan.com/",
   monad: "https://testnet.monadexplorer.com/",
-  energi: "https://explorer.energi.network/", // New chain
-  bnb: "https://bscscan.com/", // New chain
-  op: "https://optimistic.etherscan.io/", // New chain
-  soneium: "https://soneium.blockscout.com/", // New chain
-  unichain: "https://unichain.blockscout.com/", // New chain
+  energi: "https://explorer.energi.network/",
+  bnb: "https://bscscan.com/",
+  op: "https://optimistic.etherscan.io/",
+  soneium: "https://soneium.blockscout.com/",
+  unichain: "https://unichain.blockscout.com/",
 };
 
 // Updated ABI for all chains
@@ -145,28 +159,28 @@ const chains = {
     abi: contractABI,
   },
   energi: {
-    chainId: 39797, // New chain
-    address: "0x4d4Ff1Cb8c75A69E2583D5A1183b2b23F318ed15", // New CA
+    chainId: 39797,
+    address: "0x4d4Ff1Cb8c75A69E2583D5A1183b2b23F318ed15",
     abi: contractABI,
   },
   bnb: {
-    chainId: 56, // New chain
-    address: "0x6fbe16D026Cda317507D426Fc4C28CE3b3A8f93A", // New CA
+    chainId: 56,
+    address: "0x6fbe16D026Cda317507D426Fc4C28CE3b3A8f93A",
     abi: contractABI,
   },
   op: {
-    chainId: 10, // New chain
-    address: "0x39b1c43Da4840877c0cDfc2Afc854952c27F28B3", // New CA
+    chainId: 10,
+    address: "0x39b1c43Da4840877c0cDfc2Afc854952c27F28B3",
     abi: contractABI,
   },
   soneium: {
-    chainId: 1868, // New chain
-    address: "0x52301b0437E168f0af1d8b13fF578F2cbC357CdF", // New CA
+    chainId: 1868,
+    address: "0x52301b0437E168f0af1d8b13fF578F2cbC357CdF",
     abi: contractABI,
   },
   unichain: {
-    chainId: 130, // New chain
-    address: "0xDb028404288330CDC7641add7531ed495b5dAFab", // New CA
+    chainId: 130,
+    address: "0xDb028404288330CDC7641add7531ed495b5dAFab",
     abi: contractABI,
   },
 };
@@ -198,6 +212,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
   const [isLoadingGM, setIsLoadingGM] = useState(false);
   const [isLoadingGN, setIsLoadingGN] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const matchingEmoji = chainEmojis[chainKey];
 
   const handleTransaction = async (functionName, setIsLoading) => {
     if (!signer) {
@@ -328,6 +343,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
     <div className="chain-item">
       <div className="chain-name">
         <h2>
+          {matchingEmoji}{" "}
           {chainKey === "ink"
             ? "Ink"
             : chainKey === "base"
@@ -346,7 +362,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             ? "OP"
             : chainKey === "soneium"
             ? "Soneium"
-            : "Unichain"}
+            : "Unichain"}{" "}
+          {matchingEmoji}
         </h2>
       </div>
       <div className="button-group">
