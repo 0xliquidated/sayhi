@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { ethers } from "ethers";
 import "./App.css";
+import { getUserInteractions, saveUserInteraction, getUniqueChainsInteracted } from "./utils/gamification";
 
 // Define matching emojis for each chain
 const chainEmojis = {
@@ -241,6 +242,9 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       await tx.wait();
       console.log(`Transaction confirmed: ${tx.hash}`);
 
+      // Track the interaction
+      saveUserInteraction(chainKey, functionName);
+
       onSuccess(tx.hash, chainKey);
     } catch (err) {
       console.error(`Error on ${chainKey}:`, err);
@@ -466,6 +470,11 @@ function App() {
   const [showPopup, setShowPopup] = useState(false);
   const [transactionHash, setTransactionHash] = useState("");
   const [explorerUrl, setExplorerUrl] = useState("");
+  const [interactions, setInteractions] = useState(getUserInteractions());
+
+  const totalChains = Object.keys(chains).length; // 20 chains
+  const uniqueChains = getUniqueChainsInteracted(interactions);
+  const progressPercentage = (uniqueChains / totalChains) * 100;
 
   const connectWallet = async () => {
     if (!window.ethereum) {
@@ -491,6 +500,9 @@ function App() {
     setTransactionHash(txHash);
     setExplorerUrl(explorerUrls[chainKey]);
     setShowPopup(true);
+    // Update interactions state after a successful transaction
+    const updatedInteractions = getUserInteractions();
+    setInteractions(updatedInteractions);
   };
 
   const closePopup = () => {
@@ -517,6 +529,15 @@ function App() {
               </button>
             )}
           </div>
+        </div>
+        <div className="progress-section">
+          <h3 className="progress-title">Chain Interaction Progress</h3>
+          <div className="progress-bar-container">
+            <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
+          </div>
+          <p className="progress-text">
+            Interacted with {uniqueChains} / {totalChains} chains ({Math.round(progressPercentage)}%)
+          </p>
         </div>
         <div className="chains-box">
           <div className="chains-row">

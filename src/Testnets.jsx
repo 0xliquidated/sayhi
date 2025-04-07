@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import "./App.css";
+import { getUserInteractions, saveUserInteraction, getUniqueChainsInteracted } from "./utils/gamification";
 
 // Define matching emojis for each chain (only testnets)
 const chainEmojis = {
@@ -189,6 +190,9 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       await tx.wait();
       console.log(`Transaction confirmed: ${tx.hash}`);
 
+      // Track the interaction
+      saveUserInteraction(chainKey, functionName);
+
       onSuccess(tx.hash, chainKey);
     } catch (err) {
       console.error(`Error on ${chainKey}:`, err);
@@ -277,6 +281,11 @@ function Testnets() {
   const [showPopup, setShowPopup] = useState(false);
   const [transactionHash, setTransactionHash] = useState("");
   const [explorerUrl, setExplorerUrl] = useState("");
+  const [interactions, setInteractions] = useState(getUserInteractions());
+
+  const totalChains = Object.keys(testnetChains).length; // 3 chains
+  const uniqueChains = getUniqueChainsInteracted(interactions);
+  const progressPercentage = (uniqueChains / totalChains) * 100;
 
   const connectWallet = async () => {
     if (!window.ethereum) {
@@ -302,6 +311,9 @@ function Testnets() {
     setTransactionHash(txHash);
     setExplorerUrl(explorerUrls[chainKey]);
     setShowPopup(true);
+    // Update interactions state after a successful transaction
+    const updatedInteractions = getUserInteractions();
+    setInteractions(updatedInteractions);
   };
 
   const closePopup = () => {
@@ -329,14 +341,21 @@ function Testnets() {
             )}
           </div>
         </div>
+        <div className="progress-section">
+          <h3 className="progress-title">Chain Interaction Progress</h3>
+          <div className="progress-bar-container">
+            <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
+          </div>
+          <p className="progress-text">
+            Interacted with {uniqueChains} / {totalChains} testnet chains ({Math.round(progressPercentage)}%)
+          </p>
+        </div>
         <div className="chains-box">
-          {/* Row 1: Monad Testnet, Interop0, Interop1 */}
           <div className="chains-row">
             <SayHiButton chainKey="monad" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="interop0" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="interop1" signer={signer} onSuccess={handleSuccess} />
           </div>
-          {/* Rows 2-5: Empty for now, maintaining 5-row structure */}
           <div className="chains-row"></div>
           <div className="chains-row"></div>
           <div className="chains-row"></div>
