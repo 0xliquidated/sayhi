@@ -16,10 +16,12 @@ const chainEmojis = {
   soneium: "🎉",
   unichain: "🚀",
   mantle: "🪐",
-  bob: "🛠️",      // Emoji for BOB (tools, since it’s "Build on Bitcoin")
-  sei: "🌊",      // Emoji for Sei (wave, for its fast "Pacific" chain)
-  telos: "🌐",    // Emoji for Telos (globe, for its network focus)
-  polygon: "⬣",   // Emoji for Polygon (geometric shape)
+  bob: "🛠️",
+  sei: "🌊",
+  telos: "🌐",
+  polygon: "⬣",
+  avax: "❄️",         // Avalanche
+  superposition: "⚛️", // Superposition
 };
 
 // Block explorer URLs for each chain
@@ -35,10 +37,12 @@ const explorerUrls = {
   soneium: "https://soneium.blockscout.com/",
   unichain: "https://unichain.blockscout.com/",
   mantle: "https://mantlescan.xyz/tx/",
-  bob: "https://explorer.gobob.xyz/tx/",         // Added /tx/ for consistency
-  sei: "https://seitrace.com/tx/?chain=pacific-1", // Added /tx/ for consistency
-  telos: "https://www.teloscan.io/tx/",          // Added /tx/ for consistency
-  polygon: "https://polygonscan.com/tx/",        // Added /tx/ for consistency
+  bob: "https://explorer.gobob.xyz/tx/",
+  sei: "https://seitrace.com/tx/?chain=pacific-1",
+  telos: "https://www.teloscan.io/tx/",
+  polygon: "https://polygonscan.com/tx/",
+  avax: "https://snowtrace.io/tx/",
+  superposition: "https://explorer.superposition.so/tx/", // Placeholder—confirm if different
 };
 
 // Updated ABI for all chains
@@ -158,6 +162,8 @@ const chains = {
   sei: { chainId: 1329, address: "0x710593070a91C52786A111a26AD6436B846cc561", abi: contractABI },
   telos: { chainId: 40, address: "0x899C8D339CcABa7C1260453419e8a661f1df5F2C", abi: contractABI },
   polygon: { chainId: 137, address: "0x252294F81C909c90291e002e95894DdF020ca2d5", abi: contractABI },
+  avax: { chainId: 43114, address: "0x901C4523CdDEb0A7EA8104Cb0454708dfb0142c5", abi: contractABI },
+  superposition: { chainId: 55244, address: "0x25e86c4547C526a4D4eC04E808be561B13078013", abi: contractABI },
 };
 
 // Error Boundary Component to catch rendering errors
@@ -215,7 +221,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
 
       // Verify the current chain after switching
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const network = await provider.getNetwork(); // Fixed typo
+      const network = await provider.getNetwork();
       console.log(`Current network after switch:`, network);
       if (network.chainId !== chain.chainId) {
         throw new Error(`Failed to switch to ${chainKey}. Current chain ID: ${network.chainId}`);
@@ -265,7 +271,11 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Sei"
               : chainKey === "telos"
               ? "Telos"
-              : "Polygon"
+              : chainKey === "polygon"
+              ? "Polygon"
+              : chainKey === "avax"
+              ? "AVAX"
+              : "Superposition"
           } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -299,7 +309,11 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Sei"
               : chainKey === "telos"
               ? "Telos"
-              : "Polygon"
+              : chainKey === "polygon"
+              ? "Polygon"
+              : chainKey === "avax"
+              ? "AVAX"
+              : "Superposition"
           }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -333,7 +347,11 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Sei"
               : chainKey === "telos"
               ? "Telos"
-              : "Polygon"
+              : chainKey === "polygon"
+              ? "Polygon"
+              : chainKey === "avax"
+              ? "AVAX"
+              : "Superposition"
           }.`
         );
       } else {
@@ -377,7 +395,11 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             ? "Sei"
             : chainKey === "telos"
             ? "Telos"
-            : "Polygon"
+            : chainKey === "polygon"
+            ? "Polygon"
+            : chainKey === "avax"
+            ? "AVAX"
+            : "Superposition"
           }{" "}
           {matchingEmoji}
         </h2>
@@ -489,6 +511,10 @@ function App() {
             <SayHiButton chainKey="sei" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="telos" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="polygon" signer={signer} onSuccess={handleSuccess} />
+          </div>
+          <div className="chains-row">
+            <SayHiButton chainKey="avax" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="superposition" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
 
