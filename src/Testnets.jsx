@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import "./App.css";
+import { getUserInteractions, saveUserInteraction, getUniqueChainsInteracted, resetUserInteractions } from "./utils/gamification";
 import { connectWallet, checkWalletConnected, disconnectWallet } from "./utils/wallet";
 
 // Define matching emojis for each chain (only testnets)
@@ -8,6 +9,9 @@ const chainEmojis = {
   monad: "🧪",
   interop0: "🔗",
   interop1: "🔗",
+  chainbase: "🌉", // Emoji for Chainbase Testnet
+  megaeth: "⚡",   // Emoji for MegaEth
+  basesepolia: "🌐" // Emoji for Base Sepolia
 };
 
 // Block explorer URLs for each chain (only testnets)
@@ -15,9 +19,12 @@ const explorerUrls = {
   monad: "https://testnet.monadexplorer.com/",
   interop0: "https://explorer.interop.network/tx/",
   interop1: "https://explorer.interop.network/tx/",
+  chainbase: "https://testnet.explorer.chainbase.com/",
+  megaeth: "https://www.megaexplorer.xyz/",
+  basesepolia: "https://base-sepolia.blockscout.com/"
 };
 
-// Updated ABI for all chains (same as App.jsx)
+// Updated ABI for all chains (same as before)
 const contractABI = [
   {
     inputs: [
@@ -122,6 +129,9 @@ const testnetChains = {
   monad: { chainId: 10143, address: "0xb73460E7e22D5544cbA51C7A33ecFAB46bf9de27", abi: contractABI },
   interop0: { chainId: 420120000, address: "0x13c0E5c22d0a45e68Fa6583cdB4a455413B1e9F9", abi: contractABI },
   interop1: { chainId: 420120001, address: "0x13c0E5c22d0a45e68Fa6583cdB4a455413B1e9F9", abi: contractABI },
+  chainbase: { chainId: 2233, address: "0xfD1754535A8c917Fa6Ef45ec90618a039dB08a09", abi: contractABI },
+  megaeth: { chainId: 6342, address: "0x2fa3090ACb91f2674e1B5df2fe779468c2328295", abi: contractABI },
+  basesepolia: { chainId: 84532, address: "0xB6E29973B0FEc75dbFD4ED577649a52593174AF8", abi: contractABI }
 };
 
 // Error Boundary Component to catch rendering errors
@@ -190,6 +200,9 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       await tx.wait();
       console.log(`Transaction confirmed: ${tx.hash}`);
 
+      // Track the interaction (testnets)
+      saveUserInteraction(chainKey, functionName, true);
+
       onSuccess(tx.hash, chainKey);
     } catch (err) {
       console.error(`Error on ${chainKey}:`, err);
@@ -200,7 +213,15 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Monad Testnet"
               : chainKey === "interop0"
               ? "Interop0"
-              : "Interop1"
+              : chainKey === "interop1"
+              ? "Interop1"
+              : chainKey === "chainbase"
+              ? "Chainbase Testnet"
+              : chainKey === "megaeth"
+              ? "MegaEth"
+              : chainKey === "basesepolia"
+              ? "Base Sepolia"
+              : ""
           } (Chain ID: ${testnetChains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -210,7 +231,15 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Monad Testnet"
               : chainKey === "interop0"
               ? "Interop0"
-              : "Interop1"
+              : chainKey === "interop1"
+              ? "Interop1"
+              : chainKey === "chainbase"
+              ? "Chainbase Testnet"
+              : chainKey === "megaeth"
+              ? "MegaEth"
+              : chainKey === "basesepolia"
+              ? "Base Sepolia"
+              : ""
           }. Please add ETH to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -220,7 +249,15 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Monad Testnet"
               : chainKey === "interop0"
               ? "Interop0"
-              : "Interop1"
+              : chainKey === "interop1"
+              ? "Interop1"
+              : chainKey === "chainbase"
+              ? "Chainbase Testnet"
+              : chainKey === "megaeth"
+              ? "MegaEth"
+              : chainKey === "basesepolia"
+              ? "Base Sepolia"
+              : ""
           }.`
         );
       } else {
@@ -240,7 +277,15 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             ? "Monad Testnet"
             : chainKey === "interop0"
             ? "Interop0"
-            : "Interop1"}{" "}
+            : chainKey === "interop1"
+            ? "Interop1"
+            : chainKey === "chainbase"
+            ? "Chainbase Testnet"
+            : chainKey === "megaeth"
+            ? "MegaEth"
+            : chainKey === "basesepolia"
+            ? "Base Sepolia"
+            : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -278,6 +323,50 @@ function Testnets() {
   const [showPopup, setShowPopup] = useState(false);
   const [transactionHash, setTransactionHash] = useState("");
   const [explorerUrl, setExplorerUrl] = useState("");
+  const [interactions, setInteractions] = useState(getUserInteractions(true));
+  const [timeRemaining, setTimeRemaining] = useState("");
+
+  const totalChains = Object.keys(testnetChains).length; // Now 6 chains
+  const uniqueChains = getUniqueChainsInteracted(interactions);
+  const progressPercentage = (uniqueChains / totalChains) * 100;
+
+  // Function to calculate time remaining until next midnight UTC
+  const calculateTimeRemaining = () => {
+    const now = new Date();
+    const nextMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
+    const diffMs = nextMidnightUTC - now;
+    const diffSeconds = Math.floor(diffMs / 1000);
+    const hours = Math.floor(diffSeconds / 3600);
+    const minutes = Math.floor((diffSeconds % 3600) / 60);
+    const seconds = diffSeconds % 60;
+    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  };
+
+  // Update timer every second and reset progress bar at midnight UTC
+  useEffect(() => {
+    const updateTimer = () => {
+      const now = new Date();
+      const secondsUntilMidnight = (new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0)) - now) / 1000;
+
+      // Update time remaining
+      setTimeRemaining(calculateTimeRemaining());
+
+      // Reset progress bar at midnight UTC
+      if (secondsUntilMidnight <= 0) {
+        const updatedInteractions = resetUserInteractions(true);
+        setInteractions(updatedInteractions);
+      }
+    };
+
+    // Initial update
+    updateTimer();
+
+    // Update every second
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(timerInterval);
+  }, []);
 
   // Auto-connect wallet on page load if previously connected
   useEffect(() => {
@@ -303,7 +392,7 @@ function Testnets() {
       const { signer, address } = await connectWallet();
       setSigner(signer);
       setAddress(address);
-    } catch (err) {
+    } catch ( 이름을) {
       console.error("Wallet connection error:", err);
       alert(`Error: ${err.message || "Failed to connect wallet"}`);
     }
@@ -320,6 +409,9 @@ function Testnets() {
     setTransactionHash(txHash);
     setExplorerUrl(explorerUrls[chainKey]);
     setShowPopup(true);
+    // Update interactions state after a successful transaction
+    const updatedInteractions = getUserInteractions(true);
+    setInteractions(updatedInteractions);
   };
 
   const closePopup = () => {
@@ -352,13 +444,27 @@ function Testnets() {
             )}
           </div>
         </div>
+        <div className="progress-section">
+          <h3 className="progress-title">Testnet Interaction Progress</h3>
+          <div className="progress-bar-container">
+            <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
+          </div>
+          <p className="progress-text">
+            Interacted with {uniqueChains} / {totalChains} testnet chains ({Math.round(progressPercentage)}%)
+          </p>
+          <p className="timer-text">Resets in: {timeRemaining}</p>
+        </div>
         <div className="chains-box">
           <div className="chains-row">
             <SayHiButton chainKey="monad" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="interop0" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="interop1" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="chainbase" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="megaeth" signer={signer} onSuccess={handleSuccess} />
           </div>
-          <div className="chains-row"></div>
+          <div className="chains-row">
+            <SayHiButton chainKey="basesepolia" signer={signer} onSuccess={handleSuccess} />
+          </div>
           <div className="chains-row"></div>
           <div className="chains-row"></div>
           <div className="chains-row"></div>
