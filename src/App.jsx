@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { ethers } from "ethers";
 import "./App.css";
-import { getUserInteractions, saveUserInteraction, getUniqueChainsInteracted } from "./utils/gamification";
+import { getUserInteractions, saveUserInteraction, getUniqueChainsInteracted, resetUserInteractions } from "./utils/gamification";
 import { connectWallet, checkWalletConnected, disconnectWallet } from "./utils/wallet";
 
 // Define matching emojis for each chain
@@ -472,10 +472,49 @@ function App() {
   const [transactionHash, setTransactionHash] = useState("");
   const [explorerUrl, setExplorerUrl] = useState("");
   const [interactions, setInteractions] = useState(getUserInteractions());
+  const [timeRemaining, setTimeRemaining] = useState("");
 
   const totalChains = Object.keys(chains).length; // 20 chains
   const uniqueChains = getUniqueChainsInteracted(interactions);
   const progressPercentage = (uniqueChains / totalChains) * 100;
+
+  // Function to calculate time remaining until next midnight UTC
+  const calculateTimeRemaining = () => {
+    const now = new Date();
+    const nextMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
+    const diffMs = nextMidnightUTC - now;
+    const diffSeconds = Math.floor(diffMs / 1000);
+    const hours = Math.floor(diffSeconds / 3600);
+    const minutes = Math.floor((diffSeconds % 3600) / 60);
+    const seconds = diffSeconds % 60;
+    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  };
+
+  // Update timer every second and reset progress bar at midnight UTC
+  useEffect(() => {
+    const updateTimer = () => {
+      const now = new Date();
+      const secondsUntilMidnight = (new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0)) - now) / 1000;
+
+      // Update time remaining
+      setTimeRemaining(calculateTimeRemaining());
+
+      // Reset progress bar at midnight UTC
+      if (secondsUntilMidnight <= 0) {
+        const updatedInteractions = resetUserInteractions();
+        setInteractions(updatedInteractions);
+      }
+    };
+
+    // Initial update
+    updateTimer();
+
+    // Update every second
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(timerInterval);
+  }, []);
 
   // Auto-connect wallet on page load if previously connected
   useEffect(() => {
@@ -561,6 +600,7 @@ function App() {
           <p className="progress-text">
             Interacted with {uniqueChains} / {totalChains} chains ({Math.round(progressPercentage)}%)
           </p>
+          <p className="timer-text">Resets in: {timeRemaining}</p>
         </div>
         <div className="chains-box">
           <div className="chains-row">

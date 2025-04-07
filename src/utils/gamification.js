@@ -21,3 +21,9 @@ export const saveUserInteraction = (chainKey, action) => {
 export const getUniqueChainsInteracted = (interactions) => {
   return Object.keys(interactions).length;
 };
+
+// Reset user interactions
+export const resetUserInteractions = () => {
+  localStorage.removeItem(INTERACTIONS_KEY);
+  return {};
+};
