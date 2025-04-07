@@ -4,17 +4,17 @@ import "./App.css";
 import { getUserInteractions, saveUserInteraction, getUniqueChainsInteracted, resetUserInteractions } from "./utils/gamification";
 import { connectWallet, checkWalletConnected, disconnectWallet } from "./utils/wallet";
 
-// Define matching emojis for each chain (only testnets)
+// Define matching emojis for each chain (testnets only)
 const chainEmojis = {
   monad: "🧪",
   interop0: "🔗",
   interop1: "🔗",
-  chainbase: "🌉", // Emoji for Chainbase Testnet
-  megaeth: "⚡",   // Emoji for MegaEth
-  basesepolia: "🌐" // Emoji for Base Sepolia
+  chainbase: "🌉",
+  megaeth: "⚡",
+  basesepolia: "🌐"
 };
 
-// Block explorer URLs for each chain (only testnets)
+// Block explorer URLs for each chain (testnets only)
 const explorerUrls = {
   monad: "https://testnet.monadexplorer.com/",
   interop0: "https://explorer.interop.network/tx/",
@@ -24,105 +24,36 @@ const explorerUrls = {
   basesepolia: "https://base-sepolia.blockscout.com/"
 };
 
-// Updated ABI for all chains (same as before)
+// Contract ABI (consistent across chains)
 const contractABI = [
   {
-    inputs: [
-      {
-        internalType: "string",
-        name: "_uniqueSignature",
-        type: "string",
-      },
-    ],
+    inputs: [{ internalType: "string", name: "_uniqueSignature", type: "string" }],
     stateMutability: "nonpayable",
-    type: "constructor",
+    type: "constructor"
   },
   {
     anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "string",
-        name: "message",
-        type: "string",
-      },
-    ],
+    inputs: [{ indexed: false, internalType: "string", name: "message", type: "string" }],
     name: "GMSaid",
-    type: "event",
+    type: "event"
   },
   {
     anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "string",
-        name: "message",
-        type: "string",
-      },
-    ],
+    inputs: [{ indexed: false, internalType: "string", name: "message", type: "string" }],
     name: "GNSaid",
-    type: "event",
+    type: "event"
   },
   {
     anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "string",
-        name: "message",
-        type: "string",
-      },
-    ],
+    inputs: [{ indexed: false, internalType: "string", name: "message", type: "string" }],
     name: "HiSaid",
-    type: "event",
+    type: "event"
   },
-  {
-    inputs: [],
-    name: "getUniqueSignature",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "sayGM",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "sayGN",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "sayHi",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "uniqueSignature",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
+  { inputs: [], name: "getUniqueSignature", outputs: [{ internalType: "string", name: "", type: "string" }], stateMutability: "view", type: "function" },
+  { inputs: [], name: "sayGM", outputs: [], stateMutability: "nonpayable", type: "function" },
+  { inputs: [], name: "sayGN", outputs: [], stateMutability: "nonpayable", type: "function" },
+  { inputs: [], name: "sayHi", outputs: [], stateMutability: "nonpayable", type: "function" },
+  { inputs: [], name: "uniqueSignature", outputs: [{ internalType: "string", name: "", type: "string" }], stateMutability: "view", type: "function" }
 ];
 
 const testnetChains = {
@@ -134,7 +65,7 @@ const testnetChains = {
   basesepolia: { chainId: 84532, address: "0xB6E29973B0FEc75dbFD4ED577649a52593174AF8", abi: contractABI }
 };
 
-// Error Boundary Component to catch rendering errors
+// Error Boundary Component
 class ErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
 
@@ -200,64 +131,41 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       await tx.wait();
       console.log(`Transaction confirmed: ${tx.hash}`);
 
-      // Track the interaction (testnets)
       saveUserInteraction(chainKey, functionName, true);
-
       onSuccess(tx.hash, chainKey);
     } catch (err) {
       console.error(`Error on ${chainKey}:`, err);
       if (err.code === 4902 || err.message.includes("Unrecognized chain ID")) {
         setErrorMessage(
           `${
-            chainKey === "monad"
-              ? "Monad Testnet"
-              : chainKey === "interop0"
-              ? "Interop0"
-              : chainKey === "interop1"
-              ? "Interop1"
-              : chainKey === "chainbase"
-              ? "Chainbase Testnet"
-              : chainKey === "megaeth"
-              ? "MegaEth"
-              : chainKey === "basesepolia"
-              ? "Base Sepolia"
-              : ""
+            chainKey === "monad" ? "Monad Testnet" :
+            chainKey === "interop0" ? "Interop0" :
+            chainKey === "interop1" ? "Interop1" :
+            chainKey === "chainbase" ? "Chainbase Testnet" :
+            chainKey === "megaeth" ? "MegaEth" :
+            chainKey === "basesepolia" ? "Base Sepolia" : ""
           } (Chain ID: ${testnetChains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
         setErrorMessage(
           `Insufficient funds for gas on ${
-            chainKey === "monad"
-              ? "Monad Testnet"
-              : chainKey === "interop0"
-              ? "Interop0"
-              : chainKey === "interop1"
-              ? "Interop1"
-              : chainKey === "chainbase"
-              ? "Chainbase Testnet"
-              : chainKey === "megaeth"
-              ? "MegaEth"
-              : chainKey === "basesepolia"
-              ? "Base Sepolia"
-              : ""
+            chainKey === "monad" ? "Monad Testnet" :
+            chainKey === "interop0" ? "Interop0" :
+            chainKey === "interop1" ? "Interop1" :
+            chainKey === "chainbase" ? "Chainbase Testnet" :
+            chainKey === "megaeth" ? "MegaEth" :
+            chainKey === "basesepolia" ? "Base Sepolia" : ""
           }. Please add ETH to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
         setErrorMessage(
           `Contract call failed. The contract address or ABI might be incorrect for ${
-            chainKey === "monad"
-              ? "Monad Testnet"
-              : chainKey === "interop0"
-              ? "Interop0"
-              : chainKey === "interop1"
-              ? "Interop1"
-              : chainKey === "chainbase"
-              ? "Chainbase Testnet"
-              : chainKey === "megaeth"
-              ? "MegaEth"
-              : chainKey === "basesepolia"
-              ? "Base Sepolia"
-              : ""
+            chainKey === "monad" ? "Monad Testnet" :
+            chainKey === "interop0" ? "Interop0" :
+            chainKey === "interop1" ? "Interop1" :
+            chainKey === "chainbase" ? "Chainbase Testnet" :
+            chainKey === "megaeth" ? "MegaEth" :
+            chainKey === "basesepolia" ? "Base Sepolia" : ""
           }.`
         );
       } else {
@@ -271,21 +179,14 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
   return (
     <div className="chain-item">
       <div className="chain-name">
-        <h2>
+        <h2 className={chainKey === "monad" ? "monad-testnet" : ""}>
           {matchingEmoji}{" "}
-          {chainKey === "monad"
-            ? "Monad Testnet"
-            : chainKey === "interop0"
-            ? "Interop0"
-            : chainKey === "interop1"
-            ? "Interop1"
-            : chainKey === "chainbase"
-            ? "Chainbase Testnet"
-            : chainKey === "megaeth"
-            ? "MegaEth"
-            : chainKey === "basesepolia"
-            ? "Base Sepolia"
-            : ""}{" "}
+          {chainKey === "monad" ? "Monad Testnet" :
+           chainKey === "interop0" ? "Interop0" :
+           chainKey === "interop1" ? "Interop1" :
+           chainKey === "chainbase" ? "Chainbase Testnet" :
+           chainKey === "megaeth" ? "MegaEth" :
+           chainKey === "basesepolia" ? "Base Sepolia" : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -295,21 +196,21 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
           onClick={() => handleTransaction("sayHi", setIsLoadingHi)}
           disabled={isLoadingHi || isLoadingGM || isLoadingGN || !signer}
         >
-          {isLoadingHi ? "Saying Hi..." : "Say Hi"}
+          {isLoadingHi ? <span className="spinner"></span> : "Say Hi"}
         </button>
         <button
           className="modern-button"
           onClick={() => handleTransaction("sayGM", setIsLoadingGM)}
           disabled={isLoadingHi || isLoadingGM || isLoadingGN || !signer}
         >
-          {isLoadingGM ? "Saying GM..." : "Say GM"}
+          {isLoadingGM ? <span className="spinner"></span> : "Say GM"}
         </button>
         <button
           className="modern-button"
           onClick={() => handleTransaction("sayGN", setIsLoadingGN)}
           disabled={isLoadingHi || isLoadingGM || isLoadingGN || !signer}
         >
-          {isLoadingGN ? "Saying GN..." : "Say GN"}
+          {isLoadingGN ? <span className="spinner"></span> : "Say GN"}
         </button>
       </div>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -326,11 +227,10 @@ function Testnets() {
   const [interactions, setInteractions] = useState(getUserInteractions(true));
   const [timeRemaining, setTimeRemaining] = useState("");
 
-  const totalChains = Object.keys(testnetChains).length; // Now 6 chains
+  const totalChains = Object.keys(testnetChains).length; // 6 chains
   const uniqueChains = getUniqueChainsInteracted(interactions);
   const progressPercentage = (uniqueChains / totalChains) * 100;
 
-  // Function to calculate time remaining until next midnight UTC
   const calculateTimeRemaining = () => {
     const now = new Date();
     const nextMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
@@ -342,33 +242,21 @@ function Testnets() {
     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  // Update timer every second and reset progress bar at midnight UTC
   useEffect(() => {
     const updateTimer = () => {
       const now = new Date();
       const secondsUntilMidnight = (new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0)) - now) / 1000;
-
-      // Update time remaining
       setTimeRemaining(calculateTimeRemaining());
-
-      // Reset progress bar at midnight UTC
       if (secondsUntilMidnight <= 0) {
         const updatedInteractions = resetUserInteractions(true);
         setInteractions(updatedInteractions);
       }
     };
-
-    // Initial update
     updateTimer();
-
-    // Update every second
     const timerInterval = setInterval(updateTimer, 1000);
-
-    // Cleanup interval on component unmount
     return () => clearInterval(timerInterval);
   }, []);
 
-  // Auto-connect wallet on page load if previously connected
   useEffect(() => {
     const tryAutoConnect = async () => {
       if (checkWalletConnected()) {
@@ -383,7 +271,6 @@ function Testnets() {
         }
       }
     };
-
     tryAutoConnect();
   }, []);
 
@@ -392,7 +279,7 @@ function Testnets() {
       const { signer, address } = await connectWallet();
       setSigner(signer);
       setAddress(address);
-    } catch ( 이름을) {
+    } catch (err) {
       console.error("Wallet connection error:", err);
       alert(`Error: ${err.message || "Failed to connect wallet"}`);
     }
@@ -409,7 +296,6 @@ function Testnets() {
     setTransactionHash(txHash);
     setExplorerUrl(explorerUrls[chainKey]);
     setShowPopup(true);
-    // Update interactions state after a successful transaction
     const updatedInteractions = getUserInteractions(true);
     setInteractions(updatedInteractions);
   };
@@ -475,12 +361,7 @@ function Testnets() {
               <h2>Success! You said Hi!</h2>
               <p>
                 Transaction Link:{" "}
-                <a
-                  href={`${explorerUrl}${transactionHash}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transaction-link"
-                >
+                <a href={`${explorerUrl}${transactionHash}`} target="_blank" rel="noopener noreferrer" className="transaction-link">
                   View on Explorer
                 </a>
               </p>
