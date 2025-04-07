@@ -15,6 +15,7 @@ const chainEmojis = {
   op: "🔥",
   soneium: "🎉",
   unichain: "🚀",
+  mantle: "🪐",
 };
 
 // Block explorer URLs for each chain
@@ -29,6 +30,7 @@ const explorerUrls = {
   op: "https://optimistic.etherscan.io/",
   soneium: "https://soneium.blockscout.com/",
   unichain: "https://unichain.blockscout.com/",
+  mantle: "https://mantlescan.xyz/tx/",
 };
 
 // Updated ABI for all chains
@@ -183,6 +185,11 @@ const chains = {
     address: "0xDb028404288330CDC7641add7531ed495b5dAFab",
     abi: contractABI,
   },
+  mantle: {
+    chainId: 5000,
+    address: "0xfC2444c375499330cA99CDc54fD7866c23768299",
+    abi: contractABI,
+  },
 };
 
 // Error Boundary Component to catch rendering errors
@@ -240,7 +247,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
 
       // Verify the current chain after switching
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const network = await provider.getNetwork();
+      const network = await provider.getNetwork(); // Fixed: removed "pulse"
       console.log(`Current network after switch:`, network);
       if (network.chainId !== chain.chainId) {
         throw new Error(`Failed to switch to ${chainKey}. Current chain ID: ${network.chainId}`);
@@ -280,7 +287,9 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "OP"
               : chainKey === "soneium"
               ? "Soneium"
-              : "Unichain"
+              : chainKey === "unichain"
+              ? "Unichain"
+              : "Mantle"
           } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -304,7 +313,9 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "OP"
               : chainKey === "soneium"
               ? "Soneium"
-              : "Unichain"
+              : chainKey === "unichain"
+              ? "Unichain"
+              : "Mantle"
           }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -328,7 +339,9 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "OP"
               : chainKey === "soneium"
               ? "Soneium"
-              : "Unichain"
+              : chainKey === "unichain"
+              ? "Unichain"
+              : "Mantle"
           }.`
         );
       } else {
@@ -345,7 +358,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
         <h2>
           {matchingEmoji}{" "}
           {chainKey === "ink"
-            ? "Ink"
+            ? "ink"
             : chainKey === "base"
             ? "Base"
             : chainKey === "arbitrum"
@@ -362,7 +375,10 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             ? "OP"
             : chainKey === "soneium"
             ? "Soneium"
-            : "Unichain"}{" "}
+            : chainKey === "unichain"
+            ? "Unichain"
+            : "Mantle"
+          }{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -466,6 +482,9 @@ function App() {
             <SayHiButton chainKey="op" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="soneium" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="unichain" signer={signer} onSuccess={handleSuccess} />
+          </div>
+          <div className="chains-row">
+            <SayHiButton chainKey="mantle" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
 
