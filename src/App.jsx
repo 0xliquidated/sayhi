@@ -20,8 +20,11 @@ const chainEmojis = {
   sei: "🌊",
   telos: "🌐",
   polygon: "⬣",
-  avax: "❄️",         // Avalanche
-  superposition: "⚛️", // Superposition
+  avax: "❄️",
+  superposition: "⚛️",
+  story: "📖",
+  interop0: "🔗",
+  interop1: "🔗",
 };
 
 // Block explorer URLs for each chain
@@ -42,7 +45,10 @@ const explorerUrls = {
   telos: "https://www.teloscan.io/tx/",
   polygon: "https://polygonscan.com/tx/",
   avax: "https://snowtrace.io/tx/",
-  superposition: "https://explorer.superposition.so/tx/", // Placeholder—confirm if different
+  superposition: "https://explorer.superposition.so/tx/",
+  story: "https://explorer.story.network/tx/",
+  interop0: "https://explorer.interop.network/tx/",
+  interop1: "https://explorer.interop.network/tx/",
 };
 
 // Updated ABI for all chains
@@ -164,6 +170,9 @@ const chains = {
   polygon: { chainId: 137, address: "0x252294F81C909c90291e002e95894DdF020ca2d5", abi: contractABI },
   avax: { chainId: 43114, address: "0x901C4523CdDEb0A7EA8104Cb0454708dfb0142c5", abi: contractABI },
   superposition: { chainId: 55244, address: "0x25e86c4547C526a4D4eC04E808be561B13078013", abi: contractABI },
+  story: { chainId: 1514, address: "0x8654507A3e06c41BD5eF53c9B76452949511eB41", abi: contractABI },
+  interop0: { chainId: 420120000, address: "0x13c0E5c22d0a45e68Fa6583cdB4a455413B1e9F9", abi: contractABI },
+  interop1: { chainId: 420120001, address: "0x13c0E5c22d0a45e68Fa6583cdB4a455413B1e9F9", abi: contractABI }, // Fixed typo
 };
 
 // Error Boundary Component to catch rendering errors
@@ -275,7 +284,13 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Polygon"
               : chainKey === "avax"
               ? "AVAX"
-              : "Superposition"
+              : chainKey === "superposition"
+              ? "Superposition"
+              : chainKey === "story"
+              ? "Story"
+              : chainKey === "interop0"
+              ? "Interop0"
+              : "Interop1"
           } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -313,7 +328,13 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Polygon"
               : chainKey === "avax"
               ? "AVAX"
-              : "Superposition"
+              : chainKey === "superposition"
+              ? "Superposition"
+              : chainKey === "story"
+              ? "Story"
+              : chainKey === "interop0"
+              ? "Interop0"
+              : "Interop1"
           }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -351,7 +372,13 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Polygon"
               : chainKey === "avax"
               ? "AVAX"
-              : "Superposition"
+              : chainKey === "superposition"
+              ? "Superposition"
+              : chainKey === "story"
+              ? "Story"
+              : chainKey === "interop0"
+              ? "Interop0"
+              : "Interop1"
           }.`
         );
       } else {
@@ -399,7 +426,13 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             ? "Polygon"
             : chainKey === "avax"
             ? "AVAX"
-            : "Superposition"
+            : chainKey === "superposition"
+            ? "Superposition"
+            : chainKey === "story"
+            ? "Story"
+            : chainKey === "interop0"
+            ? "Interop0"
+            : "Interop1"
           }{" "}
           {matchingEmoji}
         </h2>
@@ -515,6 +548,9 @@ function App() {
           <div className="chains-row">
             <SayHiButton chainKey="avax" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="superposition" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="story" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="interop0" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="interop1" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
 
