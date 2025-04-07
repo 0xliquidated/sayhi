@@ -16,6 +16,10 @@ const chainEmojis = {
   soneium: "🎉",
   unichain: "🚀",
   mantle: "🪐",
+  bob: "🛠️",      // Emoji for BOB (tools, since it’s "Build on Bitcoin")
+  sei: "🌊",      // Emoji for Sei (wave, for its fast "Pacific" chain)
+  telos: "🌐",    // Emoji for Telos (globe, for its network focus)
+  polygon: "⬣",   // Emoji for Polygon (geometric shape)
 };
 
 // Block explorer URLs for each chain
@@ -31,6 +35,10 @@ const explorerUrls = {
   soneium: "https://soneium.blockscout.com/",
   unichain: "https://unichain.blockscout.com/",
   mantle: "https://mantlescan.xyz/tx/",
+  bob: "https://explorer.gobob.xyz/tx/",         // Added /tx/ for consistency
+  sei: "https://seitrace.com/tx/?chain=pacific-1", // Added /tx/ for consistency
+  telos: "https://www.teloscan.io/tx/",          // Added /tx/ for consistency
+  polygon: "https://polygonscan.com/tx/",        // Added /tx/ for consistency
 };
 
 // Updated ABI for all chains
@@ -135,61 +143,21 @@ const contractABI = [
 ];
 
 const chains = {
-  ink: {
-    chainId: 57073,
-    address: "0xaAeb1abf363615E8676EAB48f5d08E3FCE70dBe0",
-    abi: contractABI,
-  },
-  base: {
-    chainId: 8453,
-    address: "0xc7C32Af9cE7dB3e06638761ee6691AD95419a69C",
-    abi: contractABI,
-  },
-  arbitrum: {
-    chainId: 42161,
-    address: "0xC738E5886706C58E73eaa28a8e9Ed631F8868331",
-    abi: contractABI,
-  },
-  berachain: {
-    chainId: 80094,
-    address: "0x616e666f49C2651A1028f774c9f4fF4C27524Dc5",
-    abi: contractABI,
-  },
-  monad: {
-    chainId: 10143,
-    address: "0xb73460E7e22D5544cbA51C7A33ecFAB46bf9de27",
-    abi: contractABI,
-  },
-  energi: {
-    chainId: 39797,
-    address: "0x4d4Ff1Cb8c75A69E2583D5A1183b2b23F318ed15",
-    abi: contractABI,
-  },
-  bnb: {
-    chainId: 56,
-    address: "0x6fbe16D026Cda317507D426Fc4C28CE3b3A8f93A",
-    abi: contractABI,
-  },
-  op: {
-    chainId: 10,
-    address: "0x39b1c43Da4840877c0cDfc2Afc854952c27F28B3",
-    abi: contractABI,
-  },
-  soneium: {
-    chainId: 1868,
-    address: "0x52301b0437E168f0af1d8b13fF578F2cbC357CdF",
-    abi: contractABI,
-  },
-  unichain: {
-    chainId: 130,
-    address: "0xDb028404288330CDC7641add7531ed495b5dAFab",
-    abi: contractABI,
-  },
-  mantle: {
-    chainId: 5000,
-    address: "0xfC2444c375499330cA99CDc54fD7866c23768299",
-    abi: contractABI,
-  },
+  ink: { chainId: 57073, address: "0xaAeb1abf363615E8676EAB48f5d08E3FCE70dBe0", abi: contractABI },
+  base: { chainId: 8453, address: "0xc7C32Af9cE7dB3e06638761ee6691AD95419a69C", abi: contractABI },
+  arbitrum: { chainId: 42161, address: "0xC738E5886706C58E73eaa28a8e9Ed631F8868331", abi: contractABI },
+  berachain: { chainId: 80094, address: "0x616e666f49C2651A1028f774c9f4fF4C27524Dc5", abi: contractABI },
+  monad: { chainId: 10143, address: "0xb73460E7e22D5544cbA51C7A33ecFAB46bf9de27", abi: contractABI },
+  energi: { chainId: 39797, address: "0x4d4Ff1Cb8c75A69E2583D5A1183b2b23F318ed15", abi: contractABI },
+  bnb: { chainId: 56, address: "0x6fbe16D026Cda317507D426Fc4C28CE3b3A8f93A", abi: contractABI },
+  op: { chainId: 10, address: "0x39b1c43Da4840877c0cDfc2Afc854952c27F28B3", abi: contractABI },
+  soneium: { chainId: 1868, address: "0x52301b0437E168f0af1d8b13fF578F2cbC357CdF", abi: contractABI },
+  unichain: { chainId: 130, address: "0xDb028404288330CDC7641add7531ed495b5dAFab", abi: contractABI },
+  mantle: { chainId: 5000, address: "0xfC2444c375499330cA99CDc54fD7866c23768299", abi: contractABI },
+  bob: { chainId: 60808, address: "0x704D2431dE69f72D238B8AD1014901636eD0AF3D", abi: contractABI },
+  sei: { chainId: 1329, address: "0x710593070a91C52786A111a26AD6436B846cc561", abi: contractABI },
+  telos: { chainId: 40, address: "0x899C8D339CcABa7C1260453419e8a661f1df5F2C", abi: contractABI },
+  polygon: { chainId: 137, address: "0x252294F81C909c90291e002e95894DdF020ca2d5", abi: contractABI },
 };
 
 // Error Boundary Component to catch rendering errors
@@ -247,7 +215,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
 
       // Verify the current chain after switching
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const network = await provider.getNetwork(); // Fixed: removed "pulse"
+      const network = await provider.getNetwork(); // Fixed typo
       console.log(`Current network after switch:`, network);
       if (network.chainId !== chain.chainId) {
         throw new Error(`Failed to switch to ${chainKey}. Current chain ID: ${network.chainId}`);
@@ -289,7 +257,15 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Soneium"
               : chainKey === "unichain"
               ? "Unichain"
-              : "Mantle"
+              : chainKey === "mantle"
+              ? "Mantle"
+              : chainKey === "bob"
+              ? "BOB"
+              : chainKey === "sei"
+              ? "Sei"
+              : chainKey === "telos"
+              ? "Telos"
+              : "Polygon"
           } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -315,7 +291,15 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Soneium"
               : chainKey === "unichain"
               ? "Unichain"
-              : "Mantle"
+              : chainKey === "mantle"
+              ? "Mantle"
+              : chainKey === "bob"
+              ? "BOB"
+              : chainKey === "sei"
+              ? "Sei"
+              : chainKey === "telos"
+              ? "Telos"
+              : "Polygon"
           }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -341,7 +325,15 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
               ? "Soneium"
               : chainKey === "unichain"
               ? "Unichain"
-              : "Mantle"
+              : chainKey === "mantle"
+              ? "Mantle"
+              : chainKey === "bob"
+              ? "BOB"
+              : chainKey === "sei"
+              ? "Sei"
+              : chainKey === "telos"
+              ? "Telos"
+              : "Polygon"
           }.`
         );
       } else {
@@ -358,7 +350,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
         <h2>
           {matchingEmoji}{" "}
           {chainKey === "ink"
-            ? "ink"
+            ? "Ink"
             : chainKey === "base"
             ? "Base"
             : chainKey === "arbitrum"
@@ -377,7 +369,15 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             ? "Soneium"
             : chainKey === "unichain"
             ? "Unichain"
-            : "Mantle"
+            : chainKey === "mantle"
+            ? "Mantle"
+            : chainKey === "bob"
+            ? "BOB"
+            : chainKey === "sei"
+            ? "Sei"
+            : chainKey === "telos"
+            ? "Telos"
+            : "Polygon"
           }{" "}
           {matchingEmoji}
         </h2>
@@ -485,6 +485,10 @@ function App() {
           </div>
           <div className="chains-row">
             <SayHiButton chainKey="mantle" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="bob" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="sei" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="telos" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="polygon" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
 
