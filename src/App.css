@@ -92,6 +92,10 @@ h1 {
 /* Wallet section */
 .wallet-section {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .wallet-address {
@@ -247,6 +251,19 @@ h1 {
   font-size: 1.2rem;
 }
 
+/* Specific styling for the disconnect button */
+.disconnect-button {
+  padding: 14px 48px;
+  font-size: 1.2rem;
+  background: linear-gradient(90deg, #ff6b6b 0%, #f44336 100%); /* Red gradient for disconnect */
+}
+
+.disconnect-button:hover:not(:disabled) {
+  background: linear-gradient(90deg, #f44336 0%, #ff6b6b 100%);
+  box-shadow: 0 6px 20px rgba(244, 67, 54, 0.6);
+  transform: translateY(-2px);
+}
+
 /* Error message styling */
 .error-message {
   font-family: 'Poppins', sans-serif;
@@ -336,7 +353,8 @@ h1 {
     max-width: 160px;
   }
 
-  .connect-button {
+  .connect-button,
+  .disconnect-button {
     padding: 12px 40px;
     font-size: 1.1rem;
   }
@@ -377,7 +395,8 @@ h1 {
     max-width: 140px;
   }
 
-  .connect-button {
+  .connect-button,
+  .disconnect-button {
     padding: 10px 30px;
     font-size: 1rem;
   }
@@ -412,7 +431,8 @@ h1 {
     max-width: 120px;
   }
 
-  .connect-button {
+  .connect-button,
+  .disconnect-button {
     padding: 8px 25px;
     font-size: 0.9rem;
   }

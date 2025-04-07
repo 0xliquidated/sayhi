@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import "./App.css";
-import { getUserInteractions, saveUserInteraction, getUniqueChainsInteracted } from "./utils/gamification";
+import { connectWallet, checkWalletConnected, disconnectWallet } from "./utils/wallet";
 
 // Define matching emojis for each chain (only testnets)
 const chainEmojis = {
@@ -190,9 +190,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       await tx.wait();
       console.log(`Transaction confirmed: ${tx.hash}`);
 
-      // Track the interaction
-      saveUserInteraction(chainKey, functionName);
-
       onSuccess(tx.hash, chainKey);
     } catch (err) {
       console.error(`Error on ${chainKey}:`, err);
@@ -281,39 +278,48 @@ function Testnets() {
   const [showPopup, setShowPopup] = useState(false);
   const [transactionHash, setTransactionHash] = useState("");
   const [explorerUrl, setExplorerUrl] = useState("");
-  const [interactions, setInteractions] = useState(getUserInteractions());
 
-  const totalChains = Object.keys(testnetChains).length; // 3 chains
-  const uniqueChains = getUniqueChainsInteracted(interactions);
-  const progressPercentage = (uniqueChains / totalChains) * 100;
+  // Auto-connect wallet on page load if previously connected
+  useEffect(() => {
+    const tryAutoConnect = async () => {
+      if (checkWalletConnected()) {
+        try {
+          const { signer, address } = await connectWallet();
+          setSigner(signer);
+          setAddress(address);
+          console.log("Auto-connected wallet:", address);
+        } catch (err) {
+          console.error("Auto-connect failed:", err);
+          setWalletConnected(false);
+        }
+      }
+    };
 
-  const connectWallet = async () => {
-    if (!window.ethereum) {
-      alert("Please install a wallet like Rabby!");
-      return;
-    }
+    tryAutoConnect();
+  }, []);
 
+  const handleConnectWallet = async () => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
+      const { signer, address } = await connectWallet();
       setSigner(signer);
       setAddress(address);
-      console.log("Wallet connected:", address);
     } catch (err) {
       console.error("Wallet connection error:", err);
       alert(`Error: ${err.message || "Failed to connect wallet"}`);
     }
   };
 
+  const handleDisconnectWallet = () => {
+    const { signer, address } = disconnectWallet();
+    setSigner(signer);
+    setAddress(address);
+    console.log("Wallet disconnected");
+  };
+
   const handleSuccess = (txHash, chainKey) => {
     setTransactionHash(txHash);
     setExplorerUrl(explorerUrls[chainKey]);
     setShowPopup(true);
-    // Update interactions state after a successful transaction
-    const updatedInteractions = getUserInteractions();
-    setInteractions(updatedInteractions);
   };
 
   const closePopup = () => {
@@ -333,22 +339,18 @@ function Testnets() {
           <h1>Testnets</h1>
           <div className="wallet-section">
             {address ? (
-              <p className="wallet-address">Connected: {address.slice(0, 6)}...{address.slice(-4)}</p>
+              <>
+                <p className="wallet-address">Connected: {address.slice(0, 6)}...{address.slice(-4)}</p>
+                <button className="modern-button disconnect-button" onClick={handleDisconnectWallet}>
+                  Disconnect Wallet
+                </button>
+              </>
             ) : (
-              <button className="modern-button connect-button" onClick={connectWallet}>
+              <button className="modern-button connect-button" onClick={handleConnectWallet}>
                 Connect Wallet
               </button>
             )}
           </div>
-        </div>
-        <div className="progress-section">
-          <h3 className="progress-title">Chain Interaction Progress</h3>
-          <div className="progress-bar-container">
-            <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
-          </div>
-          <p className="progress-text">
-            Interacted with {uniqueChains} / {totalChains} testnet chains ({Math.round(progressPercentage)}%)
-          </p>
         </div>
         <div className="chains-box">
           <div className="chains-row">
