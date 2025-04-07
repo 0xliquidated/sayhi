@@ -1,20 +1,82 @@
 /* Import modern fonts from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600&display=swap');
 
+/* Global resets and defaults */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #0f0f0f;
+  color: #ffffff;
+  font-family: 'Inter', 'Poppins', sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
 /* Root container for the app */
 .app-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a0b2e 0%, #2e1a47 50%, #0f0f0f 100%);
+  background: linear-gradient(135deg, #1a0b2e 0%, #2e1a47 50%, #0f0f0f 100%); /* Gradient background */
   padding: 40px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* Navigation Menu */
+.nav-menu {
+  width: 100%;
+  padding: 20px 0;
+  background: rgba(15, 15, 15, 0.9);
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.nav-item {
+  display: inline-block;
+}
+
+.nav-link {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #e0d4ff;
+  text-decoration: none;
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #6b48ff 0%, #a855f7 100%);
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.nav-link:hover {
+  background: linear-gradient(90deg, #a855f7 0%, #6b48ff 100%);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(107, 72, 255, 0.6);
+}
+
 /* Header section (title and wallet) */
 .header-section {
   text-align: center;
-  margin-bottom: 60px; /* Space between header and chains */
+  margin-bottom: 60px;
 }
 
 /* Main heading */
@@ -44,84 +106,84 @@ h1 {
 
 /* Box container for chains with transparent dark background */
 .chains-box {
-  background: rgba(15, 15, 15, 0.8); /* Semi-transparent dark black/grey background */
+  background: rgba(15, 15, 15, 0.8); /* Semi-transparent dark purple background */
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   display: flex;
-  flex-direction: column; /* Stack rows vertically */
+  flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 1600px; /* Increased to use the full circled space */
+  max-width: 1600px; /* Matches your previous layout */
 }
 
 /* Row of chains */
 .chains-row {
   display: flex;
-  flex-wrap: nowrap; /* Prevent wrapping to ensure 5 chains in one row */
-  justify-content: space-between; /* Distribute space evenly between chains */
-  gap: 40px; /* Spacing between chains in a row */
-  width: 100%; /* Use the full width of the box */
-  margin-bottom: 40px; /* Add spacing between rows */
+  flex-wrap: nowrap; /* Ensure 5 chains per row */
+  justify-content: space-between;
+  gap: 40px;
+  width: 100%;
+  margin-bottom: 40px;
 }
 
-/* Remove margin-bottom from the last row to avoid extra space at the bottom */
+/* Remove margin-bottom from the last row */
 .chains-row:last-child {
   margin-bottom: 0;
 }
 
 /* Individual chain item */
 .chain-item {
-  flex: 1; /* Each chain takes equal space */
-  min-width: 200px; /* Increased min-width for larger size (was 180px) */
-  max-width: 240px; /* Increased max-width for larger size (was 220px) */
+  flex: 1;
+  min-width: 200px;
+  max-width: 240px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 0; /* Ensure no padding affects centering */
+  padding: 0;
 }
 
 /* Chain name container */
 .chain-name {
-  width: 100%; /* Take full width of the parent */
-  display: block; /* Use block display to ensure centering */
-  text-align: center; /* Center the text */
-  margin: 0 auto; /* Center the container itself */
+  width: 100%;
+  display: block;
+  text-align: center;
+  margin: 0 auto;
 }
 
 /* Chain name */
 .chain-name h2 {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  font-size: 1.504rem; /* Reduced by 6% from 1.6rem */
+  font-size: 1.504rem;
   color: #d0c4ff;
-  margin: 0 auto 12px auto; /* Center with auto margins, ensure bottom margin */
-  padding: 0; /* Remove any padding */
-  display: inline-block; /* Allow the text to take its natural width */
-  text-align: center; /* Explicitly center the text */
+  margin: 0 auto 12px auto;
+  padding: 0;
+  display: inline-block;
+  text-align: center;
 }
 
 /* Button group for vertical buttons */
 .button-group {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Spacing between buttons */
+  gap: 10px;
   width: 100%;
-  justify-content: center; /* Ensure buttons are centered */
-  align-items: center; /* Ensure buttons are centered */
+  justify-content: center;
+  align-items: center;
 }
 
 /* Modern button styles */
 .modern-button {
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
-  font-size: 1.034rem; /* Reduced by 6% from 1.1rem */
+  font-size: 1.034rem;
   color: #ffffff;
   background: linear-gradient(90deg, #6b48ff 0%, #a855f7 100%);
   border: none;
   border-radius: 25px;
-  padding: 13px 26px; /* Reduced by 6% from 14px 28px */
+  padding: 13px 26px;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(107, 72, 255, 0.4);
@@ -166,7 +228,7 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7); /* Semi-transparent dark overlay */
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -175,7 +237,7 @@ h1 {
 
 /* Pop-up content */
 .popup-content {
-  background: #1a0b2e; /* Match the dark theme */
+  background: #1a0b2e;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
@@ -227,7 +289,7 @@ h1 {
   }
 
   .chain-name h2 {
-    font-size: 1.4rem; /* Adjust for responsive */
+    font-size: 1.4rem;
   }
 
   .modern-button {
@@ -244,13 +306,13 @@ h1 {
 
 @media (max-width: 900px) {
   .chains-row {
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    justify-content: center; /* Center items when wrapping */
-    gap: 30px; /* Reduce gap for smaller screens */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
   }
 
   .chain-item {
-    flex: 0 0 30%; /* 3 items per row on smaller screens */
+    flex: 0 0 30%;
     min-width: 140px;
     max-width: 180px;
   }
@@ -277,7 +339,7 @@ h1 {
 
 @media (max-width: 600px) {
   .chain-item {
-    flex: 0 0 45%; /* 2 items per row on very small screens */
+    flex: 0 0 45%;
     min-width: 120px;
     max-width: 160px;
   }
@@ -311,5 +373,14 @@ h1 {
 
   .popup-content p {
     font-size: 0.9rem;
+  }
+
+  .nav-list {
+    gap: 20px;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+    padding: 8px 16px;
   }
 }

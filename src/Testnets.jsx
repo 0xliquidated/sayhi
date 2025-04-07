@@ -1,57 +1,22 @@
-import { useState, useEffect } from "react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import "./App.css";
 
-// Define matching emojis for each chain
+// Define matching emojis for each chain (only testnets)
 const chainEmojis = {
-  ink: "✨",
-  base: "🌈",
-  arbitrum: "💥",
-  berachain: "🐻",
   monad: "🧪",
-  energi: "⚡",
-  bnb: "🌟",
-  op: "🔥",
-  soneium: "🎉",
-  unichain: "🚀",
-  mantle: "🪐",
-  bob: "🛠️",
-  sei: "🌊",
-  telos: "🌐",
-  polygon: "⬣",
-  avax: "❄️",
-  superposition: "⚛️",
-  story: "📖",
   interop0: "🔗",
   interop1: "🔗",
 };
 
-// Block explorer URLs for each chain
+// Block explorer URLs for each chain (only testnets)
 const explorerUrls = {
-  ink: "https://explorer.inkonchain.com/",
-  base: "https://basescan.org/tx/",
-  arbitrum: "https://arbiscan.io/tx/",
-  berachain: "https://berascan.com/",
   monad: "https://testnet.monadexplorer.com/",
-  energi: "https://explorer.energi.network/",
-  bnb: "https://bscscan.com/",
-  op: "https://optimistic.etherscan.io/",
-  soneium: "https://soneium.blockscout.com/",
-  unichain: "https://unichain.blockscout.com/",
-  mantle: "https://mantlescan.xyz/tx/",
-  bob: "https://explorer.gobob.xyz/tx/",
-  sei: "https://seitrace.com/tx/?chain=pacific-1",
-  telos: "https://www.teloscan.io/tx/",
-  polygon: "https://polygonscan.com/tx/",
-  avax: "https://snowtrace.io/tx/",
-  superposition: "https://explorer.superposition.so/tx/",
-  story: "https://explorer.story.network/tx/",
   interop0: "https://explorer.interop.network/tx/",
   interop1: "https://explorer.interop.network/tx/",
 };
 
-// Updated ABI for all chains
+// Updated ABI for all chains (same as App.jsx)
 const contractABI = [
   {
     inputs: [
@@ -152,25 +117,8 @@ const contractABI = [
   },
 ];
 
-const chains = {
-  ink: { chainId: 57073, address: "0xaAeb1abf363615E8676EAB48f5d08E3FCE70dBe0", abi: contractABI },
-  base: { chainId: 8453, address: "0xc7C32Af9cE7dB3e06638761ee6691AD95419a69C", abi: contractABI },
-  arbitrum: { chainId: 42161, address: "0xC738E5886706C58E73eaa28a8e9Ed631F8868331", abi: contractABI },
-  berachain: { chainId: 80094, address: "0x616e666f49C2651A1028f774c9f4fF4C27524Dc5", abi: contractABI },
+const testnetChains = {
   monad: { chainId: 10143, address: "0xb73460E7e22D5544cbA51C7A33ecFAB46bf9de27", abi: contractABI },
-  energi: { chainId: 39797, address: "0x4d4Ff1Cb8c75A69E2583D5A1183b2b23F318ed15", abi: contractABI },
-  bnb: { chainId: 56, address: "0x6fbe16D026Cda317507D426Fc4C28CE3b3A8f93A", abi: contractABI },
-  op: { chainId: 10, address: "0x39b1c43Da4840877c0cDfc2Afc854952c27F28B3", abi: contractABI },
-  soneium: { chainId: 1868, address: "0x52301b0437E168f0af1d8b13fF578F2cbC357CdF", abi: contractABI },
-  unichain: { chainId: 130, address: "0xDb028404288330CDC7641add7531ed495b5dAFab", abi: contractABI },
-  mantle: { chainId: 5000, address: "0xfC2444c375499330cA99CDc54fD7866c23768299", abi: contractABI },
-  bob: { chainId: 60808, address: "0x704D2431dE69f72D238B8AD1014901636eD0AF3D", abi: contractABI },
-  sei: { chainId: 1329, address: "0x710593070a91C52786A111a26AD6436B846cc561", abi: contractABI },
-  telos: { chainId: 40, address: "0x899C8D339CcABa7C1260453419e8a661f1df5F2C", abi: contractABI },
-  polygon: { chainId: 137, address: "0x252294F81C909c90291e002e95894DdF020ca2d5", abi: contractABI },
-  avax: { chainId: 43114, address: "0x901C4523CdDEb0A7EA8104Cb0454708dfb0142c5", abi: contractABI },
-  superposition: { chainId: 55244, address: "0x25e86c4547C526a4D4eC04E808be561B13078013", abi: contractABI },
-  story: { chainId: 1514, address: "0x8654507A3e06c41BD5eF53c9B76452949511eB41", abi: contractABI },
   interop0: { chainId: 420120000, address: "0x13c0E5c22d0a45e68Fa6583cdB4a455413B1e9F9", abi: contractABI },
   interop1: { chainId: 420120001, address: "0x13c0E5c22d0a45e68Fa6583cdB4a455413B1e9F9", abi: contractABI },
 };
@@ -217,7 +165,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       const initialNetwork = await initialProvider.getNetwork();
       console.log(`Current network before switch:`, initialNetwork);
 
-      const chain = chains[chainKey];
+      const chain = testnetChains[chainKey];
       const chainIdHex = "0x" + chain.chainId.toString(16);
       console.log(`Switching to chain ${chainKey} (Chain ID: ${chain.chainId}, Hex: ${chainIdHex})`);
       await window.ethereum.request({
@@ -247,130 +195,28 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       if (err.code === 4902 || err.message.includes("Unrecognized chain ID")) {
         setErrorMessage(
           `${
-            chainKey === "ink"
-              ? "Ink"
-              : chainKey === "base"
-              ? "Base"
-              : chainKey === "arbitrum"
-              ? "Arbitrum"
-              : chainKey === "berachain"
-              ? "Berachain"
-              : chainKey === "monad"
+            chainKey === "monad"
               ? "Monad Testnet"
-              : chainKey === "energi"
-              ? "Energi"
-              : chainKey === "bnb"
-              ? "BNB"
-              : chainKey === "op"
-              ? "OP"
-              : chainKey === "soneium"
-              ? "Soneium"
-              : chainKey === "unichain"
-              ? "Unichain"
-              : chainKey === "mantle"
-              ? "Mantle"
-              : chainKey === "bob"
-              ? "BOB"
-              : chainKey === "sei"
-              ? "Sei"
-              : chainKey === "telos"
-              ? "Telos"
-              : chainKey === "polygon"
-              ? "Polygon"
-              : chainKey === "avax"
-              ? "AVAX"
-              : chainKey === "superposition"
-              ? "Superposition"
-              : chainKey === "story"
-              ? "Story"
               : chainKey === "interop0"
               ? "Interop0"
               : "Interop1"
-          } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
+          } (Chain ID: ${testnetChains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
         setErrorMessage(
           `Insufficient funds for gas on ${
-            chainKey === "ink"
-              ? "Ink"
-              : chainKey === "base"
-              ? "Base"
-              : chainKey === "arbitrum"
-              ? "Arbitrum"
-              : chainKey === "berachain"
-              ? "Berachain"
-              : chainKey === "monad"
+            chainKey === "monad"
               ? "Monad Testnet"
-              : chainKey === "energi"
-              ? "Energi"
-              : chainKey === "bnb"
-              ? "BNB"
-              : chainKey === "op"
-              ? "OP"
-              : chainKey === "soneium"
-              ? "Soneium"
-              : chainKey === "unichain"
-              ? "Unichain"
-              : chainKey === "mantle"
-              ? "Mantle"
-              : chainKey === "bob"
-              ? "BOB"
-              : chainKey === "sei"
-              ? "Sei"
-              : chainKey === "telos"
-              ? "Telos"
-              : chainKey === "polygon"
-              ? "Polygon"
-              : chainKey === "avax"
-              ? "AVAX"
-              : chainKey === "superposition"
-              ? "Superposition"
-              : chainKey === "story"
-              ? "Story"
               : chainKey === "interop0"
               ? "Interop0"
               : "Interop1"
-          }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
+          }. Please add ETH to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
         setErrorMessage(
           `Contract call failed. The contract address or ABI might be incorrect for ${
-            chainKey === "ink"
-              ? "Ink"
-              : chainKey === "base"
-              ? "Base"
-              : chainKey === "arbitrum"
-              ? "Arbitrum"
-              : chainKey === "berachain"
-              ? "Berachain"
-              : chainKey === "monad"
+            chainKey === "monad"
               ? "Monad Testnet"
-              : chainKey === "energi"
-              ? "Energi"
-              : chainKey === "bnb"
-              ? "BNB"
-              : chainKey === "op"
-              ? "OP"
-              : chainKey === "soneium"
-              ? "Soneium"
-              : chainKey === "unichain"
-              ? "Unichain"
-              : chainKey === "mantle"
-              ? "Mantle"
-              : chainKey === "bob"
-              ? "BOB"
-              : chainKey === "sei"
-              ? "Sei"
-              : chainKey === "telos"
-              ? "Telos"
-              : chainKey === "polygon"
-              ? "Polygon"
-              : chainKey === "avax"
-              ? "AVAX"
-              : chainKey === "superposition"
-              ? "Superposition"
-              : chainKey === "story"
-              ? "Story"
               : chainKey === "interop0"
               ? "Interop0"
               : "Interop1"
@@ -389,46 +235,11 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       <div className="chain-name">
         <h2>
           {matchingEmoji}{" "}
-          {chainKey === "ink"
-            ? "Ink"
-            : chainKey === "base"
-            ? "Base"
-            : chainKey === "arbitrum"
-            ? "Arbitrum"
-            : chainKey === "berachain"
-            ? "Berachain"
-            : chainKey === "monad"
+          {chainKey === "monad"
             ? "Monad Testnet"
-            : chainKey === "energi"
-            ? "Energi"
-            : chainKey === "bnb"
-            ? "BNB"
-            : chainKey === "op"
-            ? "OP"
-            : chainKey === "soneium"
-            ? "Soneium"
-            : chainKey === "unichain"
-            ? "Unichain"
-            : chainKey === "mantle"
-            ? "Mantle"
-            : chainKey === "bob"
-            ? "BOB"
-            : chainKey === "sei"
-            ? "Sei"
-            : chainKey === "telos"
-            ? "Telos"
-            : chainKey === "polygon"
-            ? "Polygon"
-            : chainKey === "avax"
-            ? "AVAX"
-            : chainKey === "superposition"
-            ? "Superposition"
-            : chainKey === "story"
-            ? "Story"
             : chainKey === "interop0"
             ? "Interop0"
-            : "Interop1"
-          }{" "}
+            : "Interop1"}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -460,7 +271,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
   );
 }
 
-function App() {
+function Testnets() {
   const [signer, setSigner] = useState(null);
   const [address, setAddress] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
@@ -500,14 +311,14 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("App component mounted successfully.");
+    console.log("Testnets component mounted successfully.");
   }, []);
 
   return (
     <ErrorBoundary>
       <div className="app-container">
         <div className="header-section">
-          <h1>Say Hi on Different Chains</h1>
+          <h1>Testnets</h1>
           <div className="wallet-section">
             {address ? (
               <p className="wallet-address">Connected: {address.slice(0, 6)}...{address.slice(-4)}</p>
@@ -519,34 +330,17 @@ function App() {
           </div>
         </div>
         <div className="chains-box">
+          {/* Row 1: Monad Testnet, Interop0, Interop1 */}
           <div className="chains-row">
-            <SayHiButton chainKey="ink" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="base" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="arbitrum" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="berachain" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="monad" signer={signer} onSuccess={handleSuccess} />
-          </div>
-          <div className="chains-row">
-            <SayHiButton chainKey="energi" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="bnb" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="op" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="soneium" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="unichain" signer={signer} onSuccess={handleSuccess} />
-          </div>
-          <div className="chains-row">
-            <SayHiButton chainKey="mantle" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="bob" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="sei" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="telos" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="polygon" signer={signer} onSuccess={handleSuccess} />
-          </div>
-          <div className="chains-row">
-            <SayHiButton chainKey="avax" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="superposition" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="story" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="interop0" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="interop1" signer={signer} onSuccess={handleSuccess} />
           </div>
+          {/* Rows 2-5: Empty for now, maintaining 5-row structure */}
+          <div className="chains-row"></div>
+          <div className="chains-row"></div>
+          <div className="chains-row"></div>
+          <div className="chains-row"></div>
         </div>
         {showPopup && (
           <div className="popup-overlay">
@@ -574,4 +368,4 @@ function App() {
   );
 }
 
-export default App;
+export default Testnets;
