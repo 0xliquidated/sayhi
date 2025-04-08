@@ -26,7 +26,12 @@ const chainEmojis = {
   story: "📖",
   polygonzkevm: "🔒",
   cronos: "⏳",
-  zora: "🎨"
+  zora: "🎨",
+  ethereum: "Ξ",
+  sonic: "🎵",
+  celo: "🌿",
+  etherlink: "🔗",
+  zircuit: "⚡️"
 };
 
 // Block explorer URLs for each chain (mainnets only)
@@ -48,9 +53,14 @@ const explorerUrls = {
   avax: "https://snowtrace.io/tx/",
   superposition: "https://explorer.superposition.so/tx/",
   story: "https://explorer.story.network/tx/",
-  polygonzkevm: "https://zkevm.blockscout.com/",
+  polygonzkevm: "https://zkevm.polygonscan.com/tx/", // Updated to match your naming convention
   cronos: "", // Placeholder until explorer URL is provided
-  zora: "https://explorer.zora.energy/tx/"
+  zora: "https://explorer.zora.energy/tx/",
+  ethereum: "https://etherscan.io/tx/",
+  sonic: "https://sonicscan.org/",
+  celo: "https://celo.blockscout.com/",
+  etherlink: "https://explorer.etherlink.com/tx/",
+  zircuit: "https://explorer.zircuit.com/tx/"
 };
 
 // Contract ABI (consistent across chains)
@@ -103,9 +113,14 @@ const chains = {
   avax: { chainId: 43114, address: "0x901C4523CdDEb0A7EA8104Cb0454708dfb0142c5", abi: contractABI },
   superposition: { chainId: 55244, address: "0x25e86c4547C526a4D4eC04E808be561B13078013", abi: contractABI },
   story: { chainId: 1514, address: "0x8654507A3e06c41BD5eF53c9B76452949511eB41", abi: contractABI },
-  polygonzkevm: { chainId: 137, address: "0xf2Ab98c7EE971f9B9eb612e1501fefA2fB087F82", abi: contractABI },
+  polygonzkevm: { chainId: 1101, address: "0xf2Ab98c7EE971f9B9eb612e1501fefA2fB087F82", abi: contractABI }, // Updated chain ID and contract
   cronos: { chainId: 25, address: "0xD34418c860ADdBB614Ccfe836D889B5C93817891", abi: contractABI },
-  zora: { chainId: 7777777, address: "0x8aF5126D8a31352E7AE30713Fc1E7fE608D0c94E", abi: contractABI }
+  zora: { chainId: 7777777, address: "0x8aF5126D8a31352E7AE30713Fc1E7fE608D0c94E", abi: contractABI },
+  ethereum: { chainId: 1, address: "0x1C658890D050C4d0159CBc8C30e804Bf0807D443", abi: contractABI },
+  sonic: { chainId: 146, address: "0x68659df332eca683b9a64cef777f9ec799f2d9bf", abi: contractABI },
+  celo: { chainId: 42220, address: "0x5D4b404ad61A5d66c389d46781Ae407824536b90", abi: contractABI },
+  etherlink: { chainId: 42793, address: "0x85bF0e5C33b6927266fDDe48c56DE358d7f6b3Fa", abi: contractABI },
+  zircuit: { chainId: 48900, address: "0x49351058EB55f54B1ed1Dd4855c2Cf274EED484c", abi: contractABI }
 };
 
 // Error Boundary Component
@@ -200,7 +215,12 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "story" ? "Story" :
             chainKey === "polygonzkevm" ? "PolygonZK" :
             chainKey === "cronos" ? "Cronos" :
-            chainKey === "zora" ? "Zora" : ""
+            chainKey === "zora" ? "Zora" :
+            chainKey === "ethereum" ? "Ethereum" :
+            chainKey === "sonic" ? "Sonic" :
+            chainKey === "celo" ? "Celo" :
+            chainKey === "etherlink" ? "Etherlink" :
+            chainKey === "zircuit" ? "Zircuit" : ""
           } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -225,7 +245,12 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "story" ? "Story" :
             chainKey === "polygonzkevm" ? "PolygonZK" :
             chainKey === "cronos" ? "Cronos" :
-            chainKey === "zora" ? "Zora" : ""
+            chainKey === "zora" ? "Zora" :
+            chainKey === "ethereum" ? "Ethereum" :
+            chainKey === "sonic" ? "Sonic" :
+            chainKey === "celo" ? "Celo" :
+            chainKey === "etherlink" ? "Etherlink" :
+            chainKey === "zircuit" ? "Zircuit" : ""
           }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -250,7 +275,12 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "story" ? "Story" :
             chainKey === "polygonzkevm" ? "PolygonZK" :
             chainKey === "cronos" ? "Cronos" :
-            chainKey === "zora" ? "Zora" : ""
+            chainKey === "zora" ? "Zora" :
+            chainKey === "ethereum" ? "Ethereum" :
+            chainKey === "sonic" ? "Sonic" :
+            chainKey === "celo" ? "Celo" :
+            chainKey === "etherlink" ? "Etherlink" :
+            chainKey === "zircuit" ? "Zircuit" : ""
           }.`
         );
       } else {
@@ -285,7 +315,12 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "story" ? "Story" :
            chainKey === "polygonzkevm" ? "PolygonZK" :
            chainKey === "cronos" ? "Cronos" :
-           chainKey === "zora" ? "Zora" : ""}{" "}
+           chainKey === "zora" ? "Zora" :
+           chainKey === "ethereum" ? "Ethereum" :
+           chainKey === "sonic" ? "Sonic" :
+           chainKey === "celo" ? "Celo" :
+           chainKey === "etherlink" ? "Etherlink" :
+           chainKey === "zircuit" ? "Zircuit" : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -323,10 +358,10 @@ function App() {
   const [showPopup, setShowPopup] = useState(false);
   const [transactionHash, setTransactionHash] = useState("");
   const [explorerUrl, setExplorerUrl] = useState("");
-  const [interactions, setInteractions] = useState(getUserInteractions(false));
+  const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
 
-  const totalChains = Object.keys(chains).length; // 20 chains
+  const totalChains = Object.keys(chains).length; // 25 chains now
   const uniqueChains = getUniqueChainsInteracted(interactions);
   const progressPercentage = (uniqueChains / totalChains) * 100;
 
@@ -347,8 +382,8 @@ function App() {
       const secondsUntilMidnight = (new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0)) - now) / 1000;
       setTimeRemaining(calculateTimeRemaining());
       if (secondsUntilMidnight <= 0) {
-        const updatedInteractions = resetUserInteractions(false);
-        setInteractions(updatedInteractions);
+        resetUserInteractions(); // Clear localStorage
+        setInteractions({}); // Reset state to empty object
       }
     };
     updateTimer();
@@ -366,7 +401,7 @@ function App() {
           console.log("Auto-connected wallet:", address);
         } catch (err) {
           console.error("Auto-connect failed:", err);
-          setWalletConnected(false);
+          disconnectWallet(); // Reset wallet connection state
         }
       }
     };
@@ -395,7 +430,7 @@ function App() {
     setTransactionHash(txHash);
     setExplorerUrl(explorerUrls[chainKey]);
     setShowPopup(true);
-    const updatedInteractions = getUserInteractions(false);
+    const updatedInteractions = getUserInteractions();
     setInteractions(updatedInteractions);
   };
 
@@ -467,6 +502,13 @@ function App() {
             <SayHiButton chainKey="polygonzkevm" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="cronos" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="zora" signer={signer} onSuccess={handleSuccess} />
+          </div>
+          <div className="chains-row">
+            <SayHiButton chainKey="ethereum" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="sonic" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="celo" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="etherlink" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="zircuit" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
         {showPopup && (

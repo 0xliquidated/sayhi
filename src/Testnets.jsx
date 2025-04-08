@@ -131,7 +131,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       await tx.wait();
       console.log(`Transaction confirmed: ${tx.hash}`);
 
-      saveUserInteraction(chainKey, functionName, true);
+      saveUserInteraction(chainKey, functionName);
       onSuccess(tx.hash, chainKey);
     } catch (err) {
       console.error(`Error on ${chainKey}:`, err);
@@ -224,7 +224,7 @@ function Testnets() {
   const [showPopup, setShowPopup] = useState(false);
   const [transactionHash, setTransactionHash] = useState("");
   const [explorerUrl, setExplorerUrl] = useState("");
-  const [interactions, setInteractions] = useState(getUserInteractions(true));
+  const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
 
   const totalChains = Object.keys(testnetChains).length; // 6 chains
@@ -248,8 +248,8 @@ function Testnets() {
       const secondsUntilMidnight = (new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0)) - now) / 1000;
       setTimeRemaining(calculateTimeRemaining());
       if (secondsUntilMidnight <= 0) {
-        const updatedInteractions = resetUserInteractions(true);
-        setInteractions(updatedInteractions);
+        resetUserInteractions(); // Clear localStorage
+        setInteractions({}); // Reset state to empty object
       }
     };
     updateTimer();
@@ -267,7 +267,7 @@ function Testnets() {
           console.log("Auto-connected wallet:", address);
         } catch (err) {
           console.error("Auto-connect failed:", err);
-          setWalletConnected(false);
+          disconnectWallet(); // Reset wallet connection state
         }
       }
     };
@@ -296,7 +296,7 @@ function Testnets() {
     setTransactionHash(txHash);
     setExplorerUrl(explorerUrls[chainKey]);
     setShowPopup(true);
-    const updatedInteractions = getUserInteractions(true);
+    const updatedInteractions = getUserInteractions();
     setInteractions(updatedInteractions);
   };
 
