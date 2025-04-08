@@ -24,6 +24,24 @@ function AppRouter() {
           <Route path="/" element={<App />} />
           <Route path="/testnets" element={<Testnets />} />
         </Routes>
+        {/* Footer */}
+        <footer className="footer">
+          <div className="footer-container">
+            <div className="footer-column">
+              <h3>Placeholder</h3>
+            </div>
+            <div className="footer-column">
+              <h3>Menu</h3>
+              <ul>
+                <li><Link to="/" className="footer-link">Home</Link></li>
+                <li><Link to="/testnets" className="footer-link">Testnets</Link></li>
+              </ul>
+            </div>
+            <div className="footer-column">
+              <h3>Placeholder</h3>
+            </div>
+          </div>
+        </footer>
       </div>
     </BrowserRouter>
   );
