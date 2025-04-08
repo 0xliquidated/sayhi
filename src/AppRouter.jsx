@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import App from "./App.jsx";
 import Testnets from "./Testnets.jsx";
 import "./App.css"; // Ensure this import is present
 
 function AppRouter() {
+  const [theme, setTheme] = useState(() => {
+    // Load the saved theme from localStorage, default to "main"
+    return localStorage.getItem("theme") || "main";
+  });
+
+  // Apply the theme to the body class on mount and when theme changes
+  useEffect(() => {
+    document.body.className = ""; // Clear existing classes
+    if (theme === "windows") {
+      document.body.classList.add("windows-theme");
+    }
+    // Save the theme to localStorage
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const handleThemeChange = (event) => {
+    setTheme(event.target.value);
+  };
+
   return (
     <BrowserRouter>
       <div>
@@ -38,7 +57,11 @@ function AppRouter() {
               </ul>
             </div>
             <div className="footer-column">
-              <h3>Placeholder</h3>
+              <h3>Theme</h3>
+              <select className="theme-select" value={theme} onChange={handleThemeChange}>
+                <option value="main">Main</option>
+                <option value="windows">Windows</option>
+              </select>
             </div>
           </div>
         </footer>
