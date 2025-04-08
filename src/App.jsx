@@ -31,7 +31,12 @@ const chainEmojis = {
   sonic: "🎵",
   celo: "🌿",
   etherlink: "🔗",
-  zircuit: "⚡️"
+  zircuit: "⚡️",
+  expanse: "🌍",
+  canto: "🎶",
+  degen: "😈",
+  hyperevm: "🌌",
+  fraxtal: "💎"
 };
 
 // Block explorer URLs for each chain (mainnets only)
@@ -53,14 +58,19 @@ const explorerUrls = {
   avax: "https://snowtrace.io/tx/",
   superposition: "https://explorer.superposition.so/tx/",
   story: "https://explorer.story.network/tx/",
-  polygonzkevm: "https://zkevm.polygonscan.com/tx/", // Updated to match your naming convention
+  polygonzkevm: "https://zkevm.polygonscan.com/tx/",
   cronos: "", // Placeholder until explorer URL is provided
   zora: "https://explorer.zora.energy/tx/",
   ethereum: "https://etherscan.io/tx/",
   sonic: "https://sonicscan.org/",
   celo: "https://celo.blockscout.com/",
   etherlink: "https://explorer.etherlink.com/tx/",
-  zircuit: "https://explorer.zircuit.com/tx/"
+  zircuit: "https://explorer.zircuit.com/tx/",
+  expanse: "https://explorer.expanse.tech/tx/",
+  canto: "https://tuber.build/tx/",
+  degen: "https://explorer.degen.tips/tx/",
+  hyperevm: "https://purrsec.com/tx/",
+  fraxtal: "https://fraxscan.com/tx/"
 };
 
 // Contract ABI (consistent across chains)
@@ -113,14 +123,19 @@ const chains = {
   avax: { chainId: 43114, address: "0x901C4523CdDEb0A7EA8104Cb0454708dfb0142c5", abi: contractABI },
   superposition: { chainId: 55244, address: "0x25e86c4547C526a4D4eC04E808be561B13078013", abi: contractABI },
   story: { chainId: 1514, address: "0x8654507A3e06c41BD5eF53c9B76452949511eB41", abi: contractABI },
-  polygonzkevm: { chainId: 1101, address: "0xf2Ab98c7EE971f9B9eb612e1501fefA2fB087F82", abi: contractABI }, // Updated chain ID and contract
+  polygonzkevm: { chainId: 1101, address: "0xf2Ab98c7EE971f9B9eb612e1501fefA2fB087F82", abi: contractABI },
   cronos: { chainId: 25, address: "0xD34418c860ADdBB614Ccfe836D889B5C93817891", abi: contractABI },
   zora: { chainId: 7777777, address: "0x8aF5126D8a31352E7AE30713Fc1E7fE608D0c94E", abi: contractABI },
   ethereum: { chainId: 1, address: "0x1C658890D050C4d0159CBc8C30e804Bf0807D443", abi: contractABI },
   sonic: { chainId: 146, address: "0x68659df332eca683b9a64cef777f9ec799f2d9bf", abi: contractABI },
   celo: { chainId: 42220, address: "0x5D4b404ad61A5d66c389d46781Ae407824536b90", abi: contractABI },
   etherlink: { chainId: 42793, address: "0x85bF0e5C33b6927266fDDe48c56DE358d7f6b3Fa", abi: contractABI },
-  zircuit: { chainId: 48900, address: "0x49351058EB55f54B1ed1Dd4855c2Cf274EED484c", abi: contractABI }
+  zircuit: { chainId: 48900, address: "0x49351058EB55f54B1ed1Dd4855c2Cf274EED484c", abi: contractABI },
+  expanse: { chainId: 2, address: "0xfcd96b0033ce5433a7550e59e8ab628f2564f01d", abi: contractABI },
+  canto: { chainId: 7700, address: "0xD34418c860ADdBB614Ccfe836D889B5C93817891", abi: contractABI },
+  degen: { chainId: 666666666, address: "0x2D2f709A6a4A808Bc379e27C6e17F8C1700A6821", abi: contractABI },
+  hyperevm: { chainId: 999, address: "0x49351058eb55f54b1ed1dd4855c2cf274eed484c", abi: contractABI },
+  fraxtal: { chainId: 252, address: "0x6a1a98510a2eb1181cc9759bE96495118c1790F1", abi: contractABI }
 };
 
 // Error Boundary Component
@@ -220,7 +235,12 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "sonic" ? "Sonic" :
             chainKey === "celo" ? "Celo" :
             chainKey === "etherlink" ? "Etherlink" :
-            chainKey === "zircuit" ? "Zircuit" : ""
+            chainKey === "zircuit" ? "Zircuit" :
+            chainKey === "expanse" ? "Expanse" :
+            chainKey === "canto" ? "Canto" :
+            chainKey === "degen" ? "Degen" :
+            chainKey === "hyperevm" ? "HyperEVM" :
+            chainKey === "fraxtal" ? "Fraxtal" : ""
           } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -250,7 +270,12 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "sonic" ? "Sonic" :
             chainKey === "celo" ? "Celo" :
             chainKey === "etherlink" ? "Etherlink" :
-            chainKey === "zircuit" ? "Zircuit" : ""
+            chainKey === "zircuit" ? "Zircuit" :
+            chainKey === "expanse" ? "Expanse" :
+            chainKey === "canto" ? "Canto" :
+            chainKey === "degen" ? "Degen" :
+            chainKey === "hyperevm" ? "HyperEVM" :
+            chainKey === "fraxtal" ? "Fraxtal" : ""
           }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -280,7 +305,12 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "sonic" ? "Sonic" :
             chainKey === "celo" ? "Celo" :
             chainKey === "etherlink" ? "Etherlink" :
-            chainKey === "zircuit" ? "Zircuit" : ""
+            chainKey === "zircuit" ? "Zircuit" :
+            chainKey === "expanse" ? "Expanse" :
+            chainKey === "canto" ? "Canto" :
+            chainKey === "degen" ? "Degen" :
+            chainKey === "hyperevm" ? "HyperEVM" :
+            chainKey === "fraxtal" ? "Fraxtal" : ""
           }.`
         );
       } else {
@@ -320,7 +350,12 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "sonic" ? "Sonic" :
            chainKey === "celo" ? "Celo" :
            chainKey === "etherlink" ? "Etherlink" :
-           chainKey === "zircuit" ? "Zircuit" : ""}{" "}
+           chainKey === "zircuit" ? "Zircuit" :
+           chainKey === "expanse" ? "Expanse" :
+           chainKey === "canto" ? "Canto" :
+           chainKey === "degen" ? "Degen" :
+           chainKey === "hyperevm" ? "HyperEVM" :
+           chainKey === "fraxtal" ? "Fraxtal" : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -361,7 +396,7 @@ function App() {
   const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
 
-  const totalChains = Object.keys(chains).length; // 25 chains now
+  const totalChains = Object.keys(chains).length; // Updated to 30 chains
   const uniqueChains = getUniqueChainsInteracted(interactions);
   const progressPercentage = (uniqueChains / totalChains) * 100;
 
@@ -509,6 +544,13 @@ function App() {
             <SayHiButton chainKey="celo" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="etherlink" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="zircuit" signer={signer} onSuccess={handleSuccess} />
+          </div>
+          <div className="chains-row">
+            <SayHiButton chainKey="expanse" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="canto" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="degen" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="hyperevm" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="fraxtal" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
         {showPopup && (

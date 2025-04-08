@@ -11,7 +11,10 @@ const chainEmojis = {
   interop1: "🔗",
   chainbase: "🌉",
   megaeth: "⚡",
-  basesepolia: "🌐"
+  basesepolia: "🌐",
+  sepolia: "🛡️",
+  opsepolia: "🔴",
+  holesky: "🕳️"
 };
 
 // Block explorer URLs for each chain (testnets only)
@@ -21,7 +24,10 @@ const explorerUrls = {
   interop1: "https://explorer.interop.network/tx/",
   chainbase: "https://testnet.explorer.chainbase.com/",
   megaeth: "https://www.megaexplorer.xyz/",
-  basesepolia: "https://base-sepolia.blockscout.com/"
+  basesepolia: "https://base-sepolia.blockscout.com/",
+  sepolia: "", // No explorer provided, leaving empty
+  opsepolia: "", // No explorer provided, leaving empty
+  holesky: "" // No explorer provided, leaving empty
 };
 
 // Contract ABI (consistent across chains)
@@ -62,7 +68,10 @@ const testnetChains = {
   interop1: { chainId: 420120001, address: "0x13c0E5c22d0a45e68Fa6583cdB4a455413B1e9F9", abi: contractABI },
   chainbase: { chainId: 2233, address: "0xfD1754535A8c917Fa6Ef45ec90618a039dB08a09", abi: contractABI },
   megaeth: { chainId: 6342, address: "0x2fa3090ACb91f2674e1B5df2fe779468c2328295", abi: contractABI },
-  basesepolia: { chainId: 84532, address: "0xB6E29973B0FEc75dbFD4ED577649a52593174AF8", abi: contractABI }
+  basesepolia: { chainId: 84532, address: "0xB6E29973B0FEc75dbFD4ED577649a52593174AF8", abi: contractABI },
+  sepolia: { chainId: 11155111, address: "0x942cAAE6A6e60f2fa80569D3CA78f20028Aa5ccC", abi: contractABI },
+  opsepolia: { chainId: 11155420, address: "0x02FEDfe33f8dd8234e37130864f12E108884773F", abi: contractABI },
+  holesky: { chainId: 17000, address: "0xeC29a0F21C3a5F1A21EFb851B139F01Ad7e0252c", abi: contractABI }
 };
 
 // Error Boundary Component
@@ -143,7 +152,10 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "interop1" ? "Interop1" :
             chainKey === "chainbase" ? "Chainbase Testnet" :
             chainKey === "megaeth" ? "MegaEth" :
-            chainKey === "basesepolia" ? "Base Sepolia" : ""
+            chainKey === "basesepolia" ? "Base Sepolia" :
+            chainKey === "sepolia" ? "Sepolia" :
+            chainKey === "opsepolia" ? "Op Sepolia" :
+            chainKey === "holesky" ? "Holesky" : ""
           } (Chain ID: ${testnetChains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -154,7 +166,10 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "interop1" ? "Interop1" :
             chainKey === "chainbase" ? "Chainbase Testnet" :
             chainKey === "megaeth" ? "MegaEth" :
-            chainKey === "basesepolia" ? "Base Sepolia" : ""
+            chainKey === "basesepolia" ? "Base Sepolia" :
+            chainKey === "sepolia" ? "Sepolia" :
+            chainKey === "opsepolia" ? "Op Sepolia" :
+            chainKey === "holesky" ? "Holesky" : ""
           }. Please add ETH to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -165,7 +180,10 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "interop1" ? "Interop1" :
             chainKey === "chainbase" ? "Chainbase Testnet" :
             chainKey === "megaeth" ? "MegaEth" :
-            chainKey === "basesepolia" ? "Base Sepolia" : ""
+            chainKey === "basesepolia" ? "Base Sepolia" :
+            chainKey === "sepolia" ? "Sepolia" :
+            chainKey === "opsepolia" ? "Op Sepolia" :
+            chainKey === "holesky" ? "Holesky" : ""
           }.`
         );
       } else {
@@ -186,7 +204,10 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "interop1" ? "Interop1" :
            chainKey === "chainbase" ? "Chainbase Testnet" :
            chainKey === "megaeth" ? "MegaEth" :
-           chainKey === "basesepolia" ? "Base Sepolia" : ""}{" "}
+           chainKey === "basesepolia" ? "Base Sepolia" :
+           chainKey === "sepolia" ? "Sepolia" :
+           chainKey === "opsepolia" ? "Op Sepolia" :
+           chainKey === "holesky" ? "Holesky" : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -227,7 +248,7 @@ function Testnets() {
   const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
 
-  const totalChains = Object.keys(testnetChains).length; // 6 chains
+  const totalChains = Object.keys(testnetChains).length; // Updated to 9 chains
   const uniqueChains = getUniqueChainsInteracted(interactions);
   const progressPercentage = (uniqueChains / totalChains) * 100;
 
@@ -350,6 +371,9 @@ function Testnets() {
           </div>
           <div className="chains-row">
             <SayHiButton chainKey="basesepolia" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="sepolia" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="opsepolia" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="holesky" signer={signer} onSuccess={handleSuccess} />
           </div>
           <div className="chains-row"></div>
           <div className="chains-row"></div>
