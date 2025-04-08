@@ -857,3 +857,167 @@ body.windows-theme .theme-select option {
   background: #FFFFFF;
   color: #000000;
 }
+
+/* Dark Theme */
+body.dark-theme {
+  background: linear-gradient(135deg, #1c2526 0%, #2c3e50 50%, #0f0f0f 100%);
+  color: #ffffff;
+  font-family: 'Inter', 'Poppins', sans-serif;
+}
+
+body.dark-theme .app-container {
+  background: linear-gradient(135deg, #1c2526 0%, #2c3e50 50%, #0f0f0f 100%);
+  padding: 40px 20px;
+}
+
+body.dark-theme .nav-menu {
+  background: linear-gradient(90deg, #1c2526 0%, #2c3e50 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .nav-link {
+  color: #ffffff;
+  background: linear-gradient(90deg, #2c3e50 0%, #1c2526 100%);
+  border: 1px solid #ffffff;
+}
+
+body.dark-theme .nav-link:hover {
+  background: linear-gradient(90deg, #1c2526 0%, #2c3e50 100%);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme h1 {
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .wallet-address {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .progress-section {
+  background: transparent;
+}
+
+body.dark-theme .progress-title {
+  color: #ffffff;
+}
+
+body.dark-theme .progress-bar-container {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .progress-bar {
+  background: linear-gradient(90deg, #2c3e50 0%, #1c2526 100%);
+}
+
+body.dark-theme .progress-text,
+body.dark-theme .timer-text {
+  color: #ffffff;
+}
+
+body.dark-theme .chains-box {
+  background: linear-gradient(90deg, #1c2526 0%, #2c3e50 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .chain-item {
+  background: transparent;
+}
+
+body.dark-theme .chain-name h2 {
+  color: #ffffff;
+}
+
+body.dark-theme .modern-button {
+  color: #ffffff;
+  background: linear-gradient(90deg, #2c3e50 0%, #1c2526 100%);
+  border: 1px solid #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .modern-button:hover:not(:disabled) {
+  background: linear-gradient(90deg, #1c2526 0%, #2c3e50 100%);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme .modern-button:disabled {
+  background: #333333;
+  border: 1px solid #666666;
+}
+
+body.dark-theme .spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+}
+
+body.dark-theme .disconnect-button {
+  background: linear-gradient(90deg, #ff6b6b 0%, #f44336 100%);
+}
+
+body.dark-theme .disconnect-button:hover:not(:disabled) {
+  background: linear-gradient(90deg, #f44336 0%, #ff6b6b 100%);
+}
+
+body.dark-theme .error-message {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.2);
+}
+
+body.dark-theme .popup-overlay {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+body.dark-theme .popup-content {
+  background: #1c2526;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-theme .popup-content h2 {
+  color: #ffffff;
+}
+
+body.dark-theme .popup-content p {
+  color: #ffffff;
+}
+
+body.dark-theme .transaction-link {
+  color: #ffffff;
+}
+
+body.dark-theme .transaction-link:hover {
+  color: #cccccc;
+}
+
+body.dark-theme .footer {
+  background: linear-gradient(90deg, #1c2526 0%, #2c3e50 100%);
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .footer-column h3 {
+  color: #ffffff;
+}
+
+body.dark-theme .footer-column .footer-link {
+  color: #ffffff;
+  background: linear-gradient(90deg, #2c3e50 0%, #1c2526 100%);
+  border: 1px solid #ffffff;
+}
+
+body.dark-theme .footer-column .footer-link:hover {
+  background: linear-gradient(90deg, #1c2526 0%, #2c3e50 100%);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme .theme-select {
+  color: #ffffff;
+  background: #2c3e50;
+  border: 1px solid #ffffff;
+}
+
+body.dark-theme .theme-select option {
+  background: #2c3e50;
+  color: #ffffff;
+}

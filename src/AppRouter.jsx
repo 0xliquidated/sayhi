@@ -15,6 +15,8 @@ function AppRouter() {
     document.body.className = ""; // Clear existing classes
     if (theme === "windows") {
       document.body.classList.add("windows-theme");
+    } else if (theme === "dark") {
+      document.body.classList.add("dark-theme");
     }
     // Save the theme to localStorage
     localStorage.setItem("theme", theme);
@@ -61,6 +63,7 @@ function AppRouter() {
               <select className="theme-select" value={theme} onChange={handleThemeChange}>
                 <option value="main">Main</option>
                 <option value="windows">Windows</option>
+                <option value="dark">Dark</option>
               </select>
             </div>
           </div>
