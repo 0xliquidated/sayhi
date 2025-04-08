@@ -17,6 +17,8 @@ function AppRouter() {
       document.body.classList.add("windows-theme");
     } else if (theme === "dark") {
       document.body.classList.add("dark-theme");
+    } else if (theme === "cyber") {
+      document.body.classList.add("cyber-theme");
     }
     // Save the theme to localStorage
     localStorage.setItem("theme", theme);
@@ -64,6 +66,7 @@ function AppRouter() {
                 <option value="main">Main</option>
                 <option value="windows">Windows</option>
                 <option value="dark">Dark</option>
+                <option value="cyber">Cyber</option>
               </select>
             </div>
           </div>
