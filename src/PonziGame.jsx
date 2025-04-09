@@ -58,7 +58,7 @@ const ponziABI = [
     "anonymous": false,
     "inputs": [
       {
-        " indexed": true,
+        "indexed": true,
         "internalType": "address",
         "name": "user",
         "type": "address"
@@ -538,7 +538,7 @@ const ponziABI = [
 // Ponzi contract details (aligned with Testnets.jsx)
 const ponziChains = {
   monad: {
-    chainId: 10143, // From Testnets.jsx
+    chainId: 10143,
     address: "0xC4caeD6426a8B741b9157213ef92F6ffE82508AE",
     abi: ponziABI,
     name: "Monad Testnet",
@@ -546,7 +546,7 @@ const ponziChains = {
     explorer: "https://testnet.monadexplorer.com/"
   },
   somnia: {
-    chainId: 50312, // From Testnets.jsx
+    chainId: 50312,
     address: "0x2fa3090ACb91f2674e1B5df2fe779468c2328295",
     abi: ponziABI,
     name: "Somnia Testnet",
@@ -554,7 +554,7 @@ const ponziChains = {
     explorer: "https://shannon-explorer.somnia.network/tx/"
   },
   megaeth: {
-    chainId: 6342, // From Testnets.jsx
+    chainId: 6342,
     address: "0x2EaBf16382d97140e3DC5ee5e02b22eaaf4018c2",
     abi: ponziABI,
     name: "MegaEth",
@@ -597,33 +597,35 @@ function PonziGameCard({ chainKey, signer, address }) {
   const [showPopup, setShowPopup] = useState(false);
   const [transactionHash, setTransactionHash] = useState("");
 
-  useEffect(() => {
+  const updateUserState = async () => {
     if (!signer || !address) return;
+    try {
+      const chain = ponziChains[chainKey];
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = new ethers.Contract(chain.address, chain.abi, provider);
 
-    const updateUserState = async () => {
-      try {
-        const chain = ponziChains[chainKey];
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const contract = new ethers.Contract(chain.address, chain.abi, provider);
+      const entered = await contract.hasUserEntered(address);
+      setHasEntered(entered);
 
-        const entered = await contract.hasUserEntered(address);
-        setHasEntered(entered);
-
-        if (entered) {
-          const tokens = await contract.getAccumulatedTokens(address);
-          setAccumulatedTokens(ethers.utils.formatEther(tokens));
-          const rate = await contract.getEmissionRate(address);
-          setEmissionRate(ethers.utils.formatEther(rate));
-          const bal = await contract.balanceOf(address);
-          setBalance(ethers.utils.formatEther(bal));
-        }
-      } catch (err) {
-        console.error(`Error updating user state for ${chainKey}:`, err);
+      if (entered) {
+        const tokens = await contract.getAccumulatedTokens(address);
+        setAccumulatedTokens(ethers.utils.formatEther(tokens));
+        const rate = await contract.getEmissionRate(address);
+        setEmissionRate(ethers.utils.formatEther(rate));
+        const bal = await contract.balanceOf(address);
+        setBalance(ethers.utils.formatEther(bal));
       }
-    };
+    } catch (err) {
+      console.error(`Error updating user state for ${chainKey}:`, err);
+      if (err.code === "CALL_EXCEPTION" && err.error?.message?.includes("429")) {
+        setErrorMessage("Rate limit exceeded. Please wait a moment and try again.");
+      }
+    }
+  };
 
+  useEffect(() => {
     updateUserState();
-    const interval = setInterval(updateUserState, 1000);
+    const interval = setInterval(updateUserState, 5000); // Increased to 5 seconds to avoid rate limits
     return () => clearInterval(interval);
   }, [signer, address, chainKey]);
 
@@ -641,23 +643,23 @@ function PonziGameCard({ chainKey, signer, address }) {
       const network = await provider.getNetwork();
       console.log(`Current network after switch: ${network.chainId}`);
 
-      // Verify network match
       if (network.chainId !== chain.chainId) {
         throw new Error(
           `Network mismatch: Expected ${chain.chainId} (${chain.name}), got ${network.chainId}`
         );
       }
 
-      return provider; // Return fresh provider for contract interaction
+      return provider;
     } catch (err) {
       console.error(`Error switching to ${chain.name}:`, err);
-      throw err; // Let calling function handle the error
+      throw err;
     }
   };
 
   const handleSuccess = (txHash) => {
     setTransactionHash(txHash);
     setShowPopup(true);
+    updateUserState(); // Force state refresh after transaction
   };
 
   const closePopup = () => {
@@ -684,7 +686,7 @@ function PonziGameCard({ chainKey, signer, address }) {
       await tx.wait();
       console.log(`Transaction confirmed: ${tx.hash}`);
 
-      setHasEntered(true);
+      setHasEntered(true); // Immediately update state
       handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error entering Ponzi on ${chainKey}:`, err);
@@ -713,10 +715,6 @@ function PonziGameCard({ chainKey, signer, address }) {
       await tx.wait();
       console.log(`Transaction confirmed: ${tx.hash}`);
 
-      const tokens = await contract.getAccumulatedTokens(address);
-      setAccumulatedTokens(ethers.utils.formatEther(tokens));
-      const bal = await contract.balanceOf(address);
-      setBalance(ethers.utils.formatEther(bal));
       handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error claiming tokens on ${chainKey}:`, err);
@@ -745,10 +743,6 @@ function PonziGameCard({ chainKey, signer, address }) {
       await tx.wait();
       console.log(`Transaction confirmed: ${tx.hash}`);
 
-      const rate = await contract.getEmissionRate(address);
-      setEmissionRate(ethers.utils.formatEther(rate));
-      const bal = await contract.balanceOf(address);
-      setBalance(ethers.utils.formatEther(bal));
       handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error burning tokens on ${chainKey}:`, err);
