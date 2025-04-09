@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import "./App.css";
 import { connectWallet, checkWalletConnected, disconnectWallet } from "./utils/wallet";
 
-// Ponzi contract ABI (same as before)
+// Ponzi contract ABI (unchanged)
 const ponziABI = [
   {
     "inputs": [],
@@ -535,32 +535,60 @@ const ponziABI = [
   }
 ];
 
-// Ponzi contract details (starting with Monad Testnet, placeholders for others)
+// Ponzi contract details (updated with provided info)
 const ponziChains = {
   monad: {
     chainId: 10143,
     address: "0xC4caeD6426a8B741b9157213ef92F6ffE82508AE",
     abi: ponziABI,
     name: "Monad Testnet",
-    emoji: "🧪"
+    emoji: "🧪",
+    explorer: "https://testnet.monadexplorer.com/"
   },
-  placeholder1: {
-    chainId: 0, // Placeholder
-    address: "0x0000000000000000000000000000000000000000",
+  somnia: {
+    chainId: 50312,
+    address: "0x2fa3090ACb91f2674e1B5df2fe779468c2328295",
     abi: ponziABI,
-    name: "Coming Soon",
-    emoji: "⏳"
+    name: "Somnia Testnet",
+    emoji: "🌌",
+    explorer: "https://shannon-explorer.somnia.network/tx/"
   },
-  placeholder2: {
-    chainId: 0, // Placeholder
-    address: "0x0000000000000000000000000000000000000000",
+  megaeth: {
+    chainId: 6342,
+    address: "0x2EaBf16382d97140e3DC5ee5e02b22eaaf4018c2",
     abi: ponziABI,
-    name: "Coming Soon",
-    emoji: "⏳"
+    name: "MegaEth",
+    emoji: "⚡",
+    explorer: "https://www.megaexplorer.xyz/"
   }
 };
 
-// Error Boundary Component (defined locally to avoid import issues)
+// Chain parameters for wallet_addEthereumChain (updated with provided info)
+const chainParams = {
+  monad: {
+    chainId: "0x27b7", // 10143 in hex
+    chainName: "Monad Testnet",
+    rpcUrls: ["https://testnet-rpc.monad.xyz"],
+    nativeCurrency: { name: "Monad", symbol: "MONAD", decimals: 18 },
+    blockExplorerUrls: ["https://testnet.monadexplorer.com/"]
+  },
+  somnia: {
+    chainId: "0xc488", // 50312 in hex
+    chainName: "Somnia Testnet",
+    rpcUrls: ["https://rpc.testnet.somnia.network"],
+    nativeCurrency: { name: "Somnia", symbol: "SOM", decimals: 18 },
+    blockExplorerUrls: ["https://shannon-explorer.somnia.network/"]
+  },
+  megaeth: {
+    chainId: "0x18ca", // 6342 in hex
+    chainName: "MegaEth",
+    rpcUrls: ["https://testnet.megaeth.systems"],
+    nativeCurrency: { name: "MegaEth", symbol: "METH", decimals: 18 },
+    blockExplorerUrls: ["https://www.megaexplorer.xyz/"]
+  }
+};
+
+// Error Boundary Component
 class ErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
 
@@ -591,10 +619,11 @@ function PonziGameCard({ chainKey, signer, address }) {
   const [isLoadingClaim, setIsLoadingClaim] = useState(false);
   const [isLoadingBurn, setIsLoadingBurn] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [transactionHash, setTransactionHash] = useState("");
 
-  // Update accumulated tokens and user state every second
   useEffect(() => {
-    if (!signer || !address || chainKey === "placeholder1" || chainKey === "placeholder2") return;
+    if (!signer || !address) return;
 
     const updateUserState = async () => {
       try {
@@ -602,20 +631,14 @@ function PonziGameCard({ chainKey, signer, address }) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const contract = new ethers.Contract(chain.address, chain.abi, provider);
 
-        // Check if user has entered
         const entered = await contract.hasUserEntered(address);
         setHasEntered(entered);
 
         if (entered) {
-          // Get accumulated tokens
           const tokens = await contract.getAccumulatedTokens(address);
           setAccumulatedTokens(ethers.utils.formatEther(tokens));
-
-          // Get emission rate
           const rate = await contract.getEmissionRate(address);
           setEmissionRate(ethers.utils.formatEther(rate));
-
-          // Get user's balance
           const bal = await contract.balanceOf(address);
           setBalance(ethers.utils.formatEther(bal));
         }
@@ -625,13 +648,13 @@ function PonziGameCard({ chainKey, signer, address }) {
     };
 
     updateUserState();
-    const interval = setInterval(updateUserState, 1000); // Update every second
+    const interval = setInterval(updateUserState, 1000);
     return () => clearInterval(interval);
   }, [signer, address, chainKey]);
 
   const switchNetwork = async (chain) => {
     try {
-      const chainIdHex = "0x" + chain.chainId.toString(16);
+      const chainIdHex = chainParams[chainKey].chainId;
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: chainIdHex }],
@@ -643,24 +666,11 @@ function PonziGameCard({ chainKey, signer, address }) {
         throw new Error(`Failed to switch to ${chain.name}. Current chain ID: ${network.chainId}`);
       }
     } catch (switchError) {
-      // If the chain is not added to the wallet, add it
       if (switchError.code === 4902 || switchError.message.includes("Unrecognized chain ID")) {
         try {
           await window.ethereum.request({
             method: "wallet_addEthereumChain",
-            params: [
-              {
-                chainId: "0x" + chain.chainId.toString(16),
-                chainName: chain.name,
-                rpcUrls: ["https://testnet-rpc.monad.xyz"], // Replace with actual Monad Testnet RPC URL
-                nativeCurrency: {
-                  name: "Monad",
-                  symbol: "MONAD",
-                  decimals: 18
-                },
-                blockExplorerUrls: ["https://testnet.monadexplorer.com/"]
-              }
-            ]
+            params: [chainParams[chainKey]]
           });
         } catch (addError) {
           throw new Error(`Failed to add ${chain.name} to wallet: ${addError.message}`);
@@ -671,14 +681,19 @@ function PonziGameCard({ chainKey, signer, address }) {
     }
   };
 
+  const handleSuccess = (txHash) => {
+    setTransactionHash(txHash);
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setTransactionHash("");
+  };
+
   const handleEnterPonzi = async () => {
     if (!signer) {
       setErrorMessage("Please connect your wallet first!");
-      return;
-    }
-
-    if (chainKey === "placeholder1" || chainKey === "placeholder2") {
-      setErrorMessage("This chain is coming soon!");
       return;
     }
 
@@ -693,6 +708,7 @@ function PonziGameCard({ chainKey, signer, address }) {
       await tx.wait();
 
       setHasEntered(true);
+      handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error entering Ponzi on ${chainKey}:`, err);
       setErrorMessage(`Error: ${err.message || "Failed to enter Ponzi"}`);
@@ -707,11 +723,6 @@ function PonziGameCard({ chainKey, signer, address }) {
       return;
     }
 
-    if (chainKey === "placeholder1" || chainKey === "placeholder2") {
-      setErrorMessage("This chain is coming soon!");
-      return;
-    }
-
     setIsLoadingClaim(true);
     setErrorMessage(null);
     try {
@@ -722,11 +733,11 @@ function PonziGameCard({ chainKey, signer, address }) {
       const tx = await contract.claimTokens();
       await tx.wait();
 
-      // Update state after claiming
       const tokens = await contract.getAccumulatedTokens(address);
       setAccumulatedTokens(ethers.utils.formatEther(tokens));
       const bal = await contract.balanceOf(address);
       setBalance(ethers.utils.formatEther(bal));
+      handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error claiming tokens on ${chainKey}:`, err);
       setErrorMessage(`Error: ${err.message || "Failed to claim tokens"}`);
@@ -741,11 +752,6 @@ function PonziGameCard({ chainKey, signer, address }) {
       return;
     }
 
-    if (chainKey === "placeholder1" || chainKey === "placeholder2") {
-      setErrorMessage("This chain is coming soon!");
-      return;
-    }
-
     setIsLoadingBurn(true);
     setErrorMessage(null);
     try {
@@ -756,11 +762,11 @@ function PonziGameCard({ chainKey, signer, address }) {
       const tx = await contract.burnAndDouble();
       await tx.wait();
 
-      // Update state after burning
       const rate = await contract.getEmissionRate(address);
       setEmissionRate(ethers.utils.formatEther(rate));
       const bal = await contract.balanceOf(address);
       setBalance(ethers.utils.formatEther(bal));
+      handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error burning tokens on ${chainKey}:`, err);
       setErrorMessage(`Error: ${err.message || "Failed to burn and double"}`);
@@ -816,6 +822,27 @@ function PonziGameCard({ chainKey, signer, address }) {
         )}
       </div>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>Success!</h2>
+            <p>
+              Transaction Link:{" "}
+              <a
+                href={`${ponziChains[chainKey].explorer}${transactionHash}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transaction-link"
+              >
+                View on Explorer
+              </a>
+            </p>
+            <button className="modern-button close-button" onClick={closePopup}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -825,7 +852,6 @@ function PonziGame() {
   const [address, setAddress] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  // Check wallet connection on mount
   useEffect(() => {
     const tryAutoConnect = async () => {
       if (checkWalletConnected()) {
@@ -885,8 +911,8 @@ function PonziGame() {
         <div className="ponzi-box">
           <div className="ponzi-row">
             <PonziGameCard chainKey="monad" signer={signer} address={address} />
-            <PonziGameCard chainKey="placeholder1" signer={signer} address={address} />
-            <PonziGameCard chainKey="placeholder2" signer={signer} address={address} />
+            <PonziGameCard chainKey="somnia" signer={signer} address={address} />
+            <PonziGameCard chainKey="megaeth" signer={signer} address={address} />
           </div>
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
