@@ -7,6 +7,7 @@ export const getUserInteractions = () => {
   return interactions ? JSON.parse(interactions) : {};
 };
 
+// Save user interaction for a chain and action
 export const saveUserInteraction = (chainKey, action) => {
   const interactions = getUserInteractions();
   if (!interactions[chainKey]) {
@@ -20,6 +21,16 @@ export const saveUserInteraction = (chainKey, action) => {
 // Get unique chains interacted with
 export const getUniqueChainsInteracted = (interactions) => {
   return Object.keys(interactions).length;
+};
+
+// Get total number of interactions (sum of all actions across all chains)
+export const getTotalInteractions = (interactions) => {
+  let total = 0;
+  for (const chain in interactions) {
+    const actions = interactions[chain];
+    total += actions.sayHi + actions.sayGM + actions.sayGN;
+  }
+  return total;
 };
 
 // Reset user interactions
