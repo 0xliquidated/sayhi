@@ -535,56 +535,31 @@ const ponziABI = [
   }
 ];
 
-// Ponzi contract details (updated with correct chain IDs)
+// Ponzi contract details (aligned with Testnets.jsx)
 const ponziChains = {
   monad: {
-    chainId: 10142, // Updated from 10143
-    address: "0xC4caeD6426a8B741b9157213ef92F6ffE82508AE",
+    chainId: 10143, // From Testnets.jsx
+    address: "0xC4caeD6426a8B741b9157213ef92F6ffE82508AE", // Keeping your Ponzi address
     abi: ponziABI,
     name: "Monad Testnet",
     emoji: "🧪",
     explorer: "https://testnet.monadexplorer.com/"
   },
   somnia: {
-    chainId: 50312,
-    address: "0x2fa3090ACb91f2674e1B5df2fe779468c2328295",
+    chainId: 50312, // From Testnets.jsx
+    address: "0x2fa3090ACb91f2674e1B5df2fe779468c2328295", // Keeping your Ponzi address
     abi: ponziABI,
     name: "Somnia Testnet",
     emoji: "🌌",
     explorer: "https://shannon-explorer.somnia.network/tx/"
   },
   megaeth: {
-    chainId: 6342,
-    address: "0x2EaBf16382d97140e3DC5ee5e02b22eaaf4018c2",
+    chainId: 6342, // From Testnets.jsx
+    address: "0x2EaBf16382d97140e3DC5ee5e02b22eaaf4018c2", // Keeping your Ponzi address
     abi: ponziABI,
     name: "MegaEth",
     emoji: "⚡",
     explorer: "https://www.megaexplorer.xyz/"
-  }
-};
-
-// Chain parameters for wallet_addEthereumChain (updated with correct RPCs and chain ID)
-const chainParams = {
-  monad: {
-    chainId: "0x27b6", // 10142 in hex, updated from 0x27b7 (10143)
-    chainName: "Monad Testnet",
-    rpcUrls: ["https://testnet-rpc.monad.xyz/"], // Updated with trailing slash
-    nativeCurrency: { name: "Monad", symbol: "MONAD", decimals: 18 },
-    blockExplorerUrls: ["https://testnet.monadexplorer.com/"]
-  },
-  somnia: {
-    chainId: "0xc488", // 50312 in hex
-    chainName: "Somnia Testnet",
-    rpcUrls: ["https://dream-rpc.somnia.network"], // Updated RPC
-    nativeCurrency: { name: "Somnia", symbol: "SOM", decimals: 18 },
-    blockExplorerUrls: ["https://shannon-explorer.somnia.network/"]
-  },
-  megaeth: {
-    chainId: "0x18ca", // 6342 in hex
-    chainName: "MegaEth",
-    rpcUrls: ["https://carrot.megaeth.com/rpc"], // Updated RPC
-    nativeCurrency: { name: "MegaEth", symbol: "METH", decimals: 18 },
-    blockExplorerUrls: ["https://www.megaexplorer.xyz/"]
   }
 };
 
@@ -654,7 +629,7 @@ function PonziGameCard({ chainKey, signer, address }) {
 
   const switchNetwork = async (chain) => {
     try {
-      const chainIdHex = chainParams[chainKey].chainId;
+      const chainIdHex = "0x" + chain.chainId.toString(16);
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: chainIdHex }],
@@ -665,19 +640,10 @@ function PonziGameCard({ chainKey, signer, address }) {
       if (network.chainId !== chain.chainId) {
         throw new Error(`Failed to switch to ${chain.name}. Current chain ID: ${network.chainId}`);
       }
-    } catch (switchError) {
-      if (switchError.code === 4902 || switchError.message.includes("Unrecognized chain ID")) {
-        try {
-          await window.ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [chainParams[chainKey]]
-          });
-        } catch (addError) {
-          throw new Error(`Failed to add ${chain.name} to wallet: ${addError.message}`);
-        }
-      } else {
-        throw switchError;
-      }
+    } catch (err) {
+      console.error(`Error switching to ${chain.name}:`, err);
+      setErrorMessage(`Error: ${err.message || "Failed to switch network"}`);
+      throw err; // Re-throw to handle in calling function
     }
   };
 
@@ -711,7 +677,7 @@ function PonziGameCard({ chainKey, signer, address }) {
       handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error entering Ponzi on ${chainKey}:`, err);
-      setErrorMessage(`Error: ${err.message || "Failed to enter Ponzi"}`);
+      if (!errorMessage) setErrorMessage(`Error: ${err.message || "Failed to enter Ponzi"}`);
     } finally {
       setIsLoadingEnter(false);
     }
@@ -740,7 +706,7 @@ function PonziGameCard({ chainKey, signer, address }) {
       handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error claiming tokens on ${chainKey}:`, err);
-      setErrorMessage(`Error: ${err.message || "Failed to claim tokens"}`);
+      if (!errorMessage) setErrorMessage(`Error: ${err.message || "Failed to claim tokens"}`);
     } finally {
       setIsLoadingClaim(false);
     }
@@ -769,7 +735,7 @@ function PonziGameCard({ chainKey, signer, address }) {
       handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error burning tokens on ${chainKey}:`, err);
-      setErrorMessage(`Error: ${err.message || "Failed to burn and double"}`);
+      if (!errorMessage) setErrorMessage(`Error: ${err.message || "Failed to burn and double"}`);
     } finally {
       setIsLoadingBurn(false);
     }
