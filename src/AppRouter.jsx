@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import App from "./App.jsx";
 import Testnets from "./Testnets.jsx";
-import "./App.css"; // Ensure this import is present
+import PonziGame from "./PonziGame.jsx"; // Import the new page
+import "./App.css";
 
 function AppRouter() {
   const [theme, setTheme] = useState(() => {
@@ -44,12 +45,16 @@ function AppRouter() {
             <li className="nav-item">
               <Link to="/testnets" className="nav-link">Testnets</Link>
             </li>
+            <li className="nav-item">
+              <Link to="/ponzi-game" className="nav-link">Ponzi Game</Link>
+            </li>
           </ul>
         </nav>
         {/* Routed Pages */}
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/testnets" element={<Testnets />} />
+          <Route path="/ponzi-game" element={<PonziGame />} />
         </Routes>
         {/* Footer */}
         <footer className="footer">
@@ -62,6 +67,7 @@ function AppRouter() {
               <ul>
                 <li><Link to="/" className="footer-link">Home</Link></li>
                 <li><Link to="/testnets" className="footer-link">Testnets</Link></li>
+                <li><Link to="/ponzi-game" className="footer-link">Ponzi Game</Link></li>
               </ul>
             </div>
             <div className="footer-column">
