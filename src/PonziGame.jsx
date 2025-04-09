@@ -58,7 +58,7 @@ const ponziABI = [
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        " indexed": true,
         "internalType": "address",
         "name": "user",
         "type": "address"
@@ -539,7 +539,7 @@ const ponziABI = [
 const ponziChains = {
   monad: {
     chainId: 10143, // From Testnets.jsx
-    address: "0xC4caeD6426a8B741b9157213ef92F6ffE82508AE", // Keeping your Ponzi address
+    address: "0xC4caeD6426a8B741b9157213ef92F6ffE82508AE",
     abi: ponziABI,
     name: "Monad Testnet",
     emoji: "🧪",
@@ -547,7 +547,7 @@ const ponziChains = {
   },
   somnia: {
     chainId: 50312, // From Testnets.jsx
-    address: "0x2fa3090ACb91f2674e1B5df2fe779468c2328295", // Keeping your Ponzi address
+    address: "0x2fa3090ACb91f2674e1B5df2fe779468c2328295",
     abi: ponziABI,
     name: "Somnia Testnet",
     emoji: "🌌",
@@ -555,7 +555,7 @@ const ponziChains = {
   },
   megaeth: {
     chainId: 6342, // From Testnets.jsx
-    address: "0x2EaBf16382d97140e3DC5ee5e02b22eaaf4018c2", // Keeping your Ponzi address
+    address: "0x2EaBf16382d97140e3DC5ee5e02b22eaaf4018c2",
     abi: ponziABI,
     name: "MegaEth",
     emoji: "⚡",
@@ -630,20 +630,28 @@ function PonziGameCard({ chainKey, signer, address }) {
   const switchNetwork = async (chain) => {
     try {
       const chainIdHex = "0x" + chain.chainId.toString(16);
+      console.log(`Switching to ${chain.name} (Chain ID: ${chain.chainId}, Hex: ${chainIdHex})`);
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: chainIdHex }],
       });
 
+      // Refresh provider after switch
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
+      console.log(`Current network after switch: ${network.chainId}`);
+
+      // Verify network match
       if (network.chainId !== chain.chainId) {
-        throw new Error(`Failed to switch to ${chain.name}. Current chain ID: ${network.chainId}`);
+        throw new Error(
+          `Network mismatch: Expected ${chain.chainId} (${chain.name}), got ${network.chainId}`
+        );
       }
+
+      return provider; // Return fresh provider for contract interaction
     } catch (err) {
       console.error(`Error switching to ${chain.name}:`, err);
-      setErrorMessage(`Error: ${err.message || "Failed to switch network"}`);
-      throw err; // Re-throw to handle in calling function
+      throw err; // Let calling function handle the error
     }
   };
 
@@ -667,17 +675,20 @@ function PonziGameCard({ chainKey, signer, address }) {
     setErrorMessage(null);
     try {
       const chain = ponziChains[chainKey];
-      await switchNetwork(chain);
+      const provider = await switchNetwork(chain);
+      const updatedSigner = provider.getSigner();
 
-      const contract = new ethers.Contract(chain.address, chain.abi, signer);
+      const contract = new ethers.Contract(chain.address, chain.abi, updatedSigner);
       const tx = await contract.enterPonzi();
+      console.log(`Transaction sent: ${tx.hash}`);
       await tx.wait();
+      console.log(`Transaction confirmed: ${tx.hash}`);
 
       setHasEntered(true);
       handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error entering Ponzi on ${chainKey}:`, err);
-      if (!errorMessage) setErrorMessage(`Error: ${err.message || "Failed to enter Ponzi"}`);
+      setErrorMessage(`Error: ${err.message || "Failed to enter Ponzi"}`);
     } finally {
       setIsLoadingEnter(false);
     }
@@ -693,11 +704,14 @@ function PonziGameCard({ chainKey, signer, address }) {
     setErrorMessage(null);
     try {
       const chain = ponziChains[chainKey];
-      await switchNetwork(chain);
+      const provider = await switchNetwork(chain);
+      const updatedSigner = provider.getSigner();
 
-      const contract = new ethers.Contract(chain.address, chain.abi, signer);
+      const contract = new ethers.Contract(chain.address, chain.abi, updatedSigner);
       const tx = await contract.claimTokens();
+      console.log(`Transaction sent: ${tx.hash}`);
       await tx.wait();
+      console.log(`Transaction confirmed: ${tx.hash}`);
 
       const tokens = await contract.getAccumulatedTokens(address);
       setAccumulatedTokens(ethers.utils.formatEther(tokens));
@@ -706,7 +720,7 @@ function PonziGameCard({ chainKey, signer, address }) {
       handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error claiming tokens on ${chainKey}:`, err);
-      if (!errorMessage) setErrorMessage(`Error: ${err.message || "Failed to claim tokens"}`);
+      setErrorMessage(`Error: ${err.message || "Failed to claim tokens"}`);
     } finally {
       setIsLoadingClaim(false);
     }
@@ -722,11 +736,14 @@ function PonziGameCard({ chainKey, signer, address }) {
     setErrorMessage(null);
     try {
       const chain = ponziChains[chainKey];
-      await switchNetwork(chain);
+      const provider = await switchNetwork(chain);
+      const updatedSigner = provider.getSigner();
 
-      const contract = new ethers.Contract(chain.address, chain.abi, signer);
+      const contract = new ethers.Contract(chain.address, chain.abi, updatedSigner);
       const tx = await contract.burnAndDouble();
+      console.log(`Transaction sent: ${tx.hash}`);
       await tx.wait();
+      console.log(`Transaction confirmed: ${tx.hash}`);
 
       const rate = await contract.getEmissionRate(address);
       setEmissionRate(ethers.utils.formatEther(rate));
@@ -735,7 +752,7 @@ function PonziGameCard({ chainKey, signer, address }) {
       handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error burning tokens on ${chainKey}:`, err);
-      if (!errorMessage) setErrorMessage(`Error: ${err.message || "Failed to burn and double"}`);
+      setErrorMessage(`Error: ${err.message || "Failed to burn and double"}`);
     } finally {
       setIsLoadingBurn(false);
     }
