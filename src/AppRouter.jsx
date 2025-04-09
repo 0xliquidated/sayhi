@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import App from "./App.jsx";
 import Testnets from "./Testnets.jsx";
-import PonziGame from "./PonziGame.jsx"; // Import the new page
+import PonziGame from "./PonziGame.jsx"; // Added import
 import "./App.css";
 
 function AppRouter() {
@@ -46,7 +46,7 @@ function AppRouter() {
               <Link to="/testnets" className="nav-link">Testnets</Link>
             </li>
             <li className="nav-item">
-              <Link to="/ponzi-game" className="nav-link">Ponzi Game</Link>
+              <Link to="/ponzi-game" className="nav-link">Ponzi Game</Link> {/* Added Ponzi Game link */}
             </li>
           </ul>
         </nav>
@@ -54,7 +54,7 @@ function AppRouter() {
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/testnets" element={<Testnets />} />
-          <Route path="/ponzi-game" element={<PonziGame />} />
+          <Route path="/ponzi-game" element={<PonziGame />} /> {/* Added Ponzi Game route */}
         </Routes>
         {/* Footer */}
         <footer className="footer">
@@ -67,7 +67,7 @@ function AppRouter() {
               <ul>
                 <li><Link to="/" className="footer-link">Home</Link></li>
                 <li><Link to="/testnets" className="footer-link">Testnets</Link></li>
-                <li><Link to="/ponzi-game" className="footer-link">Ponzi Game</Link></li>
+                <li><Link to="/ponzi-game" className="footer-link">Ponzi Game</Link></li> {/* Added Ponzi Game link */}
               </ul>
             </div>
             <div className="footer-column">
