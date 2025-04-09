@@ -535,10 +535,10 @@ const ponziABI = [
   }
 ];
 
-// Ponzi contract details (updated with provided info)
+// Ponzi contract details (updated with correct chain IDs)
 const ponziChains = {
   monad: {
-    chainId: 10143,
+    chainId: 10142, // Updated from 10143
     address: "0xC4caeD6426a8B741b9157213ef92F6ffE82508AE",
     abi: ponziABI,
     name: "Monad Testnet",
@@ -563,26 +563,26 @@ const ponziChains = {
   }
 };
 
-// Chain parameters for wallet_addEthereumChain (updated with provided info)
+// Chain parameters for wallet_addEthereumChain (updated with correct RPCs and chain ID)
 const chainParams = {
   monad: {
-    chainId: "0x27b7", // 10143 in hex
+    chainId: "0x27b6", // 10142 in hex, updated from 0x27b7 (10143)
     chainName: "Monad Testnet",
-    rpcUrls: ["https://testnet-rpc.monad.xyz"],
+    rpcUrls: ["https://testnet-rpc.monad.xyz/"], // Updated with trailing slash
     nativeCurrency: { name: "Monad", symbol: "MONAD", decimals: 18 },
     blockExplorerUrls: ["https://testnet.monadexplorer.com/"]
   },
   somnia: {
     chainId: "0xc488", // 50312 in hex
     chainName: "Somnia Testnet",
-    rpcUrls: ["https://rpc.testnet.somnia.network"],
+    rpcUrls: ["https://dream-rpc.somnia.network"], // Updated RPC
     nativeCurrency: { name: "Somnia", symbol: "SOM", decimals: 18 },
     blockExplorerUrls: ["https://shannon-explorer.somnia.network/"]
   },
   megaeth: {
     chainId: "0x18ca", // 6342 in hex
     chainName: "MegaEth",
-    rpcUrls: ["https://testnet.megaeth.systems"],
+    rpcUrls: ["https://carrot.megaeth.com/rpc"], // Updated RPC
     nativeCurrency: { name: "MegaEth", symbol: "METH", decimals: 18 },
     blockExplorerUrls: ["https://www.megaexplorer.xyz/"]
   }
