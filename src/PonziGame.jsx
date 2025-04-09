@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import "./App.css";
 import { connectWallet, checkWalletConnected, disconnectWallet } from "./utils/wallet";
 
-// Ponzi contract ABI (unchanged)
+// Ponzi contract ABI (full version from your original file)
 const ponziABI = [
   {
     "inputs": [],
@@ -535,7 +535,7 @@ const ponziABI = [
   }
 ];
 
-// Ponzi contract details (aligned with Testnets.jsx)
+// Ponzi contract details
 const ponziChains = {
   monad: {
     chainId: 10143,
@@ -586,7 +586,12 @@ class ErrorBoundary extends React.Component {
 }
 
 function PonziGameCard({ chainKey, signer, address }) {
-  const [hasEntered, setHasEntered] = useState(false);
+  const [hasEntered, setHasEntered] = useState(() => {
+    // Load initial state from localStorage
+    const key = `ponzi_${chainKey}_${address || ""}`;
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored).hasEntered : false;
+  });
   const [accumulatedTokens, setAccumulatedTokens] = useState(0);
   const [emissionRate, setEmissionRate] = useState(0);
   const [balance, setBalance] = useState(0);
@@ -597,7 +602,12 @@ function PonziGameCard({ chainKey, signer, address }) {
   const [showPopup, setShowPopup] = useState(false);
   const [transactionHash, setTransactionHash] = useState("");
 
-  const updateUserState = async () => {
+  const saveToLocalStorage = () => {
+    const key = `ponzi_${chainKey}_${address}`;
+    localStorage.setItem(key, JSON.stringify({ hasEntered }));
+  };
+
+  const updateUserState = async (force = false) => {
     if (!signer || !address) return;
     try {
       const chain = ponziChains[chainKey];
@@ -605,27 +615,33 @@ function PonziGameCard({ chainKey, signer, address }) {
       const contract = new ethers.Contract(chain.address, chain.abi, provider);
 
       const entered = await contract.hasUserEntered(address);
-      setHasEntered(entered);
-
-      if (entered) {
-        const tokens = await contract.getAccumulatedTokens(address);
-        setAccumulatedTokens(ethers.utils.formatEther(tokens));
-        const rate = await contract.getEmissionRate(address);
-        setEmissionRate(ethers.utils.formatEther(rate));
-        const bal = await contract.balanceOf(address);
-        setBalance(ethers.utils.formatEther(bal));
+      console.log(`${chain.name} hasUserEntered: ${entered}`);
+      if (force || entered !== hasEntered) {
+        setHasEntered(entered);
+        if (entered) {
+          const tokens = await contract.getAccumulatedTokens(address);
+          setAccumulatedTokens(ethers.utils.formatEther(tokens));
+          const rate = await contract.getEmissionRate(address);
+          setEmissionRate(ethers.utils.formatEther(rate));
+          const bal = await contract.balanceOf(address);
+          setBalance(ethers.utils.formatEther(bal));
+          console.log(`${chain.name} state updated: tokens=${ethers.utils.formatEther(tokens)}, rate=${ethers.utils.formatEther(rate)}, balance=${ethers.utils.formatEther(bal)}`);
+        }
+        saveToLocalStorage();
       }
     } catch (err) {
       console.error(`Error updating user state for ${chainKey}:`, err);
       if (err.code === "CALL_EXCEPTION" && err.error?.message?.includes("429")) {
         setErrorMessage("Rate limit exceeded. Please wait a moment and try again.");
+      } else {
+        setErrorMessage(`Error fetching state: ${err.message || "Unknown error"}`);
       }
     }
   };
 
   useEffect(() => {
-    updateUserState();
-    const interval = setInterval(updateUserState, 5000); // Increased to 5 seconds to avoid rate limits
+    updateUserState(true); // Force initial sync from blockchain
+    const interval = setInterval(() => updateUserState(), 5000);
     return () => clearInterval(interval);
   }, [signer, address, chainKey]);
 
@@ -638,7 +654,6 @@ function PonziGameCard({ chainKey, signer, address }) {
         params: [{ chainId: chainIdHex }],
       });
 
-      // Refresh provider after switch
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
       console.log(`Current network after switch: ${network.chainId}`);
@@ -659,7 +674,7 @@ function PonziGameCard({ chainKey, signer, address }) {
   const handleSuccess = (txHash) => {
     setTransactionHash(txHash);
     setShowPopup(true);
-    updateUserState(); // Force state refresh after transaction
+    updateUserState(true); // Force refresh after transaction
   };
 
   const closePopup = () => {
@@ -686,7 +701,7 @@ function PonziGameCard({ chainKey, signer, address }) {
       await tx.wait();
       console.log(`Transaction confirmed: ${tx.hash}`);
 
-      setHasEntered(true); // Immediately update state
+      setHasEntered(true);
       handleSuccess(tx.hash);
     } catch (err) {
       console.error(`Error entering Ponzi on ${chainKey}:`, err);
@@ -845,6 +860,8 @@ function PonziGame() {
       }
     };
     tryAutoConnect();
+
+    console.log("PonziGame page loaded at:", new Date().toLocaleString());
   }, []);
 
   const handleConnectWallet = async () => {
