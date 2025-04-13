@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import "./App.css";
-import { getUserInteractions, saveUserInteraction, getTotalInteractions, resetUserInteractions } from "./utils/gamification";
+import { getUserInteractions, saveUserInteraction, getTotalInteractions, handleDailyReset } from "./utils/gamification";
 import { connectWallet, checkWalletConnected, disconnectWallet } from "./utils/wallet";
 
 // Define matching emojis for each chain (testnets only)
@@ -15,7 +15,7 @@ const chainEmojis = {
   sepolia: "🛡️",
   opsepolia: "🔴",
   holesky: "🕳️",
-  somnia: "🌌" // Emoji for Somnia Testnet
+  somnia: "🌌"
 };
 
 // Block explorer URLs for each chain (testnets only)
@@ -88,7 +88,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ color: "white", textAlign: "center", padding: "20px" }}>
+        <div className="error-boundary">
           <h1>Something went wrong.</h1>
           <p>{this.state.error?.message || "Unknown error"}</p>
           <p>Please check the console for more details and refresh the page.</p>
@@ -262,40 +262,18 @@ function Testnets() {
   const totalChains = Object.keys(testnetChains).length; // 10 chains
   const totalPossibleInteractions = totalChains * 3; // 3 interactions per chain (Say Hi, Say GM, Say GN)
   const totalInteractions = getTotalInteractions(interactions);
-  const progressPercentage = (totalInteractions / totalPossibleInteractions) * 100;
-
-  const calculateTimeRemaining = () => {
-    const now = new Date();
-    const nextMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
-    const diffMs = nextMidnightUTC - now;
-    const diffSeconds = Math.floor(diffMs / 1000);
-    const hours = Math.floor(diffSeconds / 3600);
-    const minutes = Math.floor((diffSeconds % 3600) / 60);
-    const seconds = diffSeconds % 60;
-    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-  };
+  const progressPercentage = Math.min((totalInteractions / totalPossibleInteractions) * 100, 100);
 
   useEffect(() => {
     const updateTimer = () => {
-      const now = new Date();
-      const nextMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
-      const timeSinceLastReset = now.getTime() - lastResetTime;
-
-      // Check if 24 hours have passed since the last reset
-      if (timeSinceLastReset >= 24 * 60 * 60 * 1000) {
-        resetUserInteractions(); // Clear localStorage
-        setInteractions({}); // Reset state
-        setLastResetTime(now.getTime()); // Update reset time
-        localStorage.setItem("lastResetTimeTestnets", now.getTime().toString());
-      }
-
-      setTimeRemaining(calculateTimeRemaining());
+      const timeRemainingStr = handleDailyReset("lastResetTimeTestnets", setInteractions, setLastResetTime);
+      setTimeRemaining(timeRemainingStr);
     };
 
     updateTimer();
     const timerInterval = setInterval(updateTimer, 1000);
     return () => clearInterval(timerInterval);
-  }, [lastResetTime]);
+  }, []);
 
   useEffect(() => {
     const tryAutoConnect = async () => {
