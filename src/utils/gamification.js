@@ -40,26 +40,27 @@ export const resetUserInteractions = () => {
 };
 
 // Shared reset logic for daily reset at UTC midnight
-export const handleDailyReset = (lastResetTimeKey, setInteractions, setLastResetTime) => {
+export const handleDailyReset = (lastResetTimeKey, setInteractions) => {
   const now = new Date();
   const lastReset = localStorage.getItem(lastResetTimeKey)
     ? parseInt(localStorage.getItem(lastResetTimeKey), 10)
     : now.getTime();
 
-  // Calculate the next UTC midnight
-  const nextMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
-  const timeSinceLastReset = now.getTime() - lastReset;
+  // Get the UTC date for today and the last reset time
+  const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const lastResetDate = new Date(lastReset);
+  const lastResetUTC = new Date(Date.UTC(lastResetDate.getUTCFullYear(), lastResetDate.getUTCMonth(), lastResetDate.getUTCDate()));
 
-  // If the current time is past the next midnight since the last reset, reset the interactions
-  if (timeSinceLastReset >= 24 * 60 * 60 * 1000 || now >= nextMidnightUTC) {
+  // If the last reset was on a different UTC day, reset the interactions
+  if (todayUTC.getTime() > lastResetUTC.getTime()) {
     console.log(`Resetting interactions for ${lastResetTimeKey} at ${now.toISOString()}`);
     resetUserInteractions();
     setInteractions({});
-    setLastResetTime(now.getTime());
     localStorage.setItem(lastResetTimeKey, now.getTime().toString());
   }
 
-  // Calculate time remaining until next reset
+  // Calculate time remaining until next UTC midnight
+  const nextMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
   const diffMs = nextMidnightUTC - now;
   const diffSeconds = Math.floor(diffMs / 1000);
   const hours = Math.floor(diffSeconds / 3600);

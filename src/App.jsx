@@ -395,10 +395,6 @@ function App() {
   const [explorerUrl, setExplorerUrl] = useState("");
   const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
-  const [lastResetTime, setLastResetTime] = useState(() => {
-    const savedTime = localStorage.getItem("lastResetTimeMainnets");
-    return savedTime ? parseInt(savedTime, 10) : Date.now();
-  });
 
   const totalChains = Object.keys(chains).length; // 30 chains
   const totalPossibleInteractions = totalChains * 3; // 3 interactions per chain (Say Hi, Say GM, Say GN)
@@ -407,7 +403,12 @@ function App() {
 
   useEffect(() => {
     const updateTimer = () => {
-      const timeRemainingStr = handleDailyReset("lastResetTimeMainnets", setInteractions, setLastResetTime);
+      const timeRemainingStr = handleDailyReset("lastResetTimeMainnets", (newInteractions) => {
+        setInteractions(newInteractions);
+        // Force a re-fetch of interactions to ensure state is updated
+        const updatedInteractions = getUserInteractions();
+        setInteractions(updatedInteractions);
+      });
       setTimeRemaining(timeRemainingStr);
     };
 

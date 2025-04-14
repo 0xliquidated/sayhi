@@ -254,10 +254,6 @@ function Testnets() {
   const [explorerUrl, setExplorerUrl] = useState("");
   const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
-  const [lastResetTime, setLastResetTime] = useState(() => {
-    const savedTime = localStorage.getItem("lastResetTimeTestnets");
-    return savedTime ? parseInt(savedTime, 10) : Date.now();
-  });
 
   const totalChains = Object.keys(testnetChains).length; // 10 chains
   const totalPossibleInteractions = totalChains * 3; // 3 interactions per chain (Say Hi, Say GM, Say GN)
@@ -266,7 +262,12 @@ function Testnets() {
 
   useEffect(() => {
     const updateTimer = () => {
-      const timeRemainingStr = handleDailyReset("lastResetTimeTestnets", setInteractions, setLastResetTime);
+      const timeRemainingStr = handleDailyReset("lastResetTimeTestnets", (newInteractions) => {
+        setInteractions(newInteractions);
+        // Force a re-fetch of interactions to ensure state is updated
+        const updatedInteractions = getUserInteractions();
+        setInteractions(updatedInteractions);
+      });
       setTimeRemaining(timeRemainingStr);
     };
 
