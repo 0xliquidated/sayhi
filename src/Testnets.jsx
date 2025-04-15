@@ -15,7 +15,8 @@ const chainEmojis = {
   sepolia: "🛡️",
   opsepolia: "🔴",
   holesky: "🕳️",
-  somnia: "🌌"
+  somnia: "🌌",
+  rise: "🌅" // Emoji for RISE Testnet
 };
 
 // Block explorer URLs for each chain (testnets only)
@@ -29,7 +30,8 @@ const explorerUrls = {
   sepolia: "", // No explorer provided, leaving empty
   opsepolia: "", // No explorer provided, leaving empty
   holesky: "", // No explorer provided, leaving empty
-  somnia: "https://shannon-explorer.somnia.network/tx/"
+  somnia: "https://shannon-explorer.somnia.network/tx/",
+  rise: "https://explorer.testnet.riselabs.xyz/tx/"
 };
 
 // Contract ABI (consistent across chains)
@@ -74,7 +76,8 @@ const testnetChains = {
   sepolia: { chainId: 11155111, address: "0x942cAAE6A6e60f2fa80569D3CA78f20028Aa5ccC", abi: contractABI },
   opsepolia: { chainId: 11155420, address: "0x02FEDfe33f8dd8234e37130864f12E108884773F", abi: contractABI },
   holesky: { chainId: 17000, address: "0xeC29a0F21C3a5F1A21EFb851B139F01Ad7e0252c", abi: contractABI },
-  somnia: { chainId: 50312, address: "0xDB9AdD5caf633b26cE940830c6FEFF2AC9A1163e", abi: contractABI }
+  somnia: { chainId: 50312, address: "0xDB9AdD5caf633b26cE940830c6FEFF2AC9A1163e", abi: contractABI },
+  rise: { chainId: 11155931, address: "0x6dACdE183936F5B86029823538759D81148BaA4b", abi: contractABI }
 };
 
 // Error Boundary Component
@@ -159,7 +162,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "sepolia" ? "Sepolia" :
             chainKey === "opsepolia" ? "Op Sepolia" :
             chainKey === "holesky" ? "Holesky" :
-            chainKey === "somnia" ? "Somnia Testnet" : ""
+            chainKey === "somnia" ? "Somnia Testnet" :
+            chainKey === "rise" ? "RISE Testnet" : ""
           } (Chain ID: ${testnetChains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -174,7 +178,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "sepolia" ? "Sepolia" :
             chainKey === "opsepolia" ? "Op Sepolia" :
             chainKey === "holesky" ? "Holesky" :
-            chainKey === "somnia" ? "Somnia Testnet" : ""
+            chainKey === "somnia" ? "Somnia Testnet" :
+            chainKey === "rise" ? "RISE Testnet" : ""
           }. Please add ETH to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -189,7 +194,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "sepolia" ? "Sepolia" :
             chainKey === "opsepolia" ? "Op Sepolia" :
             chainKey === "holesky" ? "Holesky" :
-            chainKey === "somnia" ? "Somnia Testnet" : ""
+            chainKey === "somnia" ? "Somnia Testnet" :
+            chainKey === "rise" ? "RISE Testnet" : ""
           }.`
         );
       } else {
@@ -214,7 +220,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "sepolia" ? "Sepolia" :
            chainKey === "opsepolia" ? "Op Sepolia" :
            chainKey === "holesky" ? "Holesky" :
-           chainKey === "somnia" ? "Somnia Testnet" : ""}{" "}
+           chainKey === "somnia" ? "Somnia Testnet" :
+           chainKey === "rise" ? "RISE Testnet" : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -254,19 +261,20 @@ function Testnets() {
   const [explorerUrl, setExplorerUrl] = useState("");
   const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
-  const [lastResetTime, setLastResetTime] = useState(() => {
-    const savedTime = localStorage.getItem("lastResetTimeTestnets");
-    return savedTime ? parseInt(savedTime, 10) : Date.now();
-  });
 
-  const totalChains = Object.keys(testnetChains).length; // 10 chains
+  const totalChains = Object.keys(testnetChains).length; // 11 chains
   const totalPossibleInteractions = totalChains * 3; // 3 interactions per chain (Say Hi, Say GM, Say GN)
   const totalInteractions = getTotalInteractions(interactions);
   const progressPercentage = Math.min((totalInteractions / totalPossibleInteractions) * 100, 100);
 
   useEffect(() => {
     const updateTimer = () => {
-      const timeRemainingStr = handleDailyReset("lastResetTimeTestnets", setInteractions, setLastResetTime);
+      const timeRemainingStr = handleDailyReset("lastResetTimeTestnets", (newInteractions) => {
+        setInteractions(newInteractions);
+        // Force a re-fetch of interactions to ensure state is updated
+        const updatedInteractions = getUserInteractions();
+        setInteractions(updatedInteractions);
+      });
       setTimeRemaining(timeRemainingStr);
     };
 
@@ -372,6 +380,9 @@ function Testnets() {
             <SayHiButton chainKey="opsepolia" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="holesky" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="somnia" signer={signer} onSuccess={handleSuccess} />
+          </div>
+          <div className="chains-row">
+            <SayHiButton chainKey="rise" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
         {showPopup && (
