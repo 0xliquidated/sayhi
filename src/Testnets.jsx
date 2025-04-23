@@ -16,7 +16,8 @@ const chainEmojis = {
   opsepolia: "🔴",
   holesky: "🕳️",
   somnia: "🌌",
-  rise: "🌅" // Emoji for RISE Testnet
+  rise: "🌅",
+  seismic: "🌍" // Emoji for Seismic Devnet
 };
 
 // Block explorer URLs for each chain (testnets only)
@@ -31,10 +32,11 @@ const explorerUrls = {
   opsepolia: "", // No explorer provided, leaving empty
   holesky: "", // No explorer provided, leaving empty
   somnia: "https://shannon-explorer.somnia.network/tx/",
-  rise: "https://explorer.testnet.riselabs.xyz/tx/"
+  rise: "https://explorer.testnet.riselabs.xyz/tx/",
+  seismic: "" // No explorer provided, leaving empty
 };
 
-// Contract ABI (consistent across chains)
+// Contract ABI (original version without fees)
 const contractABI = [
   {
     inputs: [{ internalType: "string", name: "_uniqueSignature", type: "string" }],
@@ -66,6 +68,11 @@ const contractABI = [
   { inputs: [], name: "uniqueSignature", outputs: [{ internalType: "string", name: "", type: "string" }], stateMutability: "view", type: "function" }
 ];
 
+// Custom RPC URLs for chains (optional, for fallback)
+const customRpcUrls = {
+  sepolia: "https://rpc.sepolia.dev" // Fallback RPC for Sepolia
+};
+
 const testnetChains = {
   monad: { chainId: 10143, address: "0xb73460E7e22D5544cbA51C7A33ecFAB46bf9de27", abi: contractABI },
   interop0: { chainId: 420120000, address: "0x13c0E5c22d0a45e68Fa6583cdB4a455413B1e9F9", abi: contractABI },
@@ -77,7 +84,8 @@ const testnetChains = {
   opsepolia: { chainId: 11155420, address: "0x02FEDfe33f8dd8234e37130864f12E108884773F", abi: contractABI },
   holesky: { chainId: 17000, address: "0xeC29a0F21C3a5F1A21EFb851B139F01Ad7e0252c", abi: contractABI },
   somnia: { chainId: 50312, address: "0xDB9AdD5caf633b26cE940830c6FEFF2AC9A1163e", abi: contractABI },
-  rise: { chainId: 11155931, address: "0x6dACdE183936F5B86029823538759D81148BaA4b", abi: contractABI }
+  rise: { chainId: 11155931, address: "0x6dACdE183936F5B86029823538759D81148BaA4b", abi: contractABI },
+  seismic: { chainId: 5124, address: "0x6dACdE183936F5B86029823538759D81148BaA4b", abi: contractABI }
 };
 
 // Error Boundary Component
@@ -131,7 +139,11 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       });
       console.log(`Successfully switched to ${chainKey}`);
 
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      let provider = initialProvider;
+      if (chainKey === "sepolia" && customRpcUrls.sepolia) {
+        provider = new ethers.providers.JsonRpcProvider(customRpcUrls.sepolia);
+      }
+
       const network = await provider.getNetwork();
       console.log(`Current network after switch:`, network);
       if (network.chainId !== chain.chainId) {
@@ -163,7 +175,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "opsepolia" ? "Op Sepolia" :
             chainKey === "holesky" ? "Holesky" :
             chainKey === "somnia" ? "Somnia Testnet" :
-            chainKey === "rise" ? "RISE Testnet" : ""
+            chainKey === "rise" ? "RISE Testnet" :
+            chainKey === "seismic" ? "Seismic Devnet" : ""
           } (Chain ID: ${testnetChains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -179,7 +192,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "opsepolia" ? "Op Sepolia" :
             chainKey === "holesky" ? "Holesky" :
             chainKey === "somnia" ? "Somnia Testnet" :
-            chainKey === "rise" ? "RISE Testnet" : ""
+            chainKey === "rise" ? "RISE Testnet" :
+            chainKey === "seismic" ? "Seismic Devnet" : ""
           }. Please add ETH to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -195,7 +209,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "opsepolia" ? "Op Sepolia" :
             chainKey === "holesky" ? "Holesky" :
             chainKey === "somnia" ? "Somnia Testnet" :
-            chainKey === "rise" ? "RISE Testnet" : ""
+            chainKey === "rise" ? "RISE Testnet" :
+            chainKey === "seismic" ? "Seismic Devnet" : ""
           }.`
         );
       } else {
@@ -221,7 +236,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "opsepolia" ? "Op Sepolia" :
            chainKey === "holesky" ? "Holesky" :
            chainKey === "somnia" ? "Somnia Testnet" :
-           chainKey === "rise" ? "RISE Testnet" : ""}{" "}
+           chainKey === "rise" ? "RISE Testnet" :
+           chainKey === "seismic" ? "Seismic Devnet" : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -262,7 +278,7 @@ function Testnets() {
   const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
 
-  const totalChains = Object.keys(testnetChains).length; // 11 chains
+  const totalChains = Object.keys(testnetChains).length; // 12 chains
   const totalPossibleInteractions = totalChains * 3; // 3 interactions per chain (Say Hi, Say GM, Say GN)
   const totalInteractions = getTotalInteractions(interactions);
   const progressPercentage = Math.min((totalInteractions / totalPossibleInteractions) * 100, 100);
@@ -383,6 +399,7 @@ function Testnets() {
           </div>
           <div className="chains-row">
             <SayHiButton chainKey="rise" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="seismic" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
         {showPopup && (
