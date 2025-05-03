@@ -18,7 +18,8 @@ const chainEmojis = {
   somnia: "🌌",
   rise: "🌅",
   seismic: "🌍",
-  saharaai: "🏜️" // Emoji for Sahara AI Testnet
+  saharaai: "🏜️",
+  camp: "🏕️" // Emoji for Camp Testnet
 };
 
 // Block explorer URLs for each chain (testnets only)
@@ -35,7 +36,8 @@ const explorerUrls = {
   somnia: "https://shannon-explorer.somnia.network/tx/",
   rise: "https://explorer.testnet.riselabs.xyz/tx/",
   seismic: "", // No explorer provided, leaving empty
-  saharaai: "https://testnet-explorer.saharalabs.ai/"
+  saharaai: "https://testnet-explorer.saharalabs.ai/",
+  camp: "" // No explorer provided, leaving empty
 };
 
 // Contract ABI (original version without fees)
@@ -88,7 +90,8 @@ const testnetChains = {
   somnia: { chainId: 50312, address: "0xDB9AdD5caf633b26cE940830c6FEFF2AC9A1163e", abi: contractABI },
   rise: { chainId: 11155931, address: "0x6dACdE183936F5B86029823538759D81148BaA4b", abi: contractABI },
   seismic: { chainId: 5124, address: "0x6dACdE183936F5B86029823538759D81148BaA4b", abi: contractABI },
-  saharaai: { chainId: 313313, address: "0xD34418c860ADdBB614Ccfe836D889B5C93817891", abi: contractABI }
+  saharaai: { chainId: 313313, address: "0xD34418c860ADdBB614Ccfe836D889B5C93817891", abi: contractABI },
+  camp: { chainId: 123420001114, address: "0x6dACdE183936F5B86029823538759D81148BaA4b", abi: contractABI }
 };
 
 // Error Boundary Component
@@ -180,7 +183,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "somnia" ? "Somnia Testnet" :
             chainKey === "rise" ? "RISE Testnet" :
             chainKey === "seismic" ? "Seismic Devnet" :
-            chainKey === "saharaai" ? "Sahara AI Testnet" : ""
+            chainKey === "saharaai" ? "Sahara AI Testnet" :
+            chainKey === "camp" ? "Camp Testnet" : ""
           } (Chain ID: ${testnetChains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -198,7 +202,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "somnia" ? "Somnia Testnet" :
             chainKey === "rise" ? "RISE Testnet" :
             chainKey === "seismic" ? "Seismic Devnet" :
-            chainKey === "saharaai" ? "Sahara AI Testnet" : ""
+            chainKey === "saharaai" ? "Sahara AI Testnet" :
+            chainKey === "camp" ? "Camp Testnet" : ""
           }. Please add ETH to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -216,7 +221,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "somnia" ? "Somnia Testnet" :
             chainKey === "rise" ? "RISE Testnet" :
             chainKey === "seismic" ? "Seismic Devnet" :
-            chainKey === "saharaai" ? "Sahara AI Testnet" : ""
+            chainKey === "saharaai" ? "Sahara AI Testnet" :
+            chainKey === "camp" ? "Camp Testnet" : ""
           }.`
         );
       } else {
@@ -244,7 +250,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "somnia" ? "Somnia Testnet" :
            chainKey === "rise" ? "RISE Testnet" :
            chainKey === "seismic" ? "Seismic Devnet" :
-           chainKey === "saharaai" ? "Sahara AI Testnet" : ""}{" "}
+           chainKey === "saharaai" ? "Sahara AI Testnet" :
+           chainKey === "camp" ? "Camp Testnet" : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -285,7 +292,7 @@ function Testnets() {
   const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
 
-  const totalChains = Object.keys(testnetChains).length; // 13 chains
+  const totalChains = Object.keys(testnetChains).length; // 14 chains
   const totalPossibleInteractions = totalChains * 3; // 3 interactions per chain (Say Hi, Say GM, Say GN)
   const totalInteractions = getTotalInteractions(interactions);
   const progressPercentage = Math.min((totalInteractions / totalPossibleInteractions) * 100, 100);
@@ -408,6 +415,7 @@ function Testnets() {
             <SayHiButton chainKey="rise" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="seismic" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="saharaai" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="camp" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
         {showPopup && (
