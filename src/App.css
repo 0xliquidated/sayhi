@@ -878,6 +878,10 @@ body.dark-theme .nav-menu {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
+body.dark-theme .nav-list {
+  gap: 40px;
+}
+
 body.dark-theme .nav-link {
   color: #ffffff;
   background: linear-gradient(90deg, #2c3e50 0%, #1c2526 100%);
@@ -1068,58 +1072,67 @@ body.cyber-theme .nav-link:hover {
   transform: none;
 }
 
-body.cyber-theme h1 {
-  font-family: 'Courier New', monospace;
-  font-size: 2rem;
-  color: #00FF00;
-  text-shadow: 0 0 5px #00FF00;
-  position: relative;
-  display: inline-block;
+body.cyber-theme .nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.3), transparent);
+  animation: glitch 2s linear infinite;
 }
 
-body.cyber-theme h1::after {
-  content: '_';
-  animation: blink 1s step-end infinite;
-  position: absolute;
-  right: -10px;
+@keyframes glitch {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+body.cyber-theme h1 {
+  color: #00FF00;
+  text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00;
+  animation: flicker 1.5s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
 }
 
 body.cyber-theme .wallet-address {
-  font-family: 'Courier New', monospace;
-  font-size: 0.9rem;
   color: #00FF00;
   background: transparent;
   border: 1px dashed #00FF00;
-  border-radius: 0;
+  padding: 5px 10px;
 }
 
 body.cyber-theme .progress-section {
   background: transparent;
+  border: 1px dashed #00FF00;
+  padding: 10px;
 }
 
 body.cyber-theme .progress-title {
-  font-family: 'Courier New', monospace;
-  font-size: 1.2rem;
   color: #00FF00;
+  text-shadow: 0 0 5px #00FF00;
 }
 
 body.cyber-theme .progress-bar-container {
-  background: #000000;
+  background: transparent;
   border: 1px solid #00FF00;
-  border-radius: 0;
-  box-shadow: 0 0 5px #00FF00;
+  box-shadow: none;
 }
 
 body.cyber-theme .progress-bar {
   background: #00FF00;
-  box-shadow: 0 0 5px #00FF00;
+  box-shadow: 0 0 10px #00FF00;
 }
 
 body.cyber-theme .progress-text,
 body.cyber-theme .timer-text {
-  font-family: 'Courier New', monospace;
-  font-size: 0.9rem;
   color: #00FF00;
+  text-shadow: 0 0 5px #00FF00;
 }
 
 body.cyber-theme .chains-box {
@@ -1132,31 +1145,19 @@ body.cyber-theme .chains-box {
 body.cyber-theme .chain-item {
   background: transparent;
   border: 1px dashed #00FF00;
+  border-radius: 0;
 }
 
 body.cyber-theme .chain-name h2 {
-  font-family: 'Courier New', monospace;
-  font-size: 1rem;
   color: #00FF00;
-  position: relative;
-  display: inline-block;
-}
-
-body.cyber-theme .chain-name h2::after {
-  content: '_';
-  animation: blink 1s step-end infinite;
-  position: absolute;
-  right: -10px;
+  text-shadow: 0 0 5px #00FF00;
 }
 
 body.cyber-theme .modern-button {
-  font-family: 'Courier New', monospace;
-  font-size: 0.9rem;
   color: #00FF00;
   background: transparent;
   border: 1px solid #00FF00;
   border-radius: 0;
-  padding: 8px 16px;
   box-shadow: 0 0 5px #00FF00;
 }
 
@@ -1168,21 +1169,19 @@ body.cyber-theme .modern-button:hover:not(:disabled) {
 }
 
 body.cyber-theme .modern-button:disabled {
-  background: transparent;
-  border: 1px solid #666666;
   color: #666666;
+  border: 1px solid #666666;
   box-shadow: none;
 }
 
 body.cyber-theme .spinner {
-  border: 3px solid #00FF00;
-  border-top-color: #000000;
+  border: 3px solid #666666;
+  border-top-color: #00FF00;
 }
 
 body.cyber-theme .disconnect-button {
-  background: transparent;
-  border: 1px solid #FF0000;
   color: #FF0000;
+  border: 1px solid #FF0000;
 }
 
 body.cyber-theme .disconnect-button:hover:not(:disabled) {
@@ -1192,10 +1191,8 @@ body.cyber-theme .disconnect-button:hover:not(:disabled) {
 }
 
 body.cyber-theme .error-message {
-  font-family: 'Courier New', monospace;
-  font-size: 0.8rem;
   color: #FF0000;
-  background: transparent;
+  background: #000000;
   border: 1px dashed #FF0000;
   border-radius: 0;
 }
@@ -1207,19 +1204,16 @@ body.cyber-theme .popup-overlay {
 body.cyber-theme .popup-content {
   background: #000000;
   border: 1px solid #00FF00;
-  box-shadow: 0 0 10px #00FF00;
   border-radius: 0;
+  box-shadow: 0 0 10px #00FF00;
 }
 
 body.cyber-theme .popup-content h2 {
-  font-family: 'Courier New', monospace;
-  font-size: 1.5rem;
   color: #00FF00;
+  text-shadow: 0 0 5px #00FF00;
 }
 
 body.cyber-theme .popup-content p {
-  font-family: 'Courier New', monospace;
-  font-size: 0.9rem;
   color: #00FF00;
 }
 
@@ -1228,7 +1222,7 @@ body.cyber-theme .transaction-link {
 }
 
 body.cyber-theme .transaction-link:hover {
-  color: #00CC00;
+  color: #FF0000;
 }
 
 body.cyber-theme .footer {
@@ -1238,14 +1232,11 @@ body.cyber-theme .footer {
 }
 
 body.cyber-theme .footer-column h3 {
-  font-family: 'Courier New', monospace;
-  font-size: 1rem;
   color: #00FF00;
+  text-shadow: 0 0 5px #00FF00;
 }
 
 body.cyber-theme .footer-column .footer-link {
-  font-family: 'Courier New', monospace;
-  font-size: 0.9rem;
   color: #00FF00;
   background: transparent;
   border: 1px solid #00FF00;
@@ -1259,8 +1250,6 @@ body.cyber-theme .footer-column .footer-link:hover {
 }
 
 body.cyber-theme .theme-select {
-  font-family: 'Courier New', monospace;
-  font-size: 0.9rem;
   color: #00FF00;
   background: #000000;
   border: 1px solid #00FF00;
@@ -1274,53 +1263,53 @@ body.cyber-theme .theme-select option {
 
 /* Sunrise Theme */
 body.sunrise-theme {
-  background: linear-gradient(180deg, #ffeb3b 0%, #ff9800 50%, #e91e63 100%); /* Yellow to orange to purple */
+  background: linear-gradient(135deg, #ff6f61 0%, #ffb347 50%, #ffeb3b 100%);
   color: #ffffff;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', 'Poppins', sans-serif;
 }
 
 body.sunrise-theme .app-container {
-  background: linear-gradient(180deg, rgba(255, 235, 59, 0.2) 0%, rgba(255, 152, 0, 0.2) 50%, rgba(233, 30, 99, 0.2) 100%);
+  background: transparent;
   padding: 40px 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  box-shadow: none;
 }
 
 body.sunrise-theme .nav-menu {
-  background: linear-gradient(90deg, #ffeb3b 0%, #ff9800 100%);
-  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.5);
-  border-radius: 0 0 20px 20px;
+  background: rgba(255, 235, 59, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 body.sunrise-theme .nav-link {
   color: #ffffff;
-  background: linear-gradient(90deg, #ff9800 0%, #e91e63 100%);
-  border-radius: 30px;
+  background: linear-gradient(90deg, #ff6f61 0%, #ffb347 100%);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.sunrise-theme .nav-link:hover {
-  background: linear-gradient(90deg, #e91e63 0%, #ff9800 100%);
-  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.6);
-  transform: scale(1.05);
+  background: linear-gradient(90deg, #ffb347 0%, #ff6f61 100%);
+  box-shadow: 0 6px 20px rgba(255, 111, 97, 0.6);
 }
 
 body.sunrise-theme h1 {
   color: #ffffff;
-  text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ff9800;
-  animation: sunrise-glow 3s ease-in-out infinite;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  animation: sunrise-glow 2s ease-in-out infinite;
+}
+
+@keyframes sunrise-glow {
+  0% { text-shadow: 0 0 5px #ffeb3b, 0 0 10px #ffb347; }
+  50% { text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ff6f61; }
+  100% { text-shadow: 0 0 5px #ffeb3b, 0 0 10px #ffb347; }
 }
 
 body.sunrise-theme .wallet-address {
   color: #ffffff;
-  background: rgba(255, 152, 0, 0.3);
-  border-radius: 20px;
+  background: rgba(255, 235, 59, 0.3);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.sunrise-theme .progress-section {
-  background: rgba(255, 235, 59, 0.1);
-  border-radius: 20px;
+  background: transparent;
 }
 
 body.sunrise-theme .progress-title {
@@ -1329,13 +1318,13 @@ body.sunrise-theme .progress-title {
 }
 
 body.sunrise-theme .progress-bar-container {
-  background: rgba(255, 152, 0, 0.3);
+  background: rgba(255, 235, 59, 0.2);
+  box-shadow: 0 0 15px rgba(255, 179, 71, 0.5);
   border-radius: 20px;
-  box-shadow: 0 0 10px #ffeb3b;
 }
 
 body.sunrise-theme .progress-bar {
-  background: linear-gradient(90deg, #ffeb3b 0%, #ff9800 100%);
+  background: linear-gradient(90deg, #ff6f61 0%, #ffb347 100%);
   box-shadow: 0 0 10px #ffeb3b;
 }
 
@@ -1348,77 +1337,71 @@ body.sunrise-theme .timer-text {
 body.sunrise-theme .chains-box {
   background: rgba(255, 235, 59, 0.1);
   border-radius: 20px;
-  box-shadow: 0 0 15px rgba(255, 152, 0, 0.5);
+  box-shadow: 0 0 15px rgba(255, 179, 71, 0.5);
 }
 
 body.sunrise-theme .chain-item {
-  background: rgba(255, 152, 0, 0.2);
+  background: rgba(255, 179, 71, 0.2);
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(255, 235, 59, 0.3);
-  transition: transform 0.3s ease;
-}
-
-body.sunrise-theme .chain-item:hover {
-  transform: scale(1.05);
 }
 
 body.sunrise-theme .chain-name h2 {
   color: #ffffff;
-  text-shadow: 0 0 5px #ffeb3b;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.sunrise-theme .modern-button {
   color: #ffffff;
-  background: linear-gradient(90deg, #ff9800 0%, #e91e63 100%);
-  border-radius: 20px;
-  box-shadow: 0 0 10px #ffeb3b;
+  background: linear-gradient(90deg, #ff6f61 0%, #ffb347 100%);
+  box-shadow: 0 4px 15px rgba(255, 179, 71, 0.5);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.sunrise-theme .modern-button:hover:not(:disabled) {
-  background: linear-gradient(90deg, #e91e63 0%, #ff9800 100%);
-  box-shadow: 0 0 15px #ffeb3b;
-  transform: scale(1.05);
+  background: linear-gradient(90deg, #ffb347 0%, #ff6f61 100%);
+  box-shadow: 0 6px 20px rgba(255, 111, 97, 0.6);
 }
 
 body.sunrise-theme .modern-button:disabled {
-  background: #666666;
-  box-shadow: none;
+  background: #ff6f61;
+  opacity: 0.5;
 }
 
 body.sunrise-theme .spinner {
-  border: 3px solid #ffeb3b;
-  border-top-color: #ff9800;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
 }
 
 body.sunrise-theme .disconnect-button {
-  background: linear-gradient(90deg, #e91e63 0%, #ff9800 100%);
+  background: linear-gradient(90deg, #ff6f61 0%, #e91e63 100%);
 }
 
 body.sunrise-theme .disconnect-button:hover:not(:disabled) {
-  background: linear-gradient(90deg, #ff9800 0%, #e91e63 100%);
+  background: linear-gradient(90deg, #e91e63 0%, #ff6f61 100%);
+  box-shadow: 0 6px 20px rgba(233, 30, 99, 0.6);
 }
 
 body.sunrise-theme .error-message {
   color: #ffffff;
   background: rgba(233, 30, 99, 0.3);
-  border-radius: 10px;
+  border-radius: 20px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.sunrise-theme .popup-overlay {
-  background: rgba(255, 152, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
 }
 
 body.sunrise-theme .popup-content {
-  background: linear-gradient(90deg, #ffeb3b 0%, #ff9800 100%);
-  box-shadow: 0 0 15px #e91e63;
+  background: rgba(255, 235, 59, 0.2);
   border-radius: 20px;
+  box-shadow: 0 0 15px rgba(255, 111, 97, 0.5);
 }
 
 body.sunrise-theme .popup-content h2 {
   color: #ffffff;
-  text-shadow: 0 0 5px #e91e63;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.sunrise-theme .popup-content p {
@@ -1432,13 +1415,12 @@ body.sunrise-theme .transaction-link {
 }
 
 body.sunrise-theme .transaction-link:hover {
-  color: #e91e63;
+  color: #ffeb3b;
 }
 
 body.sunrise-theme .footer {
-  background: linear-gradient(90deg, #ff9800 0%, #e91e63 100%);
-  box-shadow: 0 -4px 15px rgba(255, 152, 0, 0.5);
-  border-radius: 20px 20px 0 0;
+  background: rgba(255, 235, 59, 0.2);
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
 }
 
 body.sunrise-theme .footer-column h3 {
@@ -1448,91 +1430,76 @@ body.sunrise-theme .footer-column h3 {
 
 body.sunrise-theme .footer-column .footer-link {
   color: #ffffff;
-  background: linear-gradient(90deg, #ffeb3b 0%, #ff9800 100%);
-  border-radius: 20px;
+  background: linear-gradient(90deg, #ff6f61 0%, #ffb347 100%);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.sunrise-theme .footer-column .footer-link:hover {
-  background: linear-gradient(90deg, #ff9800 0%, #e91e63 100%);
-  box-shadow: 0 4px 15px rgba(255, 235, 59, 0.5);
+  background: linear-gradient(90deg, #ffb347 0%, #ff6f61 100%);
+  box-shadow: 0 4px 15px rgba(255, 111, 97, 0.6);
 }
 
 body.sunrise-theme .theme-select {
   color: #ffffff;
-  background: #ff9800;
-  border: 1px solid #e91e63;
-  border-radius: 5px;
+  background: rgba(255, 179, 71, 0.3);
+  border: 1px solid #ffffff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.sunrise-theme .theme-select option {
-  background: #ff9800;
+  background: rgba(255, 179, 71, 0.3);
   color: #ffffff;
 }
 
 /* Oceans Theme */
 body.oceans-theme {
-  background: linear-gradient(180deg, #00c4cc 0%, #0077b6 50%, #003087 100%); /* Tropical blue gradient */
+  background: linear-gradient(135deg, #0077b6 0%, #00b4d8 50%, #90e0ef 100%);
   color: #ffffff;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', 'Poppins', sans-serif;
 }
 
 body.oceans-theme .app-container {
-  background: linear-gradient(180deg, rgba(0, 196, 204, 0.2) 0%, rgba(0, 119, 182, 0.2) 50%, rgba(0, 48, 135, 0.2) 100%);
+  background: transparent;
   padding: 40px 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0, 196, 204, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-
-body.oceans-theme .app-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
-  animation: wave 5s infinite linear;
+  box-shadow: none;
 }
 
 body.oceans-theme .nav-menu {
-  background: linear-gradient(90deg, #00c4cc 0%, #0077b6 100%);
-  box-shadow: 0 4px 15px rgba(0, 119, 182, 0.5);
-  border-radius: 0 0 20px 20px;
+  background: rgba(0, 196, 204, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 body.oceans-theme .nav-link {
   color: #ffffff;
-  background: linear-gradient(90deg, #0077b6 0%, #003087 100%);
-  border-radius: 30px;
+  background: linear-gradient(90deg, #0077b6 0%, #00b4d8 100%);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.oceans-theme .nav-link:hover {
-  background: linear-gradient(90deg, #003087 0%, #0077b6 100%);
-  box-shadow: 0 6px 20px rgba(0, 196, 204, 0.6);
-  transform: scale(1.05);
+  background: linear-gradient(90deg, #00b4d8 0%, #0077b6 100%);
+  box-shadow: 0 6px 20px rgba(0, 119, 182, 0.6);
 }
 
 body.oceans-theme h1 {
   color: #ffffff;
-  text-shadow: 0 0 10px #00c4cc, 0 0 20px #0077b6;
-  animation: wave-glow 3s ease-in-out infinite;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  animation: wave 3s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
 }
 
 body.oceans-theme .wallet-address {
   color: #ffffff;
-  background: rgba(0, 119, 182, 0.3);
-  border-radius: 20px;
+  background: rgba(0, 196, 204, 0.3);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.oceans-theme .progress-section {
-  background: rgba(0, 196, 204, 0.1);
-  border-radius: 20px;
+  background: transparent;
 }
 
 body.oceans-theme .progress-title {
@@ -1541,14 +1508,14 @@ body.oceans-theme .progress-title {
 }
 
 body.oceans-theme .progress-bar-container {
-  background: rgba(0, 119, 182, 0.3);
+  background: rgba(0, 196, 204, 0.2);
+  box-shadow: 0 0 15px rgba(0, 119, 182, 0.5);
   border-radius: 20px;
-  box-shadow: 0 0 10px #00c4cc;
 }
 
 body.oceans-theme .progress-bar {
-  background: linear-gradient(90deg, #00c4cc 0%, #0077b6 100%);
-  box-shadow: 0 0 10px #00c4cc;
+  background: linear-gradient(90deg, #0077b6 0%, #00b4d8 100%);
+  box-shadow: 0 0 10px #90e0ef;
 }
 
 body.oceans-theme .progress-text,
@@ -1567,70 +1534,64 @@ body.oceans-theme .chain-item {
   background: rgba(0, 119, 182, 0.2);
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 196, 204, 0.3);
-  transition: transform 0.3s ease;
-}
-
-body.oceans-theme .chain-item:hover {
-  transform: scale(1.05);
 }
 
 body.oceans-theme .chain-name h2 {
   color: #ffffff;
-  text-shadow: 0 0 5px #00c4cc;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.oceans-theme .modern-button {
   color: #ffffff;
-  background: linear-gradient(90deg, #0077b6 0%, #003087 100%);
-  border-radius: 20px;
-  box-shadow: 0 0 10px #00c4cc;
+  background: linear-gradient(90deg, #0077b6 0%, #00b4d8 100%);
+  box-shadow: 0 4px 15px rgba(0, 119, 182, 0.5);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.oceans-theme .modern-button:hover:not(:disabled) {
-  background: linear-gradient(90deg, #003087 0%, #0077b6 100%);
-  box-shadow: 0 0 15px #00c4cc;
-  transform: scale(1.05);
+  background: linear-gradient(90deg, #00b4d8 0%, #0077b6 100%);
+  box-shadow: 0 6px 20px rgba(0, 119, 182, 0.6);
 }
 
 body.oceans-theme .modern-button:disabled {
-  background: #666666;
-  box-shadow: none;
+  background: #0077b6;
+  opacity: 0.5;
 }
 
 body.oceans-theme .spinner {
-  border: 3px solid #00c4cc;
-  border-top-color: #0077b6;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
 }
 
 body.oceans-theme .disconnect-button {
-  background: linear-gradient(90deg, #ff6b6b 0%, #f44336 100%);
+  background: linear-gradient(90deg, #ff6f61 0%, #e91e63 100%);
 }
 
 body.oceans-theme .disconnect-button:hover:not(:disabled) {
-  background: linear-gradient(90deg, #f44336 0%, #ff6b6b 100%);
+  background: linear-gradient(90deg, #e91e63 0%, #ff6f61 100%);
+  box-shadow: 0 6px 20px rgba(233, 30, 99, 0.6);
 }
 
 body.oceans-theme .error-message {
   color: #ffffff;
-  background: rgba(0, 48, 135, 0.3);
-  border-radius: 10px;
+  background: rgba(233, 30, 99, 0.3);
+  border-radius: 20px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.oceans-theme .popup-overlay {
-  background: rgba(0, 119, 182, 0.5);
+  background: rgba(0, 0, 0, 0.7);
 }
 
 body.oceans-theme .popup-content {
-  background: linear-gradient(90deg, #00c4cc 0%, #0077b6 100%);
-  box-shadow: 0 0 15px #003087;
+  background: rgba(0, 196, 204, 0.2);
   border-radius: 20px;
+  box-shadow: 0 0 15px rgba(0, 119, 182, 0.5);
 }
 
 body.oceans-theme .popup-content h2 {
   color: #ffffff;
-  text-shadow: 0 0 5px #003087;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.oceans-theme .popup-content p {
@@ -1644,13 +1605,12 @@ body.oceans-theme .transaction-link {
 }
 
 body.oceans-theme .transaction-link:hover {
-  color: #00c4cc;
+  color: #90e0ef;
 }
 
 body.oceans-theme .footer {
-  background: linear-gradient(90deg, #0077b6 0%, #003087 100%);
-  box-shadow: 0 -4px 15px rgba(0, 119, 182, 0.5);
-  border-radius: 20px 20px 0 0;
+  background: rgba(0, 196, 204, 0.2);
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
 }
 
 body.oceans-theme .footer-column h3 {
@@ -1660,223 +1620,23 @@ body.oceans-theme .footer-column h3 {
 
 body.oceans-theme .footer-column .footer-link {
   color: #ffffff;
-  background: linear-gradient(90deg, #00c4cc 0%, #0077b6 100%);
-  border-radius: 20px;
+  background: linear-gradient(90deg, #0077b6 0%, #00b4d8 100%);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.oceans-theme .footer-column .footer-link:hover {
-  background: linear-gradient(90deg, #0077b6 0%, #003087 100%);
-  box-shadow: 0 4px 15px rgba(0, 196, 204, 0.5);
+  background: linear-gradient(90deg, #00b4d8 0%, #0077b6 100%);
+  box-shadow: 0 4px 15px rgba(0, 119, 182, 0.6);
 }
 
 body.oceans-theme .theme-select {
   color: #ffffff;
-  background: #0077b6;
-  border: 1px solid #003087;
-  border-radius: 5px;
+  background: rgba(0, 119, 182, 0.3);
+  border: 1px solid #ffffff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 body.oceans-theme .theme-select option {
-  background: #0077b6;
+  background: rgba(0, 119, 182, 0.3);
   color: #ffffff;
 }
-
-/* Animations */
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes sunrise-glow {
-  0% { text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ff9800; }
-  50% { text-shadow: 0 0 20px #ffeb3b, 0 0 30px #ff9800; }
-  100% { text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ff9800; }
-}
-
-@keyframes wave {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-@keyframes wave-glow {
-  0% { text-shadow: 0 0 10px #00c4cc, 0 0 20px #0077b6; }
-  50% { text-shadow: 0 0 20px #00c4cc, 0 0 30px #0077b6; }
-  100% { text-shadow: 0 0 10px #00c4cc, 0 0 20px #0077b6; }
-}
-
-/* Error Boundary Fallback UI */
-.error-boundary {
-  color: #ffffff;
-  text-align: center;
-  padding: 20px;
-  background: rgba(255, 107, 107, 0.2);
-  border-radius: 10px;
-  margin: 20px;
-}
-
-body.windows-theme .error-boundary {
-  color: #000000;
-  background: #FFFFFF;
-  border: 2px inset #FFFFFF;
-}
-
-body.dark-theme .error-boundary {
-  color: #ffffff;
-  background: rgba(255, 107, 107, 0.2);
-}
-
-body.cyber-theme .error-boundary {
-  color: #FF0000;
-  background: #000000;
-  border: 1px dashed #FF0000;
-  border-radius: 0;
-}
-
-body.sunrise-theme .error-boundary {
-  color: #ffffff;
-  background: rgba(233, 30, 99, 0.3);
-  border-radius: 20px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-body.oceans-theme .error-boundary {
-  color: #ffffff;
-  background: rgba(0, 48, 135, 0.3);
-  border-radius: 20px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* Ponzi Game Box */
-.ponzi-box {
-  background: rgba(15, 15, 15, 0.8);
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-}
-
-/* Row of Ponzi games */
-.ponzi-row {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  gap: 40px;
-  width: 100%;
-  margin-bottom: 40px;
-}
-
-.ponzi-row:last-child {
-  margin-bottom: 0;
-}
-
-/* Individual Ponzi game item */
-.ponzi-item {
-  flex: 1;
-  min-width: 200px;
-  max-width: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-}
-
-/* Theme-specific styles for Ponzi game */
-body.windows-theme .ponzi-box {
-  background: #C0C0C0;
-  padding: 8px;
-  border: 2px outset #FFFFFF;
-  max-width: 800px;
-}
-
-body.windows-theme .ponzi-item {
-  background: #C0C0C0;
-  border: 2px outset #FFFFFF;
-  padding: 4px;
-}
-
-body.dark-theme .ponzi-box {
-  background: linear-gradient(90deg, #1c2526 0%, #2c3e50 100%);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-body.dark-theme .ponzi-item {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-body.cyber-theme .ponzi-box {
-  background: #000000;
-  border: 1px solid #00FF00;
-  border-radius: 0;
-  box-shadow: 0 0 10px #00FF00;
-}
-
-body.cyber-theme .ponzi-item {
-  background: transparent;
-  border: 1px dashed #00FF00;
-  border-radius: 0;
-}
-
-body.sunrise-theme .ponzi-box {
-  background: rgba(255, 235, 59, 0.1);
-  border-radius: 20px;
-  box-shadow: 0 0 15px rgba(255, 152, 0, 0.5);
-}
-
-body.sunrise-theme .ponzi-item {
-  background: rgba(255, 152, 0, 0.2);
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(255, 235, 59, 0.3);
-}
-
-body.oceans-theme .ponzi-box {
-  background: rgba(0, 196, 204, 0.1);
-  border-radius: 20px;
-  box-shadow: 0 0 15px rgba(0, 119, 182, 0.5);
-}
-
-body.oceans-theme .ponzi-item {
-  background: rgba(0, 119, 182, 0.2);
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0, 196, 204, 0.3);
-}
-
-/* Responsive adjustments for Ponzi game */
-@media (max-width: 1200px) {
-  .ponzi-item {
-    min-width: 180px;
-    max-width: 200px;
-  }
-}
-
-@media (max-width: 900px) {
-  .ponzi-row {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-  }
-
-  .ponzi-item {
-    flex: 0 0 30%;
-    min-width: 140px;
-    max-width: 180px;
-  }
-}
-
-@media (max-width: 600px) {
-  .ponzi-item {
-    flex: 0 0 45%;
-    min-width: 120px;
-    max-width: 160px;
-  }
-}
-
