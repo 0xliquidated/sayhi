@@ -36,7 +36,10 @@ const chainEmojis = {
   canto: "🎶",
   degen: "😈",
   hyperevm: "🌌",
-  fraxtal: "💎"
+  fraxtal: "💎",
+  superseed: "🌱",
+  swanchain: "🦢",
+  superseedmainnet: "🌱" // Same emoji as SuperSeed, but distinguished by name
 };
 
 // Block explorer URLs for each chain (mainnets only)
@@ -70,7 +73,10 @@ const explorerUrls = {
   canto: "https://tuber.build/tx/",
   degen: "https://explorer.degen.tips/tx/",
   hyperevm: "https://purrsec.com/tx/",
-  fraxtal: "https://fraxscan.com/tx/"
+  fraxtal: "https://fraxscan.com/tx/",
+  superseed: "", // Placeholder until explorer URL is provided
+  swanchain: "", // Placeholder until explorer URL is provided
+  superseedmainnet: "" // Placeholder until explorer URL is provided
 };
 
 // Contract ABI (consistent across chains)
@@ -135,7 +141,10 @@ const chains = {
   canto: { chainId: 7700, address: "0xD34418c860ADdBB614Ccfe836D889B5C93817891", abi: contractABI },
   degen: { chainId: 666666666, address: "0x2D2f709A6a4A808Bc379e27C6e17F8C1700A6821", abi: contractABI },
   hyperevm: { chainId: 999, address: "0x49351058eb55f54b1ed1dd4855c2cf274eed484c", abi: contractABI },
-  fraxtal: { chainId: 252, address: "0x6a1a98510a2eb1181cc9759bE96495118c1790F1", abi: contractABI }
+  fraxtal: { chainId: 252, address: "0x6a1a98510a2eb1181cc9759bE96495118c1790F1", abi: contractABI },
+  superseed: { chainId: 53302, address: "0x3eeBF0A07e3833B4dF5042aF0E12854921938Bc1", abi: contractABI },
+  swanchain: { chainId: 254, address: "0x2D2f709A6a4A808Bc379e27C6e17F8C1700A6821", abi: contractABI },
+  superseedmainnet: { chainId: 5330, address: "0x6a1a98510a2eb1181cc9759bE96495118c1790F1", abi: contractABI }
 };
 
 // Error Boundary Component
@@ -240,7 +249,10 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "canto" ? "Canto" :
             chainKey === "degen" ? "Degen" :
             chainKey === "hyperevm" ? "HyperEVM" :
-            chainKey === "fraxtal" ? "Fraxtal" : ""
+            chainKey === "fraxtal" ? "Fraxtal" :
+            chainKey === "superseed" ? "SuperSeed" :
+            chainKey === "swanchain" ? "SwanChain" :
+            chainKey === "superseedmainnet" ? "SuperSeed Mainnet" : ""
           } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -275,7 +287,10 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "canto" ? "Canto" :
             chainKey === "degen" ? "Degen" :
             chainKey === "hyperevm" ? "HyperEVM" :
-            chainKey === "fraxtal" ? "Fraxtal" : ""
+            chainKey === "fraxtal" ? "Fraxtal" :
+            chainKey === "superseed" ? "SuperSeed" :
+            chainKey === "swanchain" ? "SwanChain" :
+            chainKey === "superseedmainnet" ? "SuperSeed Mainnet" : ""
           }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -310,7 +325,10 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "canto" ? "Canto" :
             chainKey === "degen" ? "Degen" :
             chainKey === "hyperevm" ? "HyperEVM" :
-            chainKey === "fraxtal" ? "Fraxtal" : ""
+            chainKey === "fraxtal" ? "Fraxtal" :
+            chainKey === "superseed" ? "SuperSeed" :
+            chainKey === "swanchain" ? "SwanChain" :
+            chainKey === "superseedmainnet" ? "SuperSeed Mainnet" : ""
           }.`
         );
       } else {
@@ -355,7 +373,10 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "canto" ? "Canto" :
            chainKey === "degen" ? "Degen" :
            chainKey === "hyperevm" ? "HyperEVM" :
-           chainKey === "fraxtal" ? "Fraxtal" : ""}{" "}
+           chainKey === "fraxtal" ? "Fraxtal" :
+           chainKey === "superseed" ? "SuperSeed" :
+           chainKey === "swanchain" ? "SwanChain" :
+           chainKey === "superseedmainnet" ? "SuperSeed Mainnet" : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -396,7 +417,7 @@ function App() {
   const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
 
-  const totalChains = Object.keys(chains).length; // 30 chains
+  const totalChains = Object.keys(chains).length; // 33 chains
   const totalPossibleInteractions = totalChains * 3; // 3 interactions per chain (Say Hi, Say GM, Say GN)
   const totalInteractions = getTotalInteractions(interactions);
   const progressPercentage = Math.min((totalInteractions / totalPossibleInteractions) * 100, 100);
@@ -542,6 +563,11 @@ function App() {
             <SayHiButton chainKey="degen" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="hyperevm" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="fraxtal" signer={signer} onSuccess={handleSuccess} />
+          </div>
+          <div className="chains-row">
+            <SayHiButton chainKey="superseed" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="swanchain" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="superseedmainnet" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
         {showPopup && (
