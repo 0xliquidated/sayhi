@@ -7,38 +7,39 @@ import { connectWallet, checkWalletConnected, disconnectWallet } from "./utils/w
 
 // Define matching emojis for each chain (mainnets only)
 const chainEmojis = {
-  ink: "✨",
-  base: "🌈",
-  arbitrum: "💥",
+  ink: "🖋️",
+  base: "⚡",
+  arbitrum: "⭐",
   berachain: "🐻",
   energi: "⚡",
-  bnb: "🌟",
-  op: "🔥",
-  soneium: "🎉",
-  unichain: "🚀",
-  mantle: "🪐",
-  bob: "🛠️",
+  bnb: "🔶",
+  op: "🔴",
+  soneium: "🌟",
+  unichain: "🦄",
+  mantle: "🔷",
+  bob: "👷",
   sei: "🌊",
   telos: "🌐",
-  polygon: "⬣",
-  avax: "❄️",
-  superposition: "⚛️",
-  story: "📖",
-  polygonzkevm: "🔒",
-  cronos: "⏳",
+  polygon: "💜",
+  avax: "🔺",
+  superposition: "🌌",
+  story: "📚",
+  polygonzkevm: "💫",
+  cronos: "⚛️",
   zora: "🎨",
-  ethereum: "Ξ",
-  sonic: "🎵",
-  celo: "🌿",
+  ethereum: "💎",
+  sonic: "🦔",
+  celo: "🌱",
   etherlink: "🔗",
-  zircuit: "⚡️",
-  expanse: "🌍",
-  canto: "🎶",
-  degen: "😈",
-  hyperevm: "🌌",
-  fraxtal: "💎",
+  zircuit: "⚡",
+  expanse: "🌐",
+  canto: "🎭",
+  degen: "🎮",
+  hyperevm: "🚀",
+  fraxtal: "🔷",
   superseed: "🌱",
-  swanchain: "🦢"
+  swanchain: "🦢",
+  lens: "🌿" // Emoji for Lens
 };
 
 // Block explorer URLs for each chain (mainnets only)
@@ -74,7 +75,8 @@ const explorerUrls = {
   hyperevm: "https://purrsec.com/tx/",
   fraxtal: "https://fraxscan.com/tx/",
   superseed: "", // Placeholder until explorer URL is provided
-  swanchain: "" // Placeholder until explorer URL is provided
+  swanchain: "", // Placeholder until explorer URL is provided
+  lens: "" // Placeholder until explorer URL is provided
 };
 
 // Contract ABI (consistent across chains)
@@ -141,7 +143,14 @@ const chains = {
   hyperevm: { chainId: 999, address: "0x49351058eb55f54b1ed1dd4855c2cf274eed484c", abi: contractABI },
   fraxtal: { chainId: 252, address: "0x6a1a98510a2eb1181cc9759bE96495118c1790F1", abi: contractABI },
   superseed: { chainId: 53302, address: "0x3eeBF0A07e3833B4dF5042aF0E12854921938Bc1", abi: contractABI },
-  swanchain: { chainId: 254, address: "0x2D2f709A6a4A808Bc379e27C6e17F8C1700A6821", abi: contractABI }
+  swanchain: { chainId: 254, address: "0x2D2f709A6a4A808Bc379e27C6e17F8C1700A6821", abi: contractABI },
+  lens: { chainId: 232, address: "0x85bF0e5C33b6927266fDDe48c56DE358d7f6b3Fa", abi: contractABI }
+};
+
+// Custom RPC URLs for chains (optional, for fallback)
+const customRpcUrls = {
+  sepolia: "https://rpc.sepolia.dev", // Fallback RPC for Sepolia
+  lens: "https://rpc.lens.xyz" // RPC URL for Lens
 };
 
 // Error Boundary Component
@@ -195,7 +204,13 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       });
       console.log(`Successfully switched to ${chainKey}`);
 
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      let provider = initialProvider;
+      if (chainKey === "sepolia" && customRpcUrls.sepolia) {
+        provider = new ethers.providers.JsonRpcProvider(customRpcUrls.sepolia);
+      } else if (chainKey === "lens" && customRpcUrls.lens) {
+        provider = new ethers.providers.JsonRpcProvider(customRpcUrls.lens);
+      }
+
       const network = await provider.getNetwork();
       console.log(`Current network after switch:`, network);
       if (network.chainId !== chain.chainId) {
@@ -248,8 +263,9 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "hyperevm" ? "HyperEVM" :
             chainKey === "fraxtal" ? "Fraxtal" :
             chainKey === "superseed" ? "SuperSeed" :
-            chainKey === "swanchain" ? "SwanChain" : ""
-          } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
+            chainKey === "swanchain" ? "SwanChain" :
+            chainKey === "lens" ? "Lens" : ""
+          } (Chain ID: ${chains[chainKey].chainId}) is not recognized by your wallet. Please ensure your wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
         setErrorMessage(
@@ -285,8 +301,9 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "hyperevm" ? "HyperEVM" :
             chainKey === "fraxtal" ? "Fraxtal" :
             chainKey === "superseed" ? "SuperSeed" :
-            chainKey === "swanchain" ? "SwanChain" : ""
-          }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
+            chainKey === "swanchain" ? "SwanChain" :
+            chainKey === "lens" ? "Lens" : ""
+          }. Please add ETH to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
         setErrorMessage(
@@ -322,7 +339,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "hyperevm" ? "HyperEVM" :
             chainKey === "fraxtal" ? "Fraxtal" :
             chainKey === "superseed" ? "SuperSeed" :
-            chainKey === "swanchain" ? "SwanChain" : ""
+            chainKey === "swanchain" ? "SwanChain" :
+            chainKey === "lens" ? "Lens" : ""
           }.`
         );
       } else {
@@ -369,7 +387,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "hyperevm" ? "HyperEVM" :
            chainKey === "fraxtal" ? "Fraxtal" :
            chainKey === "superseed" ? "SuperSeed" :
-           chainKey === "swanchain" ? "SwanChain" : ""}{" "}
+           chainKey === "swanchain" ? "SwanChain" :
+           chainKey === "lens" ? "Lens" : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -560,6 +579,7 @@ function App() {
           <div className="chains-row">
             <SayHiButton chainKey="superseed" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="swanchain" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="lens" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
         {showPopup && (
