@@ -19,7 +19,8 @@ const chainEmojis = {
   rise: "🌅",
   seismic: "🌍",
   saharaai: "🏜️",
-  camp: "🏕️" // Emoji for Camp Testnet
+  camp: "🏕️", // Emoji for Camp Testnet
+  pharos: "🔦" // Emoji for Pharos Testnet
 };
 
 // Block explorer URLs for each chain (testnets only)
@@ -37,7 +38,8 @@ const explorerUrls = {
   rise: "https://explorer.testnet.riselabs.xyz/tx/",
   seismic: "", // No explorer provided, leaving empty
   saharaai: "https://testnet-explorer.saharalabs.ai/",
-  camp: "" // No explorer provided, leaving empty
+  camp: "", // No explorer provided, leaving empty
+  pharos: "" // No explorer provided yet
 };
 
 // Contract ABI (original version without fees)
@@ -91,7 +93,8 @@ const testnetChains = {
   rise: { chainId: 11155931, address: "0x6dACdE183936F5B86029823538759D81148BaA4b", abi: contractABI },
   seismic: { chainId: 5124, address: "0x6dACdE183936F5B86029823538759D81148BaA4b", abi: contractABI },
   saharaai: { chainId: 313313, address: "0xD34418c860ADdBB614Ccfe836D889B5C93817891", abi: contractABI },
-  camp: { chainId: 123420001114, address: "0x6dACdE183936F5B86029823538759D81148BaA4b", abi: contractABI }
+  camp: { chainId: 123420001114, address: "0x6dACdE183936F5B86029823538759D81148BaA4b", abi: contractABI },
+  pharos: { chainId: 688688, address: "0xd34418c860addbb614ccfe836d889b5c93817891", abi: contractABI }
 };
 
 // Error Boundary Component
@@ -184,7 +187,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "rise" ? "RISE Testnet" :
             chainKey === "seismic" ? "Seismic Devnet" :
             chainKey === "saharaai" ? "Sahara AI Testnet" :
-            chainKey === "camp" ? "Camp Testnet" : ""
+            chainKey === "camp" ? "Camp Testnet" :
+            chainKey === "pharos" ? "Pharos Testnet" : ""
           } (Chain ID: ${testnetChains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
@@ -203,7 +207,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "rise" ? "RISE Testnet" :
             chainKey === "seismic" ? "Seismic Devnet" :
             chainKey === "saharaai" ? "Sahara AI Testnet" :
-            chainKey === "camp" ? "Camp Testnet" : ""
+            chainKey === "camp" ? "Camp Testnet" :
+            chainKey === "pharos" ? "Pharos Testnet" : ""
           }. Please add ETH to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
@@ -222,7 +227,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "rise" ? "RISE Testnet" :
             chainKey === "seismic" ? "Seismic Devnet" :
             chainKey === "saharaai" ? "Sahara AI Testnet" :
-            chainKey === "camp" ? "Camp Testnet" : ""
+            chainKey === "camp" ? "Camp Testnet" :
+            chainKey === "pharos" ? "Pharos Testnet" : ""
           }.`
         );
       } else {
@@ -251,7 +257,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "rise" ? "RISE Testnet" :
            chainKey === "seismic" ? "Seismic Devnet" :
            chainKey === "saharaai" ? "Sahara AI Testnet" :
-           chainKey === "camp" ? "Camp Testnet" : ""}{" "}
+           chainKey === "camp" ? "Camp Testnet" :
+           chainKey === "pharos" ? "Pharos Testnet" : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
@@ -416,6 +423,7 @@ function Testnets() {
             <SayHiButton chainKey="seismic" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="saharaai" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="camp" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="pharos" signer={signer} onSuccess={handleSuccess} />
           </div>
         </div>
         {showPopup && (
