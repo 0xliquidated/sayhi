@@ -1378,7 +1378,7 @@ body.sunrise-theme .disconnect-button {
 }
 
 body.sunrise-theme .disconnect-button:hover:not(:disabled) {
-  background: linear-gradient(90deg, #e91e63 0%, #ff6f61 100%);
+  background: linear-gradient(90deg, #e91e63 0%, #ff6b6b 100%);
   box-shadow: 0 6px 20px rgba(233, 30, 99, 0.6);
 }
 
@@ -1639,4 +1639,230 @@ body.oceans-theme .theme-select {
 body.oceans-theme .theme-select option {
   background: rgba(0, 119, 182, 0.3);
   color: #ffffff;
+}
+
+/* Vibe Theme */
+body.vibe-theme {
+  background: linear-gradient(135deg, #2a0845 0%, #6441A5 50%, #2a0845 100%);
+  color: #ffffff;
+  font-family: 'Inter', 'Poppins', sans-serif;
+}
+
+body.vibe-theme .app-container {
+  background: linear-gradient(135deg, rgba(42, 8, 69, 0.8) 0%, rgba(100, 65, 165, 0.8) 50%, rgba(42, 8, 69, 0.8) 100%);
+  padding: 40px 20px;
+  backdrop-filter: blur(10px);
+}
+
+body.vibe-theme .nav-menu {
+  background: rgba(42, 8, 69, 0.9);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 30px rgba(100, 65, 165, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.vibe-theme .nav-link {
+  color: #ffffff;
+  background: linear-gradient(90deg, #6441A5 0%, #2a0845 100%);
+  border: none;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(100, 65, 165, 0.3);
+  backdrop-filter: blur(5px);
+}
+
+body.vibe-theme .nav-link:hover {
+  background: linear-gradient(90deg, #2a0845 0%, #6441A5 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 65, 165, 0.5);
+}
+
+body.vibe-theme h1 {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(100, 65, 165, 0.5);
+  animation: vibe-pulse 2s ease-in-out infinite;
+}
+
+@keyframes vibe-pulse {
+  0% { text-shadow: 0 0 10px rgba(100, 65, 165, 0.5); }
+  50% { text-shadow: 0 0 20px rgba(100, 65, 165, 0.8); }
+  100% { text-shadow: 0 0 10px rgba(100, 65, 165, 0.5); }
+}
+
+body.vibe-theme .wallet-address {
+  color: #ffffff;
+  background: rgba(100, 65, 165, 0.2);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(100, 65, 165, 0.2);
+}
+
+body.vibe-theme .progress-section {
+  background: rgba(42, 8, 69, 0.3);
+  backdrop-filter: blur(5px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(100, 65, 165, 0.2);
+}
+
+body.vibe-theme .progress-title {
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.vibe-theme .progress-bar-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+body.vibe-theme .progress-bar {
+  background: linear-gradient(90deg, #6441A5 0%, #2a0845 100%);
+  box-shadow: 0 0 15px rgba(100, 65, 165, 0.5);
+}
+
+body.vibe-theme .progress-text,
+body.vibe-theme .timer-text {
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.vibe-theme .chains-box {
+  background: rgba(42, 8, 69, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(100, 65, 165, 0.3);
+}
+
+body.vibe-theme .chain-item {
+  background: rgba(100, 65, 165, 0.2);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(100, 65, 165, 0.2);
+  transition: all 0.3s ease;
+}
+
+body.vibe-theme .chain-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 65, 165, 0.4);
+}
+
+body.vibe-theme .chain-name h2 {
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.vibe-theme .modern-button {
+  color: #ffffff;
+  background: linear-gradient(90deg, #6441A5 0%, #2a0845 100%);
+  border: none;
+  box-shadow: 0 4px 15px rgba(100, 65, 165, 0.3);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+}
+
+body.vibe-theme .modern-button:hover:not(:disabled) {
+  background: linear-gradient(90deg, #2a0845 0%, #6441A5 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 65, 165, 0.5);
+}
+
+body.vibe-theme .modern-button:disabled {
+  background: rgba(100, 65, 165, 0.3);
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+body.vibe-theme .spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+}
+
+body.vibe-theme .disconnect-button {
+  background: linear-gradient(90deg, #e91e63 0%, #ff6b6b 100%);
+}
+
+body.vibe-theme .disconnect-button:hover:not(:disabled) {
+  background: linear-gradient(90deg, #ff6b6b 0%, #e91e63 100%);
+  box-shadow: 0 6px 20px rgba(233, 30, 99, 0.6);
+}
+
+body.vibe-theme .error-message {
+  color: #ff6b6b;
+  background: rgba(233, 30, 99, 0.2);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.2);
+}
+
+body.vibe-theme .popup-overlay {
+  background: rgba(42, 8, 69, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+body.vibe-theme .popup-content {
+  background: rgba(100, 65, 165, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(100, 65, 165, 0.3);
+}
+
+body.vibe-theme .popup-content h2 {
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.vibe-theme .popup-content p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+body.vibe-theme .transaction-link {
+  color: #6441A5;
+  text-shadow: 0 0 5px rgba(100, 65, 165, 0.5);
+}
+
+body.vibe-theme .transaction-link:hover {
+  color: #2a0845;
+}
+
+body.vibe-theme .footer {
+  background: rgba(42, 8, 69, 0.9);
+  backdrop-filter: blur(5px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 -4px 30px rgba(100, 65, 165, 0.3);
+}
+
+body.vibe-theme .footer-column h3 {
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.vibe-theme .footer-column .footer-link {
+  color: #ffffff;
+  background: linear-gradient(90deg, #6441A5 0%, #2a0845 100%);
+  border: none;
+  box-shadow: 0 4px 15px rgba(100, 65, 165, 0.3);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+}
+
+body.vibe-theme .footer-column .footer-link:hover {
+  background: linear-gradient(90deg, #2a0845 0%, #6441A5 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 65, 165, 0.5);
+}
+
+body.vibe-theme .theme-select {
+  color: #ffffff;
+  background: rgba(100, 65, 165, 0.2);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(100, 65, 165, 0.2);
+}
+
+body.vibe-theme .theme-select option {
+  background: #2a0845;
+  color: #ffffff;
+  backdrop-filter: blur(5px);
 }
