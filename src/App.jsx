@@ -90,7 +90,7 @@ const contractABI = [
 
 // Chain configurations
 const chains = {
-  ink: { chainId: 1234, address: "0x49351058eb55f54b1ed1dd4855c2cf274eed484c", abi: contractABI },
+  ink: { chainId: 57073, address: "0x49351058eb55f54b1ed1dd4855c2cf274eed484c", abi: contractABI },
   base: { chainId: 8453, address: "0x49351058eb55f54b1ed1dd4855c2cf274eed484c", abi: contractABI },
   arbitrum: { chainId: 42161, address: "0x49351058eb55f54b1ed1dd4855c2cf274eed484c", abi: contractABI },
   berachain: { chainId: 80085, address: "0x49351058eb55f54b1ed1dd4855c2cf274eed484c", abi: contractABI },
