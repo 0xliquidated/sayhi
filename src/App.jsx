@@ -392,13 +392,10 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
 function App() {
   const [signer, setSigner] = useState(null);
   const [address, setAddress] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
-  const [transactionHash, setTransactionHash] = useState("");
-  const [explorerUrl, setExplorerUrl] = useState("");
   const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
 
-  const totalChains = Object.keys(chains).length; // Updated to 30 chains
+  const totalChains = Object.keys(chains).length;
   const uniqueChains = getUniqueChainsInteracted(interactions);
   const progressPercentage = (uniqueChains / totalChains) * 100;
 
@@ -464,17 +461,8 @@ function App() {
   };
 
   const handleSuccess = (txHash, chainKey) => {
-    setTransactionHash(txHash);
-    setExplorerUrl(explorerUrls[chainKey]);
-    setShowPopup(true);
     const updatedInteractions = getUserInteractions();
     setInteractions(updatedInteractions);
-  };
-
-  const closePopup = () => {
-    setShowPopup(false);
-    setTransactionHash("");
-    setExplorerUrl("");
   };
 
   useEffect(() => {
@@ -554,23 +542,11 @@ function App() {
             <SayHiButton chainKey="hyperevm" signer={signer} onSuccess={handleSuccess} />
             <SayHiButton chainKey="fraxtal" signer={signer} onSuccess={handleSuccess} />
           </div>
-        </div>
-        {showPopup && (
-          <div className="popup-overlay">
-            <div className="popup-content">
-              <h2>Success! You said Hi!</h2>
-              <p>
-                Transaction Link:{" "}
-                <a href={`${explorerUrl}${transactionHash}`} target="_blank" rel="noopener noreferrer" className="transaction-link">
-                  View on Explorer
-                </a>
-              </p>
-              <button className="modern-button close-button" onClick={closePopup}>
-                Close
-              </button>
-            </div>
+          <div className="chains-row">
+            <SayHiButton chainKey="superseed" signer={signer} onSuccess={handleSuccess} />
+            <SayHiButton chainKey="swanchain" signer={signer} onSuccess={handleSuccess} />
           </div>
-        )}
+        </div>
       </div>
     </ErrorBoundary>
   );

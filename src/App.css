@@ -170,9 +170,19 @@ h1 {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 1600px;
+  margin: 0 auto;
+}
+
+.chains-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
+  margin-bottom: 20px;
+}
+
+.chains-row:last-child {
+  grid-template-columns: repeat(2, 1fr);
+  width: 40%;
   margin: 0 auto;
 }
 
@@ -183,7 +193,7 @@ h1 {
   align-items: center;
   text-align: center;
   padding: 15px;
-  min-width: 0; /* Allows items to shrink below min-content if needed */
+  min-width: 0;
 }
 
 /* Chain name container */
@@ -437,26 +447,38 @@ h1 {
 
 /* Responsive adjustments */
 @media (max-width: 1600px) {
-  .chains-box {
+  .chains-row {
     grid-template-columns: repeat(4, 1fr);
+  }
+  .chains-row:last-child {
+    width: 50%;
   }
 }
 
 @media (max-width: 1200px) {
-  .chains-box {
+  .chains-row {
     grid-template-columns: repeat(3, 1fr);
+  }
+  .chains-row:last-child {
+    width: 66%;
   }
 }
 
 @media (max-width: 900px) {
-  .chains-box {
+  .chains-row {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .chains-row:last-child {
+    width: 100%;
   }
 }
 
 @media (max-width: 600px) {
-  .chains-box {
+  .chains-row {
     grid-template-columns: 1fr;
+  }
+  .chains-row:last-child {
+    width: 100%;
   }
 }
 
