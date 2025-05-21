@@ -36,7 +36,9 @@ const chainEmojis = {
   canto: "🎶",
   degen: "😈",
   hyperevm: "🌌",
-  fraxtal: "💎"
+  fraxtal: "💎",
+  superseed: "🌱",
+  swanchain: "🦢"
 };
 
 // Block explorer URLs for each chain (mainnets only)
@@ -357,7 +359,9 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "canto" ? "Canto" :
            chainKey === "degen" ? "Degen" :
            chainKey === "hyperevm" ? "HyperEVM" :
-           chainKey === "fraxtal" ? "Fraxtal" : ""}{" "}
+           chainKey === "fraxtal" ? "Fraxtal" :
+           chainKey === "superseed" ? "Superseed" :
+           chainKey === "swanchain" ? "Swanchain" : ""}{" "}
           {matchingEmoji}
         </h2>
       </div>
