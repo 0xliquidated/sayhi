@@ -500,52 +500,38 @@ function App() {
           <p className="timer-text">Resets in: {timeRemaining}</p>
         </div>
         <div className="chains-box">
-          <div className="chains-row">
-            <SayHiButton chainKey="ink" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="base" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="arbitrum" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="berachain" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="energi" signer={signer} onSuccess={handleSuccess} />
-          </div>
-          <div className="chains-row">
-            <SayHiButton chainKey="bnb" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="op" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="soneium" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="unichain" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="mantle" signer={signer} onSuccess={handleSuccess} />
-          </div>
-          <div className="chains-row">
-            <SayHiButton chainKey="bob" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="sei" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="telos" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="polygon" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="avax" signer={signer} onSuccess={handleSuccess} />
-          </div>
-          <div className="chains-row">
-            <SayHiButton chainKey="superposition" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="story" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="polygonzkevm" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="cronos" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="zora" signer={signer} onSuccess={handleSuccess} />
-          </div>
-          <div className="chains-row">
-            <SayHiButton chainKey="ethereum" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="sonic" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="celo" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="etherlink" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="zircuit" signer={signer} onSuccess={handleSuccess} />
-          </div>
-          <div className="chains-row">
-            <SayHiButton chainKey="expanse" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="canto" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="degen" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="hyperevm" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="fraxtal" signer={signer} onSuccess={handleSuccess} />
-          </div>
-          <div className="chains-row">
-            <SayHiButton chainKey="superseed" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="swanchain" signer={signer} onSuccess={handleSuccess} />
-          </div>
+          <SayHiButton chainKey="ink" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="base" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="arbitrum" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="berachain" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="energi" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="bnb" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="op" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="soneium" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="unichain" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="mantle" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="bob" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="sei" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="telos" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="polygon" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="avax" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="superposition" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="story" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="polygonzkevm" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="cronos" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="zora" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="ethereum" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="sonic" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="celo" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="etherlink" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="zircuit" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="expanse" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="canto" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="degen" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="hyperevm" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="fraxtal" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="superseed" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="swanchain" signer={signer} onSuccess={handleSuccess} />
         </div>
       </div>
     </ErrorBoundary>
