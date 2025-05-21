@@ -1,0 +1,238 @@
+/* Windows 95/XP Theme */
+body.windows-theme {
+  background: #008080; /* Teal background like Windows 95 */
+  color: #000000;
+  font-family: 'Arial', sans-serif;
+}
+
+body.windows-theme .app-container {
+  background: #C0C0C0; /* Light gray like XP windows */
+  padding: 10px;
+  border: 2px outset #FFFFFF; /* Beveled edge */
+}
+
+body.windows-theme .nav-menu {
+  padding: 4px;
+  background: #C0C0C0;
+  border: 2px outset #FFFFFF;
+}
+
+body.windows-theme .nav-list {
+  gap: 2px;
+}
+
+body.windows-theme .nav-link {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  color: #000000;
+  padding: 4px 12px;
+  background: #C0C0C0;
+  border: 2px outset #FFFFFF;
+}
+
+body.windows-theme .nav-link:hover,
+body.windows-theme .nav-link:active {
+  background: #A0A0A0;
+  border: 2px inset #FFFFFF;
+}
+
+body.windows-theme .header-section {
+  background: linear-gradient(to right, #000080, #1084D0);
+  padding: 4px;
+  border: 2px outset #FFFFFF;
+  color: #FFFFFF;
+}
+
+body.windows-theme h1 {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+}
+
+body.windows-theme .wallet-address {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  color: #000000;
+  background: #FFFFFF;
+  padding: 4px 8px;
+  border: 2px inset #FFFFFF;
+}
+
+body.windows-theme .progress-section {
+  background: #C0C0C0;
+  padding: 8px;
+  border: 2px outset #FFFFFF;
+}
+
+body.windows-theme .progress-title {
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  color: #000000;
+}
+
+body.windows-theme .progress-bar-container {
+  background: #FFFFFF;
+  border: 2px inset #FFFFFF;
+}
+
+body.windows-theme .progress-bar {
+  background: #0000FF;
+}
+
+body.windows-theme .progress-text,
+body.windows-theme .timer-text {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  color: #000000;
+}
+
+body.windows-theme .chains-box {
+  background: #C0C0C0;
+  padding: 8px;
+  border: 2px outset #FFFFFF;
+  max-width: 800px;
+}
+
+body.windows-theme .chain-item {
+  min-width: 120px;
+  max-width: 160px;
+  background: #C0C0C0;
+  border: 2px outset #FFFFFF;
+  padding: 4px;
+}
+
+body.windows-theme .chain-name h2 {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  color: #000000;
+}
+
+body.windows-theme .modern-button {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  color: #000000;
+  background: #C0C0C0;
+  border: 2px outset #FFFFFF;
+  padding: 4px 12px;
+  max-width: 120px;
+}
+
+body.windows-theme .modern-button:hover:not(:disabled) {
+  background: #A0A0A0;
+}
+
+body.windows-theme .modern-button:active:not(:disabled) {
+  border: 2px inset #FFFFFF;
+}
+
+body.windows-theme .modern-button:disabled {
+  background: #808080;
+  color: #C0C0C0;
+}
+
+body.windows-theme .spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid #000000;
+  border-top-color: #FFFFFF;
+}
+
+body.windows-theme .connect-button,
+body.windows-theme .disconnect-button {
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+body.windows-theme .disconnect-button {
+  background: #C00000;
+  color: #FFFFFF;
+}
+
+body.windows-theme .disconnect-button:hover:not(:disabled) {
+  background: #A00000;
+}
+
+body.windows-theme .error-message {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  color: #FF0000;
+  background: #FFFFFF;
+  padding: 4px;
+  border: 2px inset #FFFFFF;
+}
+
+body.windows-theme .popup-overlay {
+  background: rgba(128, 128, 128, 0.5);
+}
+
+body.windows-theme .popup-content {
+  background: #C0C0C0;
+  padding: 8px;
+  border: 2px outset #FFFFFF;
+  max-width: 300px;
+}
+
+body.windows-theme .popup-content h2 {
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  color: #FFFFFF;
+  background: linear-gradient(to right, #000080, #1084D0);
+  padding: 4px;
+  margin: -8px -8px 8px -8px;
+}
+
+body.windows-theme .popup-content p {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  color: #000000;
+}
+
+body.windows-theme .transaction-link {
+  color: #0000FF;
+}
+
+body.windows-theme .transaction-link:hover {
+  color: #FF0000;
+}
+
+body.windows-theme .close-button {
+  padding: 4px 12px;
+}
+
+body.windows-theme .footer {
+  padding: 8px;
+  background: #C0C0C0;
+  border: 2px outset #FFFFFF;
+}
+
+body.windows-theme .footer-column h3 {
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  color: #000000;
+}
+
+body.windows-theme .footer-column .footer-link {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  color: #000000;
+  padding: 4px 12px;
+  background: #C0C0C0;
+  border: 2px outset #FFFFFF;
+}
+
+body.windows-theme .footer-column .footer-link:hover {
+  background: #A0A0A0;
+}
+
+body.windows-theme .theme-select {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  color: #000000;
+  background: #FFFFFF;
+  border: 2px inset #FFFFFF;
+  padding: 2px;
+}
+
+body.windows-theme .theme-select option {
+  background: #FFFFFF;
+  color: #000000;
+} 

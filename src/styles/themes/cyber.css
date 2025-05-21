@@ -1,0 +1,342 @@
+/* Cyber Theme */
+body.cyber-theme {
+  background: #000000;
+  color: #00FF00;
+  font-family: 'Courier New', monospace;
+}
+
+body.cyber-theme .app-container {
+  background: linear-gradient(135deg, rgba(0, 255, 0, 0.1) 0%, rgba(0, 0, 0, 0.9) 50%, rgba(0, 255, 0, 0.1) 100%);
+  padding: var(--spacing-lg) var(--spacing-md);
+  border: 1px solid #00FF00;
+  box-shadow: 0 0 20px #00FF00, inset 0 0 10px #00FF00;
+  position: relative;
+  overflow: hidden;
+}
+
+body.cyber-theme .app-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00FF00, transparent);
+  animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+body.cyber-theme .nav-menu {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid #00FF00;
+  box-shadow: 0 0 10px #00FF00;
+  position: relative;
+  overflow: hidden;
+}
+
+body.cyber-theme .nav-menu::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #00FF00;
+  animation: glitch 2s linear infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+body.cyber-theme .nav-link {
+  color: #00FF00;
+  background: transparent;
+  border: 1px solid #00FF00;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+body.cyber-theme .nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.4), transparent);
+  transition: 0.5s;
+}
+
+body.cyber-theme .nav-link:hover {
+  background: #00FF00;
+  color: #000000;
+  box-shadow: 0 0 20px #00FF00;
+  text-shadow: none;
+}
+
+body.cyber-theme .nav-link:hover::before {
+  left: 100%;
+}
+
+body.cyber-theme h1 {
+  color: #00FF00;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px #00FF00;
+  animation: textFlicker 1.5s infinite alternate;
+}
+
+@keyframes textFlicker {
+  0% { text-shadow: 0 0 10px #00FF00; }
+  25% { text-shadow: 0 0 5px #00FF00; }
+  50% { text-shadow: 0 0 15px #00FF00; }
+  100% { text-shadow: 0 0 10px #00FF00; }
+}
+
+body.cyber-theme .wallet-address {
+  color: #00FF00;
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00FF00;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 5px #00FF00;
+}
+
+body.cyber-theme .progress-section {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00FF00;
+  box-shadow: 0 0 10px #00FF00;
+}
+
+body.cyber-theme .progress-title {
+  color: #00FF00;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px #00FF00;
+}
+
+body.cyber-theme .progress-bar-container {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00FF00;
+  overflow: hidden;
+}
+
+body.cyber-theme .progress-bar {
+  background: #00FF00;
+  box-shadow: 0 0 10px #00FF00;
+  position: relative;
+}
+
+body.cyber-theme .progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: progressGlow 2s linear infinite;
+}
+
+@keyframes progressGlow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+body.cyber-theme .progress-text,
+body.cyber-theme .timer-text {
+  color: #00FF00;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 5px #00FF00;
+}
+
+body.cyber-theme .chains-box {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00FF00;
+  box-shadow: 0 0 20px #00FF00;
+}
+
+body.cyber-theme .chain-item {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00FF00;
+  transition: all 0.3s ease;
+}
+
+body.cyber-theme .chain-item:hover {
+  box-shadow: 0 0 20px #00FF00;
+  transform: translateY(-2px);
+}
+
+body.cyber-theme .chain-name h2 {
+  color: #00FF00;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px #00FF00;
+}
+
+body.cyber-theme .modern-button {
+  color: #00FF00;
+  background: transparent;
+  border: 1px solid #00FF00;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+body.cyber-theme .modern-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.4), transparent);
+  transition: 0.5s;
+}
+
+body.cyber-theme .modern-button:hover:not(:disabled) {
+  background: #00FF00;
+  color: #000000;
+  box-shadow: 0 0 20px #00FF00;
+}
+
+body.cyber-theme .modern-button:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+body.cyber-theme .modern-button:disabled {
+  opacity: 0.5;
+  border-color: rgba(0, 255, 0, 0.5);
+}
+
+body.cyber-theme .spinner {
+  border: 2px solid rgba(0, 255, 0, 0.3);
+  border-top-color: #00FF00;
+  box-shadow: 0 0 10px #00FF00;
+}
+
+body.cyber-theme .disconnect-button {
+  color: #FF0000;
+  border-color: #FF0000;
+}
+
+body.cyber-theme .disconnect-button:hover:not(:disabled) {
+  background: #FF0000;
+  color: #000000;
+  box-shadow: 0 0 20px #FF0000;
+}
+
+body.cyber-theme .error-message {
+  color: #FF0000;
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid #FF0000;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 5px #FF0000;
+}
+
+body.cyber-theme .popup-overlay {
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(5px);
+}
+
+body.cyber-theme .popup-content {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid #00FF00;
+  box-shadow: 0 0 20px #00FF00;
+}
+
+body.cyber-theme .popup-content h2 {
+  color: #00FF00;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px #00FF00;
+}
+
+body.cyber-theme .popup-content p {
+  color: #00FF00;
+  font-family: 'Courier New', monospace;
+}
+
+body.cyber-theme .transaction-link {
+  color: #00FF00;
+  text-decoration: none;
+  position: relative;
+}
+
+body.cyber-theme .transaction-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #00FF00;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+body.cyber-theme .transaction-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+body.cyber-theme .footer {
+  background: rgba(0, 0, 0, 0.9);
+  border-top: 1px solid #00FF00;
+  box-shadow: 0 0 10px #00FF00;
+}
+
+body.cyber-theme .footer-column h3 {
+  color: #00FF00;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px #00FF00;
+}
+
+body.cyber-theme .footer-column .footer-link {
+  color: #00FF00;
+  background: transparent;
+  border: 1px solid #00FF00;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+body.cyber-theme .footer-column .footer-link:hover {
+  background: #00FF00;
+  color: #000000;
+  box-shadow: 0 0 20px #00FF00;
+}
+
+body.cyber-theme .theme-select {
+  color: #00FF00;
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid #00FF00;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+body.cyber-theme .theme-select option {
+  background: #000000;
+  color: #00FF00;
+} 

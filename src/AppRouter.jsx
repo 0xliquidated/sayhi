@@ -4,6 +4,16 @@ import App from "./App.jsx";
 import Testnets from "./Testnets.jsx";
 import "./App.css";
 
+const THEMES = {
+  main: "",
+  windows: "windows-theme",
+  dark: "dark-theme",
+  cyber: "cyber-theme",
+  sunrise: "sunrise-theme",
+  oceans: "oceans-theme",
+  vibe: "vibe-theme"
+};
+
 function AppRouter() {
   const [theme, setTheme] = useState(() => {
     // Load the saved theme from localStorage, default to "main"
@@ -12,21 +22,7 @@ function AppRouter() {
 
   // Apply the theme to the body class on mount and when theme changes
   useEffect(() => {
-    document.body.className = ""; // Clear existing classes
-    if (theme === "windows") {
-      document.body.classList.add("windows-theme");
-    } else if (theme === "dark") {
-      document.body.classList.add("dark-theme");
-    } else if (theme === "cyber") {
-      document.body.classList.add("cyber-theme");
-    } else if (theme === "sunrise") {
-      document.body.classList.add("sunrise-theme");
-    } else if (theme === "oceans") {
-      document.body.classList.add("oceans-theme");
-    } else if (theme === "vibe") {
-      document.body.classList.add("vibe-theme");
-    }
-    // Save the theme to localStorage
+    document.body.className = THEMES[theme] || "";
     localStorage.setItem("theme", theme);
   }, [theme]);
 
@@ -69,13 +65,11 @@ function AppRouter() {
             <div className="footer-column">
               <h3>Theme</h3>
               <select className="theme-select" value={theme} onChange={handleThemeChange}>
-                <option value="main">Main</option>
-                <option value="windows">Windows</option>
-                <option value="dark">Dark</option>
-                <option value="cyber">Cyber</option>
-                <option value="sunrise">Sunrise</option>
-                <option value="oceans">Oceans</option>
-                <option value="vibe">Vibe</option>
+                {Object.keys(THEMES).map(themeName => (
+                  <option key={themeName} value={themeName}>
+                    {themeName.charAt(0).toUpperCase() + themeName.slice(1)}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

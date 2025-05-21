@@ -404,27 +404,21 @@ function Testnets() {
           <p className="timer-text">Resets in: {timeRemaining}</p>
         </div>
         <div className="chains-box">
-          <div className="chains-row">
-            <SayHiButton chainKey="monad" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="interop0" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="interop1" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="chainbase" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="megaeth" signer={signer} onSuccess={handleSuccess} />
-          </div>
-          <div className="chains-row">
-            <SayHiButton chainKey="basesepolia" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="sepolia" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="opsepolia" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="holesky" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="somnia" signer={signer} onSuccess={handleSuccess} />
-          </div>
-          <div className="chains-row">
-            <SayHiButton chainKey="rise" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="seismic" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="saharaai" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="camp" signer={signer} onSuccess={handleSuccess} />
-            <SayHiButton chainKey="pharos" signer={signer} onSuccess={handleSuccess} />
-          </div>
+          <SayHiButton chainKey="monad" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="interop0" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="interop1" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="chainbase" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="megaeth" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="basesepolia" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="sepolia" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="opsepolia" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="holesky" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="somnia" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="rise" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="seismic" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="saharaai" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="camp" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="pharos" signer={signer} onSuccess={handleSuccess} />
         </div>
         {showPopup && (
           <div className="popup-overlay">
