@@ -11,7 +11,8 @@ const THEMES = {
   cyber: "cyber-theme",
   sunrise: "sunrise-theme",
   oceans: "oceans-theme",
-  vibe: "vibe-theme"
+  vibe: "vibe-theme",
+  rainbows: "rainbows-theme"
 };
 
 function AppRouter() {
