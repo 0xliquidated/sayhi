@@ -140,8 +140,8 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       console.log(`Current network before switch:`, initialNetwork);
 
       const chain = testnetChains[chainKey];
-      const chainIdHex = "0x" + chain.chainId.toString(16);
-      console.log(`Switching to chain ${chainKey} (Chain ID: ${chain.chainId}, Hex: ${chainIdHex})`);
+      const chainIdHex = chain.chainId.toString();
+      console.log(`Switching to chain ${chainKey} (Chain ID: ${chain.chainId})`);
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: chainIdHex }],
