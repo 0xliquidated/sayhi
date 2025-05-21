@@ -23,6 +23,8 @@ function AppRouter() {
       document.body.classList.add("sunrise-theme");
     } else if (theme === "oceans") {
       document.body.classList.add("oceans-theme");
+    } else if (theme === "vibe") {
+      document.body.classList.add("vibe-theme");
     }
     // Save the theme to localStorage
     localStorage.setItem("theme", theme);
@@ -73,6 +75,7 @@ function AppRouter() {
                 <option value="cyber">Cyber</option>
                 <option value="sunrise">Sunrise</option>
                 <option value="oceans">Oceans</option>
+                <option value="vibe">Vibe</option>
               </select>
             </div>
           </div>
