@@ -119,7 +119,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-function SayHiButton({ chainKey, signer, onSuccess }) {
+function SayHiButton({ chainKey, signer }) {
   const [isLoadingHi, setIsLoadingHi] = useState(false);
   const [isLoadingGM, setIsLoadingGM] = useState(false);
   const [isLoadingGN, setIsLoadingGN] = useState(false);
@@ -168,7 +168,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       console.log(`Transaction confirmed: ${tx.hash}`);
 
       saveUserInteraction(chainKey, functionName);
-      onSuccess(tx.hash, chainKey);
     } catch (err) {
       console.error(`Error on ${chainKey}:`, err);
       if (err.code === 4902 || err.message.includes("Unrecognized chain ID")) {
@@ -293,9 +292,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
 function Testnets() {
   const [signer, setSigner] = useState(null);
   const [address, setAddress] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
-  const [transactionHash, setTransactionHash] = useState("");
-  const [explorerUrl, setExplorerUrl] = useState("");
   const [interactions, setInteractions] = useState(getUserInteractions());
   const [timeRemaining, setTimeRemaining] = useState("");
 
@@ -355,20 +351,6 @@ function Testnets() {
     console.log("Wallet disconnected");
   };
 
-  const handleSuccess = (txHash, chainKey) => {
-    setTransactionHash(txHash);
-    setExplorerUrl(explorerUrls[chainKey]);
-    setShowPopup(true);
-    const updatedInteractions = getUserInteractions();
-    setInteractions(updatedInteractions);
-  };
-
-  const closePopup = () => {
-    setShowPopup(false);
-    setTransactionHash("");
-    setExplorerUrl("");
-  };
-
   useEffect(() => {
     console.log("Testnets component mounted successfully.");
   }, []);
@@ -404,38 +386,22 @@ function Testnets() {
           <p className="timer-text">Resets in: {timeRemaining}</p>
         </div>
         <div className="chains-box">
-          <SayHiButton chainKey="monad" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="interop0" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="interop1" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="chainbase" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="megaeth" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="basesepolia" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="sepolia" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="opsepolia" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="holesky" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="somnia" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="rise" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="seismic" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="saharaai" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="camp" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="pharos" signer={signer} onSuccess={handleSuccess} />
+          <SayHiButton chainKey="monad" signer={signer} />
+          <SayHiButton chainKey="interop0" signer={signer} />
+          <SayHiButton chainKey="interop1" signer={signer} />
+          <SayHiButton chainKey="chainbase" signer={signer} />
+          <SayHiButton chainKey="megaeth" signer={signer} />
+          <SayHiButton chainKey="basesepolia" signer={signer} />
+          <SayHiButton chainKey="sepolia" signer={signer} />
+          <SayHiButton chainKey="opsepolia" signer={signer} />
+          <SayHiButton chainKey="holesky" signer={signer} />
+          <SayHiButton chainKey="somnia" signer={signer} />
+          <SayHiButton chainKey="rise" signer={signer} />
+          <SayHiButton chainKey="seismic" signer={signer} />
+          <SayHiButton chainKey="saharaai" signer={signer} />
+          <SayHiButton chainKey="camp" signer={signer} />
+          <SayHiButton chainKey="pharos" signer={signer} />
         </div>
-        {showPopup && (
-          <div className="popup-overlay">
-            <div className="popup-content">
-              <h2>Success! You said Hi!</h2>
-              <p>
-                Transaction Link:{" "}
-                <a href={`${explorerUrl}${transactionHash}`} target="_blank" rel="noopener noreferrer" className="transaction-link">
-                  View on Explorer
-                </a>
-              </p>
-              <button className="modern-button close-button" onClick={closePopup}>
-                Close
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </ErrorBoundary>
   );
