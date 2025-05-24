@@ -23,9 +23,8 @@ const chainEmojis = {
   avax: "❄️",
   superposition: "⚛️",
   story: "📖",
-  polygonzkevm: "🔒",
+  polygonzkevm: "��",
   cronos: "⏳",
-  zora: "🎨",
   ethereum: "Ξ",
   sonic: "🎵",
   celo: "🌿",
@@ -59,7 +58,6 @@ const explorerUrls = {
   story: "https://explorer.story.network/tx/",
   polygonzkevm: "https://zkevm.polygonscan.com/tx/",
   cronos: "", // Placeholder until explorer URL is provided
-  zora: "https://explorer.zora.energy/tx/",
   ethereum: "https://etherscan.io/tx/",
   sonic: "https://sonicscan.org/",
   celo: "https://celo.blockscout.com/",
@@ -122,7 +120,6 @@ const chains = {
   story: { chainId: 1514, address: "0x8654507A3e06c41BD5eF53c9B76452949511eB41", abi: contractABI },
   polygonzkevm: { chainId: 1101, address: "0xf2Ab98c7EE971f9B9eb612e1501fefA2fB087F82", abi: contractABI },
   cronos: { chainId: 25, address: "0xD34418c860ADdBB614Ccfe836D889B5C93817891", abi: contractABI },
-  zora: { chainId: 7777777, address: "0x8aF5126D8a31352E7AE30713Fc1E7fE608D0c94E", abi: contractABI },
   ethereum: { chainId: 1, address: "0x1C658890D050C4d0159CBc8C30e804Bf0807D443", abi: contractABI },
   sonic: { chainId: 146, address: "0x68659df332eca683b9a64cef777f9ec799f2d9bf", abi: contractABI },
   celo: { chainId: 42220, address: "0x5D4b404ad61A5d66c389d46781Ae407824536b90", abi: contractABI },
@@ -227,7 +224,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "story" ? "Story" :
             chainKey === "polygonzkevm" ? "PolygonZK" :
             chainKey === "cronos" ? "Cronos" :
-            chainKey === "zora" ? "Zora" :
             chainKey === "ethereum" ? "Ethereum" :
             chainKey === "sonic" ? "Sonic" :
             chainKey === "celo" ? "Celo" :
@@ -260,7 +256,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "story" ? "Story" :
             chainKey === "polygonzkevm" ? "PolygonZK" :
             chainKey === "cronos" ? "Cronos" :
-            chainKey === "zora" ? "Zora" :
             chainKey === "ethereum" ? "Ethereum" :
             chainKey === "sonic" ? "Sonic" :
             chainKey === "celo" ? "Celo" :
@@ -293,7 +288,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "story" ? "Story" :
             chainKey === "polygonzkevm" ? "PolygonZK" :
             chainKey === "cronos" ? "Cronos" :
-            chainKey === "zora" ? "Zora" :
             chainKey === "ethereum" ? "Ethereum" :
             chainKey === "sonic" ? "Sonic" :
             chainKey === "celo" ? "Celo" :
@@ -336,7 +330,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "story" ? "Story" :
            chainKey === "polygonzkevm" ? "PolygonZK" :
            chainKey === "cronos" ? "Cronos" :
-           chainKey === "zora" ? "Zora" :
            chainKey === "ethereum" ? "Ethereum" :
            chainKey === "sonic" ? "Sonic" :
            chainKey === "celo" ? "Celo" :
@@ -508,7 +501,6 @@ function App() {
           <SayHiButton chainKey="story" signer={signer} onSuccess={handleSuccess} />
           <SayHiButton chainKey="polygonzkevm" signer={signer} onSuccess={handleSuccess} />
           <SayHiButton chainKey="cronos" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="zora" signer={signer} onSuccess={handleSuccess} />
           <SayHiButton chainKey="ethereum" signer={signer} onSuccess={handleSuccess} />
           <SayHiButton chainKey="sonic" signer={signer} onSuccess={handleSuccess} />
           <SayHiButton chainKey="celo" signer={signer} onSuccess={handleSuccess} />
