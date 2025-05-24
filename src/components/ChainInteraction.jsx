@@ -56,7 +56,6 @@ function ChainInteraction({ chainKey, chainEmoji, signer, onSuccess }) {
           chainKey === "etherlink" ? "Etherlink" :
           chainKey === "zircuit" ? "Zircuit" :
           chainKey === "expanse" ? "Expanse" :
-          chainKey === "canto" ? "Canto" :
           chainKey === "degen" ? "Degen" :
           chainKey === "hyperevm" ? "HyperEVM" :
           chainKey === "fraxtal" ? "Fraxtal" :
