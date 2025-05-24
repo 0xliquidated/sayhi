@@ -11,7 +11,6 @@ const chainEmojis = {
   base: "🌈",
   arbitrum: "💥",
   berachain: "🐻",
-  energi: "⚡",
   bnb: "🌟",
   op: "🔥",
   soneium: "🎉",
@@ -46,7 +45,6 @@ const explorerUrls = {
   base: "https://basescan.org/tx/",
   arbitrum: "https://arbiscan.io/tx/",
   berachain: "https://berascan.com/",
-  energi: "https://explorer.energi.network/",
   bnb: "https://bscscan.com/",
   op: "https://optimistic.etherscan.io/",
   soneium: "https://soneium.blockscout.com/",
@@ -110,7 +108,6 @@ const chains = {
   base: { chainId: 8453, address: "0xc7C32Af9cE7dB3e06638761ee6691AD95419a69C", abi: contractABI },
   arbitrum: { chainId: 42161, address: "0xC738E5886706C58E73eaa28a8e9Ed631F8868331", abi: contractABI },
   berachain: { chainId: 80094, address: "0x616e666f49C2651A1028f774c9f4fF4C27524Dc5", abi: contractABI },
-  energi: { chainId: 39797, address: "0x4d4Ff1Cb8c75A69E2583D5A1183b2b23F318ed15", abi: contractABI },
   bnb: { chainId: 56, address: "0x6fbe16D026Cda317507D426Fc4C28CE3b3A8f93A", abi: contractABI },
   op: { chainId: 10, address: "0x39b1c43Da4840877c0cDfc2Afc854952c27F28B3", abi: contractABI },
   soneium: { chainId: 1868, address: "0x52301b0437E168f0af1d8b13fF578F2cbC357CdF", abi: contractABI },
@@ -216,7 +213,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "base" ? "Base" :
             chainKey === "arbitrum" ? "Arbitrum" :
             chainKey === "berachain" ? "Berachain" :
-            chainKey === "energi" ? "Energi" :
             chainKey === "bnb" ? "BNB" :
             chainKey === "op" ? "OP" :
             chainKey === "soneium" ? "Soneium" :
@@ -250,7 +246,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "base" ? "Base" :
             chainKey === "arbitrum" ? "Arbitrum" :
             chainKey === "berachain" ? "Berachain" :
-            chainKey === "energi" ? "Energi" :
             chainKey === "bnb" ? "BNB" :
             chainKey === "op" ? "OP" :
             chainKey === "soneium" ? "Soneium" :
@@ -284,7 +279,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
             chainKey === "base" ? "Base" :
             chainKey === "arbitrum" ? "Arbitrum" :
             chainKey === "berachain" ? "Berachain" :
-            chainKey === "energi" ? "Energi" :
             chainKey === "bnb" ? "BNB" :
             chainKey === "op" ? "OP" :
             chainKey === "soneium" ? "Soneium" :
@@ -328,7 +322,6 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
            chainKey === "base" ? "Base" :
            chainKey === "arbitrum" ? "Arbitrum" :
            chainKey === "berachain" ? "Berachain" :
-           chainKey === "energi" ? "Energi" :
            chainKey === "bnb" ? "BNB" :
            chainKey === "op" ? "OP" :
            chainKey === "soneium" ? "Soneium" :
@@ -501,7 +494,6 @@ function App() {
           <SayHiButton chainKey="base" signer={signer} onSuccess={handleSuccess} />
           <SayHiButton chainKey="arbitrum" signer={signer} onSuccess={handleSuccess} />
           <SayHiButton chainKey="berachain" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="energi" signer={signer} onSuccess={handleSuccess} />
           <SayHiButton chainKey="bnb" signer={signer} onSuccess={handleSuccess} />
           <SayHiButton chainKey="op" signer={signer} onSuccess={handleSuccess} />
           <SayHiButton chainKey="soneium" signer={signer} onSuccess={handleSuccess} />
