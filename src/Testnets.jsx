@@ -119,12 +119,35 @@ class ErrorBoundary extends React.Component {
   }
 }
 
+// Add this helper function before the SayHiButton component
+const getChainDisplayName = (chainKey) => {
+  const displayNames = {
+    monad: "Monad Testnet",
+    interop0: "Interop0",
+    interop1: "Interop1",
+    chainbase: "Chainbase Testnet",
+    megaeth: "MegaEth",
+    basesepolia: "Base Sepolia",
+    sepolia: "Sepolia",
+    opsepolia: "Op Sepolia",
+    holesky: "Holesky",
+    somnia: "Somnia Testnet",
+    rise: "RISE Testnet",
+    seismic: "Seismic Devnet",
+    saharaai: "Sahara AI Testnet",
+    camp: "Camp Testnet",
+    pharos: "Pharos Testnet"
+  };
+  return displayNames[chainKey] || chainKey;
+};
+
 function SayHiButton({ chainKey, signer }) {
   const [isLoadingHi, setIsLoadingHi] = useState(false);
   const [isLoadingGM, setIsLoadingGM] = useState(false);
   const [isLoadingGN, setIsLoadingGN] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const matchingEmoji = chainEmojis[chainKey];
+  const chainDisplayName = getChainDisplayName(chainKey);
 
   const handleTransaction = async (functionName, setIsLoading) => {
     if (!signer) {
@@ -172,63 +195,15 @@ function SayHiButton({ chainKey, signer }) {
       console.error(`Error on ${chainKey}:`, err);
       if (err.code === 4902 || err.message.includes("Unrecognized chain ID")) {
         setErrorMessage(
-          `${
-            chainKey === "monad" ? "Monad Testnet" :
-            chainKey === "interop0" ? "Interop0" :
-            chainKey === "interop1" ? "Interop1" :
-            chainKey === "chainbase" ? "Chainbase Testnet" :
-            chainKey === "megaeth" ? "MegaEth" :
-            chainKey === "basesepolia" ? "Base Sepolia" :
-            chainKey === "sepolia" ? "Sepolia" :
-            chainKey === "opsepolia" ? "Op Sepolia" :
-            chainKey === "holesky" ? "Holesky" :
-            chainKey === "somnia" ? "Somnia Testnet" :
-            chainKey === "rise" ? "RISE Testnet" :
-            chainKey === "seismic" ? "Seismic Devnet" :
-            chainKey === "saharaai" ? "Sahara AI Testnet" :
-            chainKey === "camp" ? "Camp Testnet" :
-            chainKey === "pharos" ? "Pharos Testnet" : ""
-          } (Chain ID: ${testnetChains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
+          `${chainDisplayName} (Chain ID: ${testnetChains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
         setErrorMessage(
-          `Insufficient funds for gas on ${
-            chainKey === "monad" ? "Monad Testnet" :
-            chainKey === "interop0" ? "Interop0" :
-            chainKey === "interop1" ? "Interop1" :
-            chainKey === "chainbase" ? "Chainbase Testnet" :
-            chainKey === "megaeth" ? "MegaEth" :
-            chainKey === "basesepolia" ? "Base Sepolia" :
-            chainKey === "sepolia" ? "Sepolia" :
-            chainKey === "opsepolia" ? "Op Sepolia" :
-            chainKey === "holesky" ? "Holesky" :
-            chainKey === "somnia" ? "Somnia Testnet" :
-            chainKey === "rise" ? "RISE Testnet" :
-            chainKey === "seismic" ? "Seismic Devnet" :
-            chainKey === "saharaai" ? "Sahara AI Testnet" :
-            chainKey === "camp" ? "Camp Testnet" :
-            chainKey === "pharos" ? "Pharos Testnet" : ""
-          }. Please add ETH to your wallet.`
+          `Insufficient funds for gas on ${chainDisplayName}. Please add ETH to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
         setErrorMessage(
-          `Contract call failed. The contract address or ABI might be incorrect for ${
-            chainKey === "monad" ? "Monad Testnet" :
-            chainKey === "interop0" ? "Interop0" :
-            chainKey === "interop1" ? "Interop1" :
-            chainKey === "chainbase" ? "Chainbase Testnet" :
-            chainKey === "megaeth" ? "MegaEth" :
-            chainKey === "basesepolia" ? "Base Sepolia" :
-            chainKey === "sepolia" ? "Sepolia" :
-            chainKey === "opsepolia" ? "Op Sepolia" :
-            chainKey === "holesky" ? "Holesky" :
-            chainKey === "somnia" ? "Somnia Testnet" :
-            chainKey === "rise" ? "RISE Testnet" :
-            chainKey === "seismic" ? "Seismic Devnet" :
-            chainKey === "saharaai" ? "Sahara AI Testnet" :
-            chainKey === "camp" ? "Camp Testnet" :
-            chainKey === "pharos" ? "Pharos Testnet" : ""
-          }.`
+          `Contract call failed. The contract address or ABI might be incorrect for ${chainDisplayName}.`
         );
       } else {
         setErrorMessage(`Error: ${err.message || `Failed to ${functionName}`}`);
@@ -242,23 +217,7 @@ function SayHiButton({ chainKey, signer }) {
     <div className="chain-item">
       <div className="chain-name">
         <h2 className={chainKey === "monad" ? "monad-testnet" : ""}>
-          {matchingEmoji}{" "}
-          {chainKey === "monad" ? "Monad Testnet" :
-           chainKey === "interop0" ? "Interop0" :
-           chainKey === "interop1" ? "Interop1" :
-           chainKey === "chainbase" ? "Chainbase Testnet" :
-           chainKey === "megaeth" ? "MegaEth" :
-           chainKey === "basesepolia" ? "Base Sepolia" :
-           chainKey === "sepolia" ? "Sepolia" :
-           chainKey === "opsepolia" ? "Op Sepolia" :
-           chainKey === "holesky" ? "Holesky" :
-           chainKey === "somnia" ? "Somnia Testnet" :
-           chainKey === "rise" ? "RISE Testnet" :
-           chainKey === "seismic" ? "Seismic Devnet" :
-           chainKey === "saharaai" ? "Sahara AI Testnet" :
-           chainKey === "camp" ? "Camp Testnet" :
-           chainKey === "pharos" ? "Pharos Testnet" : ""}{" "}
-          {matchingEmoji}
+          {matchingEmoji} {chainDisplayName} {matchingEmoji}
         </h2>
       </div>
       <div className="button-group">
@@ -386,21 +345,13 @@ function Testnets() {
           <p className="timer-text">Resets in: {timeRemaining}</p>
         </div>
         <div className="chains-box">
-          <SayHiButton chainKey="monad" signer={signer} />
-          <SayHiButton chainKey="interop0" signer={signer} />
-          <SayHiButton chainKey="interop1" signer={signer} />
-          <SayHiButton chainKey="chainbase" signer={signer} />
-          <SayHiButton chainKey="megaeth" signer={signer} />
-          <SayHiButton chainKey="basesepolia" signer={signer} />
-          <SayHiButton chainKey="sepolia" signer={signer} />
-          <SayHiButton chainKey="opsepolia" signer={signer} />
-          <SayHiButton chainKey="holesky" signer={signer} />
-          <SayHiButton chainKey="somnia" signer={signer} />
-          <SayHiButton chainKey="rise" signer={signer} />
-          <SayHiButton chainKey="seismic" signer={signer} />
-          <SayHiButton chainKey="saharaai" signer={signer} />
-          <SayHiButton chainKey="camp" signer={signer} />
-          <SayHiButton chainKey="pharos" signer={signer} />
+          {Object.keys(testnetChains).map((chainKey) => (
+            <SayHiButton
+              key={chainKey}
+              chainKey={chainKey}
+              signer={signer}
+            />
+          ))}
         </div>
       </div>
     </ErrorBoundary>

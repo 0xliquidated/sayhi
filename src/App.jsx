@@ -155,12 +155,49 @@ class ErrorBoundary extends React.Component {
   }
 }
 
+// Add this helper function before the SayHiButton component
+const getChainDisplayName = (chainKey) => {
+  const displayNames = {
+    ink: "Ink",
+    base: "Base",
+    arbitrum: "Arbitrum",
+    berachain: "Berachain",
+    bnb: "BNB",
+    op: "OP",
+    soneium: "Soneium",
+    unichain: "Unichain",
+    mantle: "Mantle",
+    bob: "BOB",
+    sei: "Sei",
+    telos: "Telos",
+    polygon: "Polygon",
+    avax: "AVAX",
+    superposition: "Superposition",
+    story: "Story",
+    polygonzkevm: "PolygonZK",
+    cronos: "Cronos",
+    ethereum: "Ethereum",
+    sonic: "Sonic",
+    celo: "Celo",
+    etherlink: "Etherlink",
+    zircuit: "Zircuit",
+    expanse: "Expanse",
+    degen: "Degen",
+    hyperevm: "HyperEVM",
+    fraxtal: "Fraxtal",
+    superseed: "Superseed",
+    swanchain: "Swanchain"
+  };
+  return displayNames[chainKey] || chainKey;
+};
+
 function SayHiButton({ chainKey, signer, onSuccess }) {
   const [isLoadingHi, setIsLoadingHi] = useState(false);
   const [isLoadingGM, setIsLoadingGM] = useState(false);
   const [isLoadingGN, setIsLoadingGN] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const matchingEmoji = chainEmojis[chainKey];
+  const chainDisplayName = getChainDisplayName(chainKey);
 
   const handleTransaction = async (functionName, setIsLoading) => {
     if (!signer) {
@@ -205,99 +242,15 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
       console.error(`Error on ${chainKey}:`, err);
       if (err.code === 4902 || err.message.includes("Unrecognized chain ID")) {
         setErrorMessage(
-          `${
-            chainKey === "ink" ? "Ink" :
-            chainKey === "base" ? "Base" :
-            chainKey === "arbitrum" ? "Arbitrum" :
-            chainKey === "berachain" ? "Berachain" :
-            chainKey === "bnb" ? "BNB" :
-            chainKey === "op" ? "OP" :
-            chainKey === "soneium" ? "Soneium" :
-            chainKey === "unichain" ? "Unichain" :
-            chainKey === "mantle" ? "Mantle" :
-            chainKey === "bob" ? "BOB" :
-            chainKey === "sei" ? "Sei" :
-            chainKey === "telos" ? "Telos" :
-            chainKey === "polygon" ? "Polygon" :
-            chainKey === "avax" ? "AVAX" :
-            chainKey === "superposition" ? "Superposition" :
-            chainKey === "story" ? "Story" :
-            chainKey === "polygonzkevm" ? "PolygonZK" :
-            chainKey === "cronos" ? "Cronos" :
-            chainKey === "ethereum" ? "Ethereum" :
-            chainKey === "sonic" ? "Sonic" :
-            chainKey === "celo" ? "Celo" :
-            chainKey === "etherlink" ? "Etherlink" :
-            chainKey === "zircuit" ? "Zircuit" :
-            chainKey === "expanse" ? "Expanse" :
-            chainKey === "degen" ? "Degen" :
-            chainKey === "hyperevm" ? "HyperEVM" :
-            chainKey === "fraxtal" ? "Fraxtal" : ""
-          } (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
+          `${chainDisplayName} (Chain ID: ${chains[chainKey].chainId}) is not recognized by Rabby Wallet. Please ensure Rabby Wallet is up to date and supports this chain.`
         );
       } else if (err.message.includes("insufficient funds")) {
         setErrorMessage(
-          `Insufficient funds for gas on ${
-            chainKey === "ink" ? "Ink" :
-            chainKey === "base" ? "Base" :
-            chainKey === "arbitrum" ? "Arbitrum" :
-            chainKey === "berachain" ? "Berachain" :
-            chainKey === "bnb" ? "BNB" :
-            chainKey === "op" ? "OP" :
-            chainKey === "soneium" ? "Soneium" :
-            chainKey === "unichain" ? "Unichain" :
-            chainKey === "mantle" ? "Mantle" :
-            chainKey === "bob" ? "BOB" :
-            chainKey === "sei" ? "Sei" :
-            chainKey === "telos" ? "Telos" :
-            chainKey === "polygon" ? "Polygon" :
-            chainKey === "avax" ? "AVAX" :
-            chainKey === "superposition" ? "Superposition" :
-            chainKey === "story" ? "Story" :
-            chainKey === "polygonzkevm" ? "PolygonZK" :
-            chainKey === "cronos" ? "Cronos" :
-            chainKey === "ethereum" ? "Ethereum" :
-            chainKey === "sonic" ? "Sonic" :
-            chainKey === "celo" ? "Celo" :
-            chainKey === "etherlink" ? "Etherlink" :
-            chainKey === "zircuit" ? "Zircuit" :
-            chainKey === "expanse" ? "Expanse" :
-            chainKey === "degen" ? "Degen" :
-            chainKey === "hyperevm" ? "HyperEVM" :
-            chainKey === "fraxtal" ? "Fraxtal" : ""
-          }. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
+          `Insufficient funds for gas on ${chainDisplayName}. Please add ${chainKey === "berachain" ? "BERA" : "ETH"} to your wallet.`
         );
       } else if (err.message.includes("call revert exception")) {
         setErrorMessage(
-          `Contract call failed. The contract address or ABI might be incorrect for ${
-            chainKey === "ink" ? "Ink" :
-            chainKey === "base" ? "Base" :
-            chainKey === "arbitrum" ? "Arbitrum" :
-            chainKey === "berachain" ? "Berachain" :
-            chainKey === "bnb" ? "BNB" :
-            chainKey === "op" ? "OP" :
-            chainKey === "soneium" ? "Soneium" :
-            chainKey === "unichain" ? "Unichain" :
-            chainKey === "mantle" ? "Mantle" :
-            chainKey === "bob" ? "BOB" :
-            chainKey === "sei" ? "Sei" :
-            chainKey === "telos" ? "Telos" :
-            chainKey === "polygon" ? "Polygon" :
-            chainKey === "avax" ? "AVAX" :
-            chainKey === "superposition" ? "Superposition" :
-            chainKey === "story" ? "Story" :
-            chainKey === "polygonzkevm" ? "PolygonZK" :
-            chainKey === "cronos" ? "Cronos" :
-            chainKey === "ethereum" ? "Ethereum" :
-            chainKey === "sonic" ? "Sonic" :
-            chainKey === "celo" ? "Celo" :
-            chainKey === "etherlink" ? "Etherlink" :
-            chainKey === "zircuit" ? "Zircuit" :
-            chainKey === "expanse" ? "Expanse" :
-            chainKey === "degen" ? "Degen" :
-            chainKey === "hyperevm" ? "HyperEVM" :
-            chainKey === "fraxtal" ? "Fraxtal" : ""
-          }.`
+          `Contract call failed. The contract address or ABI might be incorrect for ${chainDisplayName}.`
         );
       } else {
         setErrorMessage(`Error: ${err.message || `Failed to ${functionName}`}`);
@@ -311,37 +264,7 @@ function SayHiButton({ chainKey, signer, onSuccess }) {
     <div className="chain-item">
       <div className="chain-name">
         <h2 className={chainKey === "superposition" ? "superposition" : ""}>
-          {matchingEmoji}{" "}
-          {chainKey === "ink" ? "Ink" :
-           chainKey === "base" ? "Base" :
-           chainKey === "arbitrum" ? "Arbitrum" :
-           chainKey === "berachain" ? "Berachain" :
-           chainKey === "bnb" ? "BNB" :
-           chainKey === "op" ? "OP" :
-           chainKey === "soneium" ? "Soneium" :
-           chainKey === "unichain" ? "Unichain" :
-           chainKey === "mantle" ? "Mantle" :
-           chainKey === "bob" ? "BOB" :
-           chainKey === "sei" ? "Sei" :
-           chainKey === "telos" ? "Telos" :
-           chainKey === "polygon" ? "Polygon" :
-           chainKey === "avax" ? "AVAX" :
-           chainKey === "superposition" ? "Superposition" :
-           chainKey === "story" ? "Story" :
-           chainKey === "polygonzkevm" ? "PolygonZK" :
-           chainKey === "cronos" ? "Cronos" :
-           chainKey === "ethereum" ? "Ethereum" :
-           chainKey === "sonic" ? "Sonic" :
-           chainKey === "celo" ? "Celo" :
-           chainKey === "etherlink" ? "Etherlink" :
-           chainKey === "zircuit" ? "Zircuit" :
-           chainKey === "expanse" ? "Expanse" :
-           chainKey === "degen" ? "Degen" :
-           chainKey === "hyperevm" ? "HyperEVM" :
-           chainKey === "fraxtal" ? "Fraxtal" :
-           chainKey === "superseed" ? "Superseed" :
-           chainKey === "swanchain" ? "Swanchain" : ""}{" "}
-          {matchingEmoji}
+          {matchingEmoji} {chainDisplayName} {matchingEmoji}
         </h2>
       </div>
       <div className="button-group">
@@ -483,35 +406,14 @@ function App() {
           <p className="timer-text">Resets in: {timeRemaining}</p>
         </div>
         <div className="chains-box">
-          <SayHiButton chainKey="ink" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="base" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="arbitrum" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="berachain" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="bnb" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="op" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="soneium" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="unichain" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="mantle" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="bob" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="sei" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="telos" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="polygon" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="avax" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="superposition" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="story" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="polygonzkevm" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="cronos" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="ethereum" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="sonic" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="celo" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="etherlink" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="zircuit" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="expanse" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="degen" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="hyperevm" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="fraxtal" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="superseed" signer={signer} onSuccess={handleSuccess} />
-          <SayHiButton chainKey="swanchain" signer={signer} onSuccess={handleSuccess} />
+          {Object.keys(chains).map((chainKey) => (
+            <SayHiButton
+              key={chainKey}
+              chainKey={chainKey}
+              signer={signer}
+              onSuccess={handleSuccess}
+            />
+          ))}
         </div>
       </div>
     </ErrorBoundary>
