@@ -12,7 +12,8 @@ const THEMES = {
   sunrise: "sunrise-theme",
   oceans: "oceans-theme",
   vibe: "vibe-theme",
-  rainbows: "rainbows-theme"
+  rainbows: "rainbows-theme",
+  retro: "retro-theme"
 };
 
 function AppRouter() {
