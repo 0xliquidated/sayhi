@@ -136,4 +136,49 @@ body.retro-theme .chains-box {
   background: rgba(0, 0, 51, 0.8);
   padding: 20px;
   margin: 20px;
+}
+
+body.retro-theme .footer {
+  background: #000099;
+  border: 3px outset #00ff00;
+  padding: 20px;
+  margin-top: 20px;
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  animation: footerGlow 2s infinite alternate;
+}
+
+@keyframes footerGlow {
+  from { box-shadow: 0 0 5px #00ff00; }
+  to { box-shadow: 0 0 15px #00ff00; }
+}
+
+body.retro-theme .footer-column h3 {
+  color: #ff00ff;
+  text-shadow: 2px 2px #00ff00;
+  font-family: "Comic Sans MS", cursive;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+body.retro-theme .footer-column .footer-link {
+  display: inline-block;
+  background: linear-gradient(to bottom, #000099, #000066);
+  color: #00ff00;
+  border: 3px outset #00ff00;
+  font-family: "Trebuchet MS", sans-serif;
+  text-transform: uppercase;
+  text-shadow: 1px 1px #000000;
+  padding: 5px 15px;
+  margin: 5px 0;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAGKSURBVFiF7ZY9SwNBEIYfRUEQBCsrwUoQBBsb/4OVjZ2NjYU/wE4stLGxFaz8AQpWFhYiCFZWCoKFIFhYCIJgYeN4Fu7Zk8TkLnfJ3YEPLOzO7M4zs7O7x8A/R6vC2B6wCYyE7y/gHrgB7irk7QEHwBj2/D5wCTxVlWAM6AC5IP8D9oEGMAWMAyvAKfAe+HLBF4XfW8AvK8AZ8BniX4Bt7PnLxEJwDLwG/yWwBEwATeAYeAuxHFgHplMJNIEL4D3EHoAVoF4Q0wAOgacQ9wFsALWsBLaAXoj5AHaARkn8NHARcnwBW8B8WYI6cAp8h9wvwBowXCFfDTgE3kL+HrAJDIUCO8BnyNUFVrHLVxUjwDnwHep0gWVgIRTw5X0EVnm7/RQxDFyH+l1gGWAeW7484glYpNoSFmEA6If+XJddYMCzL8cjMAuQYZPJsWV7wOb0y5djBJjALlgTm0A/9JdjCJgEZrDN5hG4Be7+KOevYwAjp2HlDp2qfQAAAABJRU5ErkJggg==), pointer;
+  text-decoration: none;
+}
+
+body.retro-theme .footer-column .footer-link:hover {
+  background: linear-gradient(to bottom, #000066, #000099);
+  border-style: inset;
+  color: #00ffff;
+  text-decoration: underline;
 } 
