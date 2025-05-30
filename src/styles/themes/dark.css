@@ -1,98 +1,90 @@
 /* Dark Theme */
 body.dark-theme {
-  --theme-primary: #2563eb;
-  --theme-secondary: #3b82f6;
-  --theme-accent: #60a5fa;
-  --theme-background: #1f2937;
-  --theme-text: #ffffff;
-  --theme-text-secondary: rgba(255, 255, 255, 0.7);
-  --theme-border: rgba(255, 255, 255, 0.1);
-  
-  background: var(--theme-background);
-  color: var(--theme-text);
+  background: #121212;
+  color: #ffffff;
   font-family: 'Inter', sans-serif;
 }
 
 body.dark-theme .app-container {
-  background: rgba(31, 41, 55, 0.8);
+  background: #1e1e1e;
   padding: var(--spacing-md);
-  border: 1px solid var(--theme-border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-theme .nav-menu {
-  background: rgba(31, 41, 55, 0.9);
-  border-bottom: 1px solid var(--theme-border);
+  background: #1e1e1e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-theme .nav-link {
-  color: var(--theme-text);
-  background: var(--theme-primary);
+  color: #ffffff;
+  background: #2d2d2d;
   border: none;
 }
 
 body.dark-theme .nav-link:hover {
-  background: var(--theme-secondary);
+  background: #3d3d3d;
 }
 
 body.dark-theme h1 {
-  color: var(--theme-text);
+  color: #ffffff;
 }
 
 body.dark-theme .wallet-address {
-  color: var(--theme-text);
-  background: rgba(31, 41, 55, 0.9);
-  border: 1px solid var(--theme-border);
+  color: #ffffff;
+  background: #2d2d2d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-theme .progress-section {
-  background: rgba(31, 41, 55, 0.9);
-  border: 1px solid var(--theme-border);
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-theme .progress-title {
-  color: var(--theme-text);
+  color: #ffffff;
 }
 
 body.dark-theme .progress-bar-container {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid var(--theme-border);
+  background: #2d2d2d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-theme .progress-bar {
-  background: var(--theme-primary);
+  background: #4a4a4a;
 }
 
 body.dark-theme .progress-text,
 body.dark-theme .timer-text {
-  color: var(--theme-text);
+  color: #ffffff;
 }
 
 body.dark-theme .chains-box {
-  background: rgba(31, 41, 55, 0.9);
-  border: 1px solid var(--theme-border);
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-theme .chain-item {
-  background: rgba(31, 41, 55, 0.8);
-  border: 1px solid var(--theme-border);
+  background: #2d2d2d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-theme .chain-item:hover {
-  border-color: var(--theme-accent);
+  border-color: #4a4a4a;
 }
 
 body.dark-theme .chain-name h2 {
-  color: var(--theme-text);
+  color: #ffffff;
 }
 
 body.dark-theme .modern-button {
-  color: var(--theme-text);
-  background: var(--theme-primary);
+  color: #ffffff;
+  background: #2d2d2d;
   border: none;
 }
 
 body.dark-theme .modern-button:hover:not(:disabled) {
-  background: var(--theme-secondary);
+  background: #3d3d3d;
 }
 
 body.dark-theme .modern-button:disabled {
@@ -110,11 +102,59 @@ body.dark-theme .disconnect-button:hover:not(:disabled) {
 
 body.dark-theme .error-message {
   color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.2);
 }
 
 body.dark-theme .spinner {
   border: 3px solid rgba(255, 255, 255, 0.1);
-  border-top-color: var(--theme-text);
+  border-top-color: #ffffff;
+}
+
+body.dark-theme .popup-overlay {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+body.dark-theme .popup-content {
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .transaction-link {
+  color: #60a5fa;
+  text-decoration: none;
+}
+
+body.dark-theme .transaction-link:hover {
+  color: #93c5fd;
+}
+
+body.dark-theme .footer {
+  background: #1e1e1e;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .footer-column h3 {
+  color: #ffffff;
+}
+
+body.dark-theme .footer-column .footer-link {
+  color: #ffffff;
+  background: #2d2d2d;
+  border: none;
+}
+
+body.dark-theme .footer-column .footer-link:hover {
+  background: #3d3d3d;
+}
+
+body.dark-theme .theme-select {
+  color: #ffffff;
+  background: #2d2d2d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .theme-select option {
+  background: #1e1e1e;
+  color: #ffffff;
 }
