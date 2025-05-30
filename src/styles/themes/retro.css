@@ -1,6 +1,6 @@
 /* Retro Theme - Early 2000s Style */
 body.retro-theme {
-  background: #000066 url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQYV2NkYGD4z8DAwMgABXAGNgGwSgwVAFbmAgXQdISfAAAAAElFTkSuQmCC") repeat;
+  background: #000066;
   color: #00ff00;
   font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
 }
@@ -9,7 +9,6 @@ body.retro-theme .app-container {
   background: #000033;
   border: 3px solid #ffff00;
   border-style: ridge;
-  box-shadow: 5px 5px 10px rgba(0, 255, 0, 0.3);
 }
 
 body.retro-theme h1 {
@@ -18,7 +17,6 @@ body.retro-theme h1 {
   font-family: "Comic Sans MS", cursive;
   text-transform: uppercase;
   letter-spacing: 2px;
-  animation: blink 1s infinite;
 }
 
 body.retro-theme .wallet-section {
@@ -33,7 +31,6 @@ body.retro-theme .wallet-address {
   color: #00ff00;
   font-family: "Courier New", monospace;
   border: 1px solid #00ff00;
-  text-shadow: 0 0 5px #00ff00;
 }
 
 body.retro-theme .progress-section {
@@ -48,20 +45,15 @@ body.retro-theme .progress-bar-container {
 }
 
 body.retro-theme .progress-bar {
-  background: linear-gradient(to right, #00ff00, #00ffff);
-  box-shadow: 0 0 10px #00ff00;
+  background: #00ff00;
 }
 
 body.retro-theme .chain-item {
   background: #000066;
   border: 3px outset #ff00ff;
-  box-shadow: 5px 5px 0 #00ff00;
-  transform-style: preserve-3d;
-  transition: transform 0.3s;
 }
 
 body.retro-theme .chain-item:hover {
-  transform: translateY(-5px) rotateX(5deg);
   border-style: inset;
 }
 
@@ -74,20 +66,18 @@ body.retro-theme .chain-name h2 {
 }
 
 body.retro-theme .modern-button {
-  background: linear-gradient(to bottom, #000099, #000066);
+  background: #000099;
   color: #00ff00;
   border: 3px outset #00ff00;
   font-family: "Trebuchet MS", sans-serif;
   text-transform: uppercase;
   text-shadow: 1px 1px #000000;
   padding: 10px 20px;
-  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAGKSURBVFiF7ZY9SwNBEIYfRUEQBCsrwUoQBBsb/4OVjZ2NjYU/wE4stLGxFaz8AQpWFhYiCFZWCoKFIFhYCIJgYeN4Fu7Zk8TkLnfJ3YEPLOzO7M4zs7O7x8A/R6vC2B6wCYyE7y/gHrgB7irk7QEHwBj2/D5wCTxVlWAM6AC5IP8D9oEGMAWMAyvAKfAe+HLBF4XfW8AvK8AZ8BniX4Bt7PnLxEJwDLwG/yWwBEwATeAYeAuxHFgHplMJNIEL4D3EHoAVoF4Q0wAOgacQ9wFsALWsBLaAXoj5AHaARkn8NHARcnwBW8B8WYI6cAp8h9wvwBowXCFfDTgE3kL+HrAJDIUCO8BnyNUFVrHLVxUjwDnwHep0gWVgIRTw5X0EVnm7/RQxDFyH+l1gGWAeW7484glYpNoSFmEA6If+XJddYMCzL8cjMAuQYZPJsWV7wOb0y5djBJjALlgTm0A/9JdjCJgEZrDN5hG4Be7+KOevYwAjp2HlDp2qfQAAAABJRU5ErkJggg==), pointer;
 }
 
 body.retro-theme .modern-button:hover:not(:disabled) {
-  background: linear-gradient(to bottom, #000066, #000099);
+  background: #000066;
   border-style: inset;
-  color: #00ffff;
 }
 
 body.retro-theme .modern-button:disabled {
@@ -98,13 +88,13 @@ body.retro-theme .modern-button:disabled {
 }
 
 body.retro-theme .disconnect-button {
-  background: linear-gradient(to bottom, #990000, #660000);
+  background: #990000;
   border-color: #ff0000;
   color: #ff0000;
 }
 
 body.retro-theme .disconnect-button:hover:not(:disabled) {
-  background: linear-gradient(to bottom, #660000, #990000);
+  background: #660000;
   color: #ff6666;
 }
 
@@ -115,25 +105,16 @@ body.retro-theme .error-message {
   font-family: "Courier New", monospace;
   padding: 10px;
   margin-top: 10px;
-  text-shadow: 0 0 5px #ff0000;
 }
 
 body.retro-theme .spinner {
   border: 4px solid #000033;
   border-top: 4px solid #00ff00;
-  box-shadow: 0 0 10px #00ff00;
 }
 
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
-}
-
-/* Marquee-style animation for chain items */
 body.retro-theme .chains-box {
   border: 3px double #00ff00;
-  background: rgba(0, 0, 51, 0.8);
+  background: #000033;
   padding: 20px;
   margin: 20px;
 }
@@ -144,12 +125,6 @@ body.retro-theme .footer {
   padding: 20px;
   margin-top: 20px;
   font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-  animation: footerGlow 2s infinite alternate;
-}
-
-@keyframes footerGlow {
-  from { box-shadow: 0 0 5px #00ff00; }
-  to { box-shadow: 0 0 15px #00ff00; }
 }
 
 body.retro-theme .footer-column h3 {
@@ -164,7 +139,7 @@ body.retro-theme .footer-column h3 {
 
 body.retro-theme .footer-column .footer-link {
   display: inline-block;
-  background: linear-gradient(to bottom, #000099, #000066);
+  background: #000099;
   color: #00ff00;
   border: 3px outset #00ff00;
   font-family: "Trebuchet MS", sans-serif;
@@ -172,13 +147,11 @@ body.retro-theme .footer-column .footer-link {
   text-shadow: 1px 1px #000000;
   padding: 5px 15px;
   margin: 5px 0;
-  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAGKSURBVFiF7ZY9SwNBEIYfRUEQBCsrwUoQBBsb/4OVjZ2NjYU/wE4stLGxFaz8AQpWFhYiCFZWCoKFIFhYCIJgYeN4Fu7Zk8TkLnfJ3YEPLOzO7M4zs7O7x8A/R6vC2B6wCYyE7y/gHrgB7irk7QEHwBj2/D5wCTxVlWAM6AC5IP8D9oEGMAWMAyvAKfAe+HLBF4XfW8AvK8AZ8BniX4Bt7PnLxEJwDLwG/yWwBEwATeAYeAuxHFgHplMJNIEL4D3EHoAVoF4Q0wAOgacQ9wFsALWsBLaAXoj5AHaARkn8NHARcnwBW8B8WYI6cAp8h9wvwBowXCFfDTgE3kL+HrAJDIUCO8BnyNUFVrHLVxUjwDnwHep0gWVgIRTw5X0EVnm7/RQxDFyH+l1gGWAeW7484glYpNoSFmEA6If+XJddYMCzL8cjMAuQYZPJsWV7wOb0y5djBJjALlgTm0A/9JdjCJgEZrDN5hG4Be7+KOevYwAjp2HlDp2qfQAAAABJRU5ErkJggg==), pointer;
   text-decoration: none;
 }
 
 body.retro-theme .footer-column .footer-link:hover {
-  background: linear-gradient(to bottom, #000066, #000099);
+  background: #000066;
   border-style: inset;
-  color: #00ffff;
   text-decoration: underline;
 } 
