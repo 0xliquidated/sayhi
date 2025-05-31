@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { ethers } from 'ethers';
 import { connectWallet, checkWalletConnected, disconnectWallet } from './wallet';
 
@@ -32,7 +32,7 @@ export function WalletProvider({ children }) {
     tryAutoConnect();
   }, []);
 
-  const handleConnectWallet = async () => {
+  const handleConnectWallet = useCallback(async () => {
     try {
       const { signer, address } = await connectWallet();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -43,24 +43,31 @@ export function WalletProvider({ children }) {
       console.error("Wallet connection error:", err);
       throw err;
     }
-  };
+  }, []);
 
-  const handleDisconnectWallet = () => {
+  const handleDisconnectWallet = useCallback(() => {
     disconnectWallet();
     setSigner(null);
     setAddress(null);
     setProvider(null);
-  };
+  }, []);
 
-  const switchChain = async (chainId) => {
+  const switchChain = useCallback(async (chainId) => {
     try {
       const chainIdHex = "0x" + chainId.toString(16);
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: chainIdHex }],
-      });
       
-      // Update provider and signer after chain switch
+      try {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: chainIdHex }],
+        });
+      } catch (switchError) {
+        if (switchError.code === 4902) {
+          throw new Error(`Please add the chain (ID: ${chainId}) to your wallet first.`);
+        }
+        throw switchError;
+      }
+      
       const newProvider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await newProvider.getNetwork();
       
@@ -68,27 +75,31 @@ export function WalletProvider({ children }) {
         throw new Error(`Failed to switch chain. Expected ${chainId}, got ${network.chainId}`);
       }
       
+      const newSigner = newProvider.getSigner();
+      const newAddress = await newSigner.getAddress();
+      
       setProvider(newProvider);
-      setSigner(newProvider.getSigner());
+      setSigner(newSigner);
+      setAddress(newAddress);
       
       return newProvider;
     } catch (err) {
       console.error("Chain switch failed:", err);
       throw err;
     }
-  };
+  }, []);
+
+  const contextValue = useMemo(() => ({
+    signer,
+    address,
+    provider,
+    connect: handleConnectWallet,
+    disconnect: handleDisconnectWallet,
+    switchChain,
+  }), [signer, address, provider, handleConnectWallet, handleDisconnectWallet, switchChain]);
 
   return (
-    <WalletContext.Provider
-      value={{
-        signer,
-        address,
-        provider,
-        connect: handleConnectWallet,
-        disconnect: handleDisconnectWallet,
-        switchChain,
-      }}
-    >
+    <WalletContext.Provider value={contextValue}>
       {children}
     </WalletContext.Provider>
   );

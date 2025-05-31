@@ -1,16 +1,29 @@
 import React, { useMemo } from 'react';
 import { useWallet } from '../utils/WalletContext';
 import { useChainInteraction } from '../hooks/useChainInteraction';
-import { chains, chainEmojis, displayNames } from '../utils/chainData';
+import * as mainnetData from '../utils/chainData';
+import * as testnetData from '../Testnets';
 
-function SayHiButton({ chainKey, onSuccess }) {
+function SayHiButton({ chainKey, onSuccess, isTestnet = false }) {
   const { signer } = useWallet();
   
-  const chainData = useMemo(() => ({
-    emoji: chainEmojis[chainKey],
-    displayName: displayNames[chainKey] || chainKey,
-    chain: chains[chainKey]
-  }), [chainKey]);
+  const chainData = useMemo(() => {
+    const { chains, chainEmojis, displayNames } = isTestnet ? testnetData : mainnetData;
+    const chain = chains[chainKey];
+    if (!chain) {
+      console.error(`Chain data not found for ${chainKey}`);
+      return null;
+    }
+    return {
+      emoji: chainEmojis[chainKey] || "🔗",
+      displayName: displayNames[chainKey] || chainKey,
+      chain
+    };
+  }, [chainKey, isTestnet]);
+
+  if (!chainData) {
+    return null;
+  }
 
   const {
     isLoadingHi,
@@ -23,7 +36,7 @@ function SayHiButton({ chainKey, onSuccess }) {
   return (
     <div className="chain-item">
       <div className="chain-name">
-        <h2 className={chainKey === "superposition" ? "superposition" : ""}>
+        <h2>
           {chainData.emoji} {chainData.displayName} {chainData.emoji}
         </h2>
       </div>

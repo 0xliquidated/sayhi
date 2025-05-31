@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import React from "react";
 import "./App.css";
 import { getUserInteractions, getUniqueChainsInteracted, resetUserInteractions } from "./utils/gamification";
@@ -55,7 +55,7 @@ function ProgressSection({ interactions }) {
   const uniqueChains = getUniqueChainsInteracted(interactions);
   const progressPercentage = (uniqueChains / totalChains) * 100;
 
-  const calculateTimeRemaining = () => {
+  const calculateTimeRemaining = useCallback(() => {
     const now = new Date();
     const nextMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
     const diffMs = nextMidnightUTC - now;
@@ -64,7 +64,7 @@ function ProgressSection({ interactions }) {
     const minutes = Math.floor((diffSeconds % 3600) / 60);
     const seconds = diffSeconds % 60;
     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-  };
+  }, []);
 
   useEffect(() => {
     const updateTimer = () => {
@@ -78,7 +78,7 @@ function ProgressSection({ interactions }) {
     updateTimer();
     const timerInterval = setInterval(updateTimer, 1000);
     return () => clearInterval(timerInterval);
-  }, []);
+  }, [calculateTimeRemaining]);
 
   return (
     <div className="progress-section">
