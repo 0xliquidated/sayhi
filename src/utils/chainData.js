@@ -2,6 +2,7 @@ import { SAYHI_CONTRACT_ABI } from '../constants/contracts';
 
 // Chain emojis
 export const chainEmojis = {
+  ethereum: "Ξ",
   ink: "✨",
   base: "🌈",
   arbitrum: "💥",
@@ -20,7 +21,6 @@ export const chainEmojis = {
   story: "📖",
   polygonzkevm: "💫",
   cronos: "⏳",
-  ethereum: "Ξ",
   sonic: "🎵",
   celo: "🌿",
   etherlink: "🔗",
@@ -35,6 +35,7 @@ export const chainEmojis = {
 
 // Chain display names
 export const displayNames = {
+  ethereum: "Ethereum",
   ink: "Ink",
   base: "Base",
   arbitrum: "Arbitrum",
@@ -53,7 +54,6 @@ export const displayNames = {
   story: "Story",
   polygonzkevm: "PolygonZK",
   cronos: "Cronos",
-  ethereum: "Ethereum",
   sonic: "Sonic",
   celo: "Celo",
   etherlink: "Etherlink",
@@ -68,6 +68,7 @@ export const displayNames = {
 
 // Chain configurations
 export const chains = {
+  ethereum: { chainId: 1, address: "0x1C658890D050C4d0159CBc8C30e804Bf0807D443", abi: SAYHI_CONTRACT_ABI },
   ink: { chainId: 57073, address: "0xaAeb1abf363615E8676EAB48f5d08E3FCE70dBe0", abi: SAYHI_CONTRACT_ABI },
   base: { chainId: 8453, address: "0xc7C32Af9cE7dB3e06638761ee6691AD95419a69C", abi: SAYHI_CONTRACT_ABI },
   arbitrum: { chainId: 42161, address: "0xC738E5886706C58E73eaa28a8e9Ed631F8868331", abi: SAYHI_CONTRACT_ABI },
@@ -86,7 +87,6 @@ export const chains = {
   story: { chainId: 1514, address: "0x8654507A3e06c41BD5eF53c9B76452949511eB41", abi: SAYHI_CONTRACT_ABI },
   polygonzkevm: { chainId: 1101, address: "0xf2Ab98c7EE971f9B9eb612e1501fefA2fB087F82", abi: SAYHI_CONTRACT_ABI },
   cronos: { chainId: 25, address: "0xD34418c860ADdBB614Ccfe836D889B5C93817891", abi: SAYHI_CONTRACT_ABI },
-  ethereum: { chainId: 1, address: "0x1C658890D050C4d0159CBc8C30e804Bf0807D443", abi: SAYHI_CONTRACT_ABI },
   sonic: { chainId: 146, address: "0x68659df332eca683b9a64cef777f9ec799f2d9bf", abi: SAYHI_CONTRACT_ABI },
   celo: { chainId: 42220, address: "0x5D4b404ad61A5d66c389d46781Ae407824536b90", abi: SAYHI_CONTRACT_ABI },
   etherlink: { chainId: 42793, address: "0x85bF0e5C33b6927266fDDe48c56DE358d7f6b3Fa", abi: SAYHI_CONTRACT_ABI },
@@ -101,6 +101,7 @@ export const chains = {
 
 // Block explorer URLs
 export const explorerUrls = {
+  ethereum: "https://etherscan.io/tx/",
   ink: "https://explorer.inkonchain.com/",
   base: "https://basescan.org/tx/",
   arbitrum: "https://arbiscan.io/tx/",
@@ -119,7 +120,6 @@ export const explorerUrls = {
   story: "https://explorer.story.network/tx/",
   polygonzkevm: "https://zkevm.polygonscan.com/tx/",
   cronos: "", // Placeholder until explorer URL is provided
-  ethereum: "https://etherscan.io/tx/",
   sonic: "https://sonicscan.org/",
   celo: "https://celo.blockscout.com/",
   etherlink: "https://explorer.etherlink.com/tx/",
