@@ -427,6 +427,13 @@ h1 {
   box-shadow: 0 4px 15px rgba(107, 72, 255, 0.6);
 }
 
+.footer-column p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
 /* Theme switcher dropdown */
 .theme-select {
   font-family: 'Poppins', sans-serif;
@@ -565,6 +572,91 @@ h1 {
 }
 
 @media (max-width: 600px) {
+  .chain-item {
+    flex: 0 0 45%;
+    min-width: 120px;
+    max-width: 160px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .chain-name h2 {
+    font-size: 1rem;
+  }
+
+  .chain-name h2.superposition,
+  .chain-name h2.monad-testnet {
+    font-size: 0.85rem; /* 15% reduction from 1rem */
+  }
+
+  .modern-button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    max-width: 120px;
+  }
+
+  .connect-button,
+  .disconnect-button {
+    padding: 8px 25px;
+    font-size: 0.9rem;
+  }
+
+  .error-message {
+    font-size: 0.7rem;
+  }
+
+  .popup-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .popup-content p {
+    font-size: 0.9rem;
+  }
+
+  .nav-list {
+    gap: 20px;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+
+  .progress-title {
+    font-size: 1.2rem;
+  }
+
+  .progress-text {
+    font-size: 0.7rem;
+  }
+
+  .timer-text {
+    font-size: 0.6rem;
+  }
+
+  .progress-bar-container {
+    height: 15px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .footer-column h3 {
+    font-size: 1rem;
+  }
+
+  .footer-column .footer-link {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
   .chain-item {
     flex: 0 0 45%;
     min-width: 120px;

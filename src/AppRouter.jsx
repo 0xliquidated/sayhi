@@ -55,7 +55,8 @@ function AppRouter() {
         <footer className="footer">
           <div className="footer-container">
             <div className="footer-column">
-              <h3>Placeholder</h3>
+              <h3>SayHI</h3>
+              <p>Onchain mainnet and testnet interaction booster</p>
             </div>
             <div className="footer-column">
               <h3>Menu</h3>
