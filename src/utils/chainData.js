@@ -30,7 +30,8 @@ export const chainEmojis = {
   hyperevm: "🌌",
   fraxtal: "💎",
   superseed: "🌱",
-  swanchain: "🦢"
+  swanchain: "🦢",
+  katana: "⚔️"
 };
 
 // Chain display names
@@ -63,7 +64,8 @@ export const displayNames = {
   hyperevm: "HyperEVM",
   fraxtal: "Fraxtal",
   superseed: "Superseed",
-  swanchain: "Swanchain"
+  swanchain: "Swanchain",
+  katana: "Katana"
 };
 
 // Chain configurations
@@ -96,7 +98,8 @@ export const chains = {
   hyperevm: { chainId: 999, address: "0x49351058eb55f54b1ed1dd4855c2cf274eed484c", abi: SAYHI_CONTRACT_ABI },
   fraxtal: { chainId: 252, address: "0x6a1a98510a2eb1181cc9759bE96495118c1790F1", abi: SAYHI_CONTRACT_ABI },
   superseed: { chainId: 5330, address: "0x3eeBF0A07e3833B4dF5042aF0E12854921938Bc1", abi: SAYHI_CONTRACT_ABI },
-  swanchain: { chainId: 254, address: "0x2D2f709A6a4A808Bc379e27C6e17F8C1700A6821", abi: SAYHI_CONTRACT_ABI }
+  swanchain: { chainId: 254, address: "0x2D2f709A6a4A808Bc379e27C6e17F8C1700A6821", abi: SAYHI_CONTRACT_ABI },
+  katana: { chainId: 747474, address: "0xD34418c860ADdBB614Ccfe836D889B5C93817891", abi: SAYHI_CONTRACT_ABI }
 };
 
 // Block explorer URLs
@@ -127,5 +130,6 @@ export const explorerUrls = {
   expanse: "https://explorer.expanse.tech/tx/",
   degen: "https://explorer.degen.tips/tx/",
   hyperevm: "https://purrsec.com/tx/",
-  fraxtal: "https://fraxscan.com/tx/"
+  fraxtal: "https://fraxscan.com/tx/",
+  katana: "https://rpc.katana.network/tx/"
 }; 
